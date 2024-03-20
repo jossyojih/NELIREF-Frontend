@@ -50,7 +50,6 @@ class AuthOBJ {
       //check if data is empty
       if (data) {
         const response = await api.post('api/users/forgot-password', data)
-        console.log(response)
         return response
         //store res data
       } else {
