@@ -1,0 +1,57 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lexend+Deca:wght@300;400;500;600&family=Open+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;700;800;900&family=Poppins:wght@500;600;800;900&family=Roboto:wght@500&family=Rubik:ital,wght@1,300&display=swap');
+
+:root {
+  /* colors */
+  --primary-blue: #2a4d93;
+
+  /* grey */
+  --grey: #b7b4b4;
+
+  /* rest of the colors */
+  --black: #1e1e1e;
+  --red: #eb4335;
+  --disabled: #efefef;
+  /* fonts  */
+  --headingFont: 'Poppins', sans-serif;
+  --bodyFont: 'Poppins', sans-serif;
+  --small-text: 0.875rem;
+  --extra-small-text: 0.7em;
+  /* rest of the vars */
+  --backgroundColor: var(--grey-50);
+  --textColor: var(--grey-900);
+  --borderRadius: 0.25rem;
+  --letterSpacing: 1px;
+  --transition: 0.3s ease-in-out all;
+  --max-width: 1120px;
+  --fixed-width: 500px;
+  --fluid-width: 90vw;
+  --breakpoint-lg: 992px;
+  --nav-height: 6rem;
+  /* box shadow*/
+  --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+body {
+  background: var(--disabled);
+  font-family: var(--bodyFont);
+  line-height: 1.5;
+  color: var(--textColor);
+}
+
+p {
+  font-size: 14px;
+}
