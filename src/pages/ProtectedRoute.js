@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { connections } from '../redux/reducers/userReducer';
 import { useEffect } from 'react';
+import logo from "../assets/images/Logo.png"
 
 const ProtectedRoute = ({ children }) => {
   const dispatch = useDispatch();
@@ -33,10 +34,43 @@ const ProtectedRoute = ({ children }) => {
 
   if (isLoading) {
     // You might want to render a loading indicator here
-    return <p>Loading...</p>;
+    return (
+      <div className="loading-overlay" style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
+        <img src={logo} alt="NELIREF" style={{
+          maxWidth: "200px",
+          maxHeight: "200px",
+          animation: "pulse 2s infinite" // Adding animation directly in style
+        }} />
+        <style>
+          {`
+          @keyframes pulse {
+            0% {
+              transform: scale(1);
+            }
+            50% {
+              transform: scale(1.2);
+            }
+            100% {
+              transform: scale(1);
+            }
+          }
+          `}
+        </style>
+      </div>
+    )
   }
 
-  if (isError) {
+  if (!isLoading && isError) {
     // Handle error state here
     return <p>Error loading connections: {isError.message}</p>;
   }
