@@ -72,7 +72,8 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isLoading && isError) {
     // Handle error state here
-    return <p>Error loading connections: {isError.message}</p>;
+    // return <p>Error loading connections: {isError.message}</p>;
+    return <Navigate to='/login' />;
   }
 
   return auth_token ? children : <Navigate to='/login' />;
