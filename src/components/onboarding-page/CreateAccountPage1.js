@@ -6,17 +6,17 @@ import { HiOutlineArrowNarrowRight } from 'react-icons/hi'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useState } from 'react'
 import GoogleLoginButton from './GoogleLoginButton'
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { useMutation } from '@tanstack/react-query';
-import { RotatingLines } from 'react-loader-spinner';
-import auth from '../../services/api/auth';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { useMutation } from '@tanstack/react-query'
+import { RotatingLines } from 'react-loader-spinner'
+import auth from '../../services/api/auth'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const CreateAccountPage1 = ({ setAuthToken }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [passwordShown, setPasswordShown] = useState(false)
   const togglePasswordVisiblity = () => {
@@ -24,9 +24,7 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
   }
 
   const schema = yup.object().shape({
-    email: yup.string()
-      .email("Invalid Email")
-      .required('Email is Required!'),
+    email: yup.string().email('Invalid Email').required('Email is Required!'),
     password: yup
       .string()
       .min(6, 'Password must be at least 6 characters')
@@ -36,7 +34,7 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
       .string()
       .oneOf([yup.ref('password'), null], 'Passwords must match') // Validation rule for matching passwords
       .required('Confirm Password is required'),
-  });
+  })
 
   const {
     register,
@@ -44,32 +42,31 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
   const mutation = useMutation({
     mutationFn: auth.register,
     onSuccess: (data) => {
       // Handle successful login
-      console.log('Registration successful:', data);
+      console.log('Registration successful:', data)
       toast.success(data.message)
       // dispatch(setToken(data?.token));
       setAuthToken(data.token)
-
     },
     onError: (error) => {
       // Handle login error
-      console.error('Login error:', error);
+      console.error('Login error:', error)
       toast.error(error)
       toast.error(error?.message)
-      navigate("/login")
+      navigate('/login')
     },
-  });
+  })
 
   const onSubmit = (data) => {
     // Call the mutate function to trigger the login mutation
     // console.log(data)
-    mutation.mutate({ email: data.email, password: data.password });
-  };
+    mutation.mutate({ email: data.email, password: data.password })
+  }
 
   return (
     <Wrapper>
@@ -82,7 +79,6 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
             <div className='logo'>
               <img src={logo} alt='logo' />
             </div>
-            <h5>NELIREF</h5>
           </section>
           <section>
             <h2>Create an account</h2>
@@ -141,29 +137,29 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
 
               <p>Forgort Password?</p>
               <div className='btns'>
-
                 <button className='login' disabled={mutation?.isPending}>
                   {mutation.isPending ? (
-                    <RotatingLines type='Oval' style={{ color: '#FFF' }} height={20} width={20} />
+                    <RotatingLines
+                      type='Oval'
+                      style={{ color: '#FFF' }}
+                      height={20}
+                      width={20}
+                    />
                   ) : (
                     <>
                       Create an account <HiOutlineArrowNarrowRight />
                     </>
-
                   )}
-
                 </button>
-                <GoogleLoginButton
-                  setShowProfile={setAuthToken} />
+                <GoogleLoginButton setShowProfile={setAuthToken} />
               </div>
             </form>
-
           </section>
           <p className='policy'>
             Continuing means you agree to our terms of use and privacy policy
           </p>
           <p className='signin'>
-            Already have an account? <Link to={"/login"}> Sign in</Link>
+            Already have an account? <Link to={'/login'}> Sign in</Link>
           </p>
         </article>
       </article>

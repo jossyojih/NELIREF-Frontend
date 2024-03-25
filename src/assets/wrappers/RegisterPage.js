@@ -16,20 +16,21 @@ const Wrapper = styled.article`
     overflow: hidden;
     gap: 1.5rem;
     grid-template-columns: 1fr 1fr;
+    border-radius: 5px;
   }
   .register-login-container.new-password {
     width: 75%;
     height: 400px;
   }
 
-   .register-login-container.new-password article img {
+  .register-login-container.new-password article img {
     width: 90%;
     height: 60%;
-   }
+  }
 
-   .new-pword-label {
+  .new-pword-label {
     margin: 1rem auto;
-   }
+  }
 
   h5 {
     color: #2a4d93;
