@@ -51,12 +51,11 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
   const [formData2, setFormData2] = useState({})
 
   const mutation = useMutation({
-    mutationFn: () => userService.makeGroupAdmin(formData1, formData2),
+    mutationFn: ({ params, data }) => userService.makeGroupAdmin(params, data),
     onSuccess: (data) => {
       toast.success('Education update successfully')
     },
     onError: (error) => {
-      // Handle login error
       toast.error(error?.message)
     },
   })
@@ -68,15 +67,17 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    mutation.mutate(formData2)
+    mutation.mutate({
+      params: formData1,
+      data: { userId: formData2 },
+    })
   }
   console.log(members)
 
   return (
     <GenericModal isOpen={isOpen} onClose={onClose}>
       <Wrapper>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div className='heading'>
             <h3>List of Members</h3>
             <CgCloseR onClick={onClose} className='icon' />
@@ -95,7 +96,7 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
                     </div>
                   </div>
 
-                  <div>
+                  <div onClick={handleSubmit}>
                     <FaPlus />
                   </div>
                 </div>
