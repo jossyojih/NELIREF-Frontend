@@ -6,11 +6,12 @@ import { useState } from 'react'
 import SuccessModal from './SuccessModal'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
-import { RotatingLines } from 'react-loader-spinner'
+import profile from '../../assets/images/profile.png'
 import userService from '../../services/api/user'
 import { useQuery } from '@tanstack/react-query'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
 import { useEffect } from 'react'
+import { FaPlus } from 'react-icons/fa6'
 
 const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
@@ -50,8 +51,7 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
   const [formData2, setFormData2] = useState({})
 
   const mutation = useMutation({
-    mutationFn: (params, data) =>
-      userService.makeGroupAdmin(formData1, formData2),
+    mutationFn: () => userService.makeGroupAdmin(formData1, formData2),
     onSuccess: (data) => {
       toast.success('Education update successfully')
     },
@@ -71,6 +71,7 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
 
     mutation.mutate(formData2)
   }
+  console.log(members)
 
   return (
     <GenericModal isOpen={isOpen} onClose={onClose}>
@@ -85,10 +86,19 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
                 <SkeletonArticle key={n} theme='light' />
               ))
             : members?.data?.members.map((item, index) => (
-                <button type='submit' className='card' key={item._id}>
-                  <p>{item.full_name}</p>
-                  <p>{item._id}</p>
-                </button>
+                <div type='submit' className='card' key={item._id}>
+                  <div className='inner-flex'>
+                    <img className='img-profile' src={profile} alt='' />
+                    <div>
+                      <h4>{item.full_name}</h4>
+                      <p>Lorem ipsum dolor sit amet.</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <FaPlus />
+                  </div>
+                </div>
               ))}
           {isSuccessModalOpen ? (
             <SuccessModal onClose={closeSuccessModal} />

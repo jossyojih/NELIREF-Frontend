@@ -12,7 +12,8 @@ const Wrapper = styled.main`
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: 35%;
+    width: 55%;
+    justify-content: end;
   }
 
   .tab-content h2 {

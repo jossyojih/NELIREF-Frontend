@@ -5,23 +5,41 @@ const Wrapper = styled.article`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f2f7fd;
+
     padding: 1rem;
     color: #1e1e1e;
   }
 
   .card {
-    margin: 1rem 0;
-    width: 40%;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    justify-content: space-between;
     margin: 1rem auto;
+    border: 1px #1e1e1e solid;
     padding: 0.5rem;
-    text-align: center;
-    cursor: pointer;
     border-radius: 5px;
-    background-color: #34a853;
-    color: #fff;
-    border: none;
+  }
+
+  .inner-flex div h4 {
+    font-weight: 500;
+    color: #2a4d93;
+  }
+  .img-profile {
+    width: 80px;
     display: block;
+    object-fit: cover;
+    border-radius: 50%;
+    height: 100%;
+    border: 2px solid #2a4d93;
+    background-color: #b7b4b4;
+  }
+
+  .inner-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
   }
 
   .heading h3 {
