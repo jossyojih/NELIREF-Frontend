@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
 import { useEffect } from 'react'
 import { FaPlus } from 'react-icons/fa6'
+import ConfirmDailogBox from './ConfirmDailogBox'
 
 const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
@@ -53,7 +54,7 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
   const mutation = useMutation({
     mutationFn: ({ params, data }) => userService.makeGroupAdmin(params, data),
     onSuccess: (data) => {
-      toast.success('Education update successfully')
+      toast.success('Group admin added successfully')
     },
     onError: (error) => {
       toast.error(error?.message)
@@ -71,6 +72,7 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
       params: formData1,
       data: { userId: formData2 },
     })
+    onClose()
   }
   console.log(members)
 
@@ -96,13 +98,16 @@ const GroupApprovalModal = ({ isOpen, onClose, createdBy, groupId }) => {
                     </div>
                   </div>
 
-                  <div onClick={handleSubmit}>
+                  <div onClick={setIsSuccessModalOpen}>
                     <FaPlus />
                   </div>
                 </div>
               ))}
           {isSuccessModalOpen ? (
-            <SuccessModal onClose={closeSuccessModal} />
+            <ConfirmDailogBox
+              onClose={closeSuccessModal}
+              handleSubmit={handleSubmit}
+            />
           ) : null}
         </form>
       </Wrapper>

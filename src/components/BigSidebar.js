@@ -9,10 +9,6 @@ const BigSidebar = () => {
         <div>
           <header>
             <Logo />
-            <div>
-              <p>New Life</p>
-              <p>Research Foundation</p>
-            </div>
           </header>
           <NavLinks />
         </div>

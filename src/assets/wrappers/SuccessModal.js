@@ -273,6 +273,22 @@ const Wrapper = styled.article`
     color: #2a4d93;
     font-weight: 600;
   }
+
+  .d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .d-flex button {
+    margin: 0.3rem;
+    width: 100px;
+  }
+
+  .d-flex .red {
+    background-color: #eb4335;
+  }
   /* Forum Modal */
 `
 

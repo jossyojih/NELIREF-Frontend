@@ -10,6 +10,7 @@ const Wrapper = styled.aside`
   header {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 2rem 0.7rem 2rem 2rem;
   }
 
