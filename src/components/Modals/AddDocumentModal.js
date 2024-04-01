@@ -50,7 +50,7 @@ const AddDocumentModal = ({ onClose, message }) => {
   const handleDocumentTitleChange = (event) => {
     setDocumentTitle(event.target.value)
   }
-  const [selectedVisibility, setSelectedVisibility] = useState("public")
+  const [selectedVisibility, setSelectedVisibility] = useState('public')
 
   const handleVisibilityChange = (event) => {
     setSelectedVisibility(event.target.value)
@@ -65,8 +65,7 @@ const AddDocumentModal = ({ onClose, message }) => {
       return
     }
     if (!selectedGroup) {
-      if (!window.confirm("No group selected. Click OK to continue.")) return
-
+      if (!window.confirm('No group selected. Click OK to continue.')) return
     }
     if (!selecteDocument) {
       toast.error('Please select a file')
@@ -84,6 +83,7 @@ const AddDocumentModal = ({ onClose, message }) => {
       formData.append('name', documentTitle)
       formData.append('group', selectedGroup)
       formData.append('visibilty', selectedVisibility.toLowerCase())
+      console.log(formData)
 
       try {
         await documentMutation.mutateAsync(formData)
@@ -136,12 +136,12 @@ const AddDocumentModal = ({ onClose, message }) => {
           <label>
             Group to upload to
             <select value={selectedGroup} onChange={handleGroupChange}>
-              <option value="">All</option>
-              {data?.map(item => <option key={item._id} value={item._id}>{item?.name}</option>
-              )
-
-              }
-
+              <option value=''>All</option>
+              {data?.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item?.name}
+                </option>
+              ))}
             </select>
           </label>
 

@@ -331,8 +331,25 @@ class UserOBJ {
   makeGroupAdmin = async (params, data) => {
     try {
       // Check if data is not empty
-
       const response = await api.put(`api/admin/groups/${params}`, data)
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+  makeGroupPost = async (params, formData) => {
+    try {
+      // Check if data is not empty
+      const response = await api.post(
+        `api/users/groups/${params}/posts`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
       return response.data
     } catch (err) {
       console.log(err)

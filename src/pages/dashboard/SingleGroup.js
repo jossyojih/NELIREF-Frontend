@@ -19,15 +19,15 @@ import CreatePollModal from '../../components/Modals/CreatePollModal'
 import MakePostModal from '../../components/Modals/MakePostModal'
 
 const SingleGroup = () => {
-  const location = useLocation();
+  const location = useLocation()
   const [activeTab, setActiveTab] = useState('feeds')
   const { user } = useSelector((state) => state.user)
   const { id } = useParams()
+
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
   // Access the item object from the location state
-  const item = location.state?.item;
-
-  console.log(item)
+  const item = location.state?.item
+  const groupId = item._id
 
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
@@ -62,7 +62,6 @@ const SingleGroup = () => {
   //   queryFn: () => userServices.getOthersProfile(id),
   // })
 
-
   return (
     <Wrapper>
       {isAddEventModalOpen && (
@@ -71,7 +70,9 @@ const SingleGroup = () => {
       {isCreatePollModalOpen && (
         <CreatePollModal onClose={closeCreatePollModal} />
       )}
-      {isMakePostModalOpen && <MakePostModal onClose={closeMakePostModal} />}
+      {isMakePostModalOpen && (
+        <MakePostModal onClose={closeMakePostModal} id={groupId} />
+      )}
       <article>
         <div>
           <img src={profileBg} alt='' />
@@ -81,7 +82,8 @@ const SingleGroup = () => {
             <img
               src={
                 // getOtherUserProfile?.data?.photo ||
-                profile}
+                profile
+              }
               alt=''
               className='img'
             />
@@ -90,7 +92,8 @@ const SingleGroup = () => {
             <h3 className='profile-name'>{item?.name}</h3>
             <p>
               {' '}
-              <span>{item?.members?.length} Members</span> | <span> 243 Online</span>
+              <span>{item?.members?.length} Members</span> |{' '}
+              <span> 243 Online</span>
             </p>
           </div>
         </section>
@@ -142,17 +145,13 @@ const SingleGroup = () => {
           </div>
           {activeTab === 'feeds' && <GroupFeeds />}
           {activeTab === 'events' && <GroupEvents />}
-          {activeTab === 'members' && <GroupMembers
-            members={item?.members}
-          />}
+          {activeTab === 'members' && <GroupMembers members={item?.members} />}
           {activeTab === 'files' && <GroupFiles />}
         </section>
         <section>
           <div className='description'>
             <h4>DESCRIPTION</h4>
-            <p>
-              {item?.description}{' '}
-            </p>
+            <p>{item?.description} </p>
           </div>
           <div className='description events'>
             <h4>UPCOMING EVENTS</h4>

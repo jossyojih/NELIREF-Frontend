@@ -6,16 +6,23 @@ import { CiMail } from 'react-icons/ci'
 import { CiSearch } from 'react-icons/ci'
 import { SlArrowDown } from 'react-icons/sl'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
-import { logoutSuccess } from "../redux/reducers/userReducer";
-import { clearToken } from "../redux/reducers/jwtReducer";
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutSuccess, toggleSidebar } from '../redux/reducers/userReducer'
+import { clearToken } from '../redux/reducers/jwtReducer'
+import { CiMenuFries } from 'react-icons/ci'
+
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.user)
   const [navOpen, setNavOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const { isSidebarOpen } = useSelector((store) => store.user)
+
+  const toggle = () => {
+    dispatch(toggleSidebar())
+  }
 
   const dropdownClick = () => {
     setNavOpen(!navOpen)
@@ -24,6 +31,8 @@ const Navbar = () => {
   const closeDropdown = () => {
     setNavOpen(false)
   }
+
+  console.log(isSidebarOpen)
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -44,13 +53,16 @@ const Navbar = () => {
   }, [navOpen])
 
   const logOut = () => {
-    dispatch(logoutSuccess());
-    dispatch(clearToken());
-    navigate("/login", { replace: true })
+    dispatch(logoutSuccess())
+    dispatch(clearToken())
+    navigate('/login', { replace: true })
   }
 
   return (
     <Wrapper>
+      <div className='menu-icon' onClick={toggle}>
+        <CiMenuFries />
+      </div>
       <div className='search'>
         <CiSearch className='search-icon' />
         <input type='text' placeholder='search' />
@@ -64,7 +76,12 @@ const Navbar = () => {
         </Link>
 
         <div className='profile-info'>
-          <img src={user?.photo || profile} width={34} alt='profile' className='profile' />
+          <img
+            src={user?.photo || profile}
+            width={34}
+            alt='profile'
+            className='profile'
+          />
           <div>
             <SlArrowDown className='drop-down' onClick={dropdownClick} />
           </div>
@@ -73,7 +90,11 @@ const Navbar = () => {
         {navOpen ? (
           <section className='nav-dropdown' ref={dropdownRef}>
             <div className='profile-content'>
-              <img className='profile-img' src={user?.photo || profile} alt='' />
+              <img
+                className='profile-img'
+                src={user?.photo || profile}
+                alt=''
+              />
               <div>
                 <h5>{user?.full_name}</h5>
                 <p>@{user?.user_name}</p>

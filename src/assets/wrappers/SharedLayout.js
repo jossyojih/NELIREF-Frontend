@@ -15,5 +15,28 @@ const Wrapper = styled.section`
   .dashboard-page {
     width: 90%;
   }
+  .small-sidebar {
+    display: none;
+  }
+  @media only screen and (max-width: 1000px) {
+    .big-sidebar {
+      display: none;
+    }
+    .dashboard {
+      grid-template-columns: 1fr;
+    }
+    .small-sidebar {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      width: 60%;
+      display: block;
+      background-color: #fff;
+    }
+
+    .sidebar-none {
+      display: none;
+    }
+  }
 `
 export default Wrapper

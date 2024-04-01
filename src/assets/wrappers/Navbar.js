@@ -102,6 +102,19 @@ const Wrapper = styled.nav`
   .drop-down {
     cursor: pointer;
   }
+
+  .menu-icon{
+    display: none;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    grid-template-columns: 1fr 3fr 1fr;
+    padding: 0.5rem 1rem;
+
+    .menu-icon {
+      display: block;
+    }
+  }
 `
 
 export default Wrapper

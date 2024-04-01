@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import links from '../utils/links'
 
 const NavLinks = () => {
+  
   return (
     <div className='nav-links'>
       {links.map((link) => {
