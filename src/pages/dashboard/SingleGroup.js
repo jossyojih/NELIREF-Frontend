@@ -65,7 +65,7 @@ const SingleGroup = () => {
   return (
     <Wrapper>
       {isAddEventModalOpen && (
-        <AddGroupEventModal onClose={closeAddEventModal} />
+        <AddGroupEventModal onClose={closeAddEventModal} id={groupId} />
       )}
       {isCreatePollModalOpen && (
         <CreatePollModal onClose={closeCreatePollModal} />

@@ -356,6 +356,24 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+  createGroupEvent = async (params, formData) => {
+    try {
+      // Check if data is not empty
+      const response = await api.post(
+        `api/users/groups/${params}/events`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
 
   joinGroup = async (groupId) => {
     try {

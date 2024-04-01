@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
 
-const AddGroupEventModal = ({ onClose, message }) => {
+const AddGroupEventModal = ({ onClose, message, id }) => {
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -93,7 +93,7 @@ const AddGroupEventModal = ({ onClose, message }) => {
       formData.append('summary', summary)
 
       try {
-        await eventMutation.mutateAsync(formData)
+        await eventMutation.mutateAsync({ formData, params: id })
         setSelectedDocument(null)
         onClose()
         // Reset selected file after upload
@@ -104,14 +104,16 @@ const AddGroupEventModal = ({ onClose, message }) => {
   }
 
   const eventMutation = useMutation({
-    mutationFn: user.uploadEvents,
-    queryKey: ['get-upload-events'],
+    mutationFn: ({ formData, params }) =>
+      user.createGroupEvent(params, formData),
+    queryKey: ['get-group-events'],
     onSuccess: (data) => {
-      toast.success('Document uploaded successfully')
+      toast.success('Event saved successfully')
+      onClose()
     },
     onError: (error) => {
       console.error('Error:', error)
-      toast.error(error?.message || 'An error occurred during document upload')
+      toast.error(error?.message || 'An error occurred during post creation')
     },
   })
 
