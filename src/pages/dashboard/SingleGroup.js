@@ -17,6 +17,7 @@ import { CiCalendar, CiFolderOn } from 'react-icons/ci'
 import AddGroupEventModal from '../../components/Modals/AddGroupEventModal'
 import CreatePollModal from '../../components/Modals/CreatePollModal'
 import MakePostModal from '../../components/Modals/MakePostModal'
+import AddGroupDocumentModal from '../../components/Modals/AddGroupDocumentModal'
 
 const SingleGroup = () => {
   const location = useLocation()
@@ -57,6 +58,17 @@ const SingleGroup = () => {
     setIsMakePostModalOpen(false)
   }
 
+  const [isAddGroupDocumentModalOpen, setIsAddGroupDocumentModalOpen] =
+    useState(false)
+
+  const openAddGroupDocumentModal = () => {
+    setIsAddGroupDocumentModalOpen(true)
+  }
+
+  const closeAddGroupDocumentModal = () => {
+    setIsAddGroupDocumentModalOpen(false)
+  }
+
   // const getOtherUserProfile = useQuery({
   //   queryKey: ['get-user-profile'],
   //   queryFn: () => userServices.getOthersProfile(id),
@@ -72,6 +84,12 @@ const SingleGroup = () => {
       )}
       {isMakePostModalOpen && (
         <MakePostModal onClose={closeMakePostModal} id={groupId} />
+      )}
+      {isAddGroupDocumentModalOpen && (
+        <AddGroupDocumentModal
+          onClose={closeAddGroupDocumentModal}
+          id={groupId}
+        />
       )}
       <article>
         <div>
@@ -139,7 +157,7 @@ const SingleGroup = () => {
             <button onClick={openCreatePollModal}>
               <IoStatsChartOutline /> Create a Poll
             </button>
-            <button>
+            <button onClick={openAddGroupDocumentModal}>
               <CiFolderOn /> Upload a File
             </button>
           </div>
