@@ -206,6 +206,16 @@ class UserOBJ {
     }
   }
 
+  //Get group documents
+  getGroupDocuments = async (id) => {
+    try {
+      const response = await api.get(`/api/users/groups/${id}/files`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
   // Upload document
   uploadDocument = async (formData) => {
     try {

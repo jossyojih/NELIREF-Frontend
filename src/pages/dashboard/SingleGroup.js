@@ -164,7 +164,7 @@ const SingleGroup = () => {
           {activeTab === 'feeds' && <GroupFeeds />}
           {activeTab === 'events' && <GroupEvents />}
           {activeTab === 'members' && <GroupMembers members={item?.members} />}
-          {activeTab === 'files' && <GroupFiles />}
+          {activeTab === 'files' && <GroupFiles id={groupId} />}
         </section>
         <section>
           <div className='description'>

@@ -1,8 +1,8 @@
 import React from 'react'
 import { FaRegFileAlt } from 'react-icons/fa'
 import { RiFileDownloadLine } from 'react-icons/ri'
-
-// ;<FaRegFileAlt />
+import { useQuery } from '@tanstack/react-query'
+import userServices from '../../services/api/user'
 
 const jsonData = [
   {
@@ -18,7 +18,14 @@ const jsonData = [
     download: '#',
   },
 ]
-const GroupFiles = () => {
+const GroupFiles = ({ id }) => {
+  const getGroupFiles = useQuery({
+    queryKey: [''],
+    queryFn: () => userServices.getGroupFiles('65f0620517c76cbbb10caf4d'),
+  })
+
+  console.log(id)
+  console.log(getGroupFiles)
   return (
     <div>
       <ul>
