@@ -5,12 +5,12 @@ import MyForums from '../../components/forums-page/MyForums'
 import { useState } from 'react'
 import ForumModal from '../../components/Modals/ForumModal'
 import ForumRequest from '../../components/forums-page/ForumRequest'
-
+import { useSelector } from 'react-redux';
 
 const Forum = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Photos')
-
+  const { user } = useSelector((store) => store.user);
   const openModal = () => {
     setIsModalOpen(true)
   }
@@ -31,10 +31,14 @@ const Forum = () => {
             <CiSearch className='search-icon' />
             <input type='text' placeholder='Search forum' />
           </div>
-          <div className='btn-primary '>
-            <CgAddR className='icon' />
-            <button onClick={openModal}>Create New Forum</button>
-          </div>
+          {
+            (user.userType === "admin" || user.userType === "super-admin") &&
+            <div className='btn-primary '>
+              <CgAddR className='icon' />
+              <button onClick={openModal}>Create New Forum</button>
+            </div>
+          }
+
         </div>
       </article>
 
@@ -45,9 +49,8 @@ const Forum = () => {
               <div className='groups'>
                 <div
                   onClick={() => setActiveTab('Photos')}
-                  className={`tab-btn ${
-                    activeTab === 'Photos' ? 'active' : ''
-                  }`}
+                  className={`tab-btn ${activeTab === 'Photos' ? 'active' : ''
+                    }`}
                 >
                   <h4>
                     Forums <span className='number'>12</span>
@@ -55,9 +58,8 @@ const Forum = () => {
                 </div>
                 <div
                   onClick={() => setActiveTab('my-groups')}
-                  className={`tab-btn ${
-                    activeTab === 'my-groups' ? 'active' : ''
-                  }`}
+                  className={`tab-btn ${activeTab === 'my-groups' ? 'active' : ''
+                    }`}
                 >
                   <h4>
                     Forums Request <span className='number-grey'> 1</span>

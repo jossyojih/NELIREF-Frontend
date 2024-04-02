@@ -13,6 +13,7 @@ import ConfirmationModal from '../Modals/ConfirmationModal'
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
 
+
 const AllGroups = ({ groups, isPending, isError }) => {
   const navigate = useNavigate()
   const { user } = useSelector((store) => store.user)
@@ -100,7 +101,7 @@ const AllGroups = ({ groups, isPending, isError }) => {
                 {item?.privacy === 'public' ||
                   item.members.some(
                     (member) =>
-                      member.user === user._id && member.status === 'approved'
+                      member.user._id === user._id && member.status === 'approved'
                   ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
@@ -108,7 +109,7 @@ const AllGroups = ({ groups, isPending, isError }) => {
                   </button>
                 ) : item.members.some(
                   (member) =>
-                    member.user === user._id && member.status === 'pending'
+                    member.user._id === user._id && member.status === 'pending'
                 ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
@@ -124,9 +125,14 @@ const AllGroups = ({ groups, isPending, isError }) => {
                   </button>
                 )}
 
-                <button className='member' onClick={openModal}>
-                  Make Admin
-                </button>
+                {
+                  (user.userType === "admin" || user.userType === "super-admin") &&
+                  <button className='member' onClick={openModal}>
+                    Make Admin
+                  </button>
+                }
+
+
               </div>
             </section>
           ))}

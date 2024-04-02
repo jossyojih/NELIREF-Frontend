@@ -81,7 +81,7 @@ const Groups = () => {
               </h4>
             </div>
 
-            {
+            {/* {
               (user.userType === "admin" || user.userType === "super-admin") &&
               <div
                 onClick={() => setActiveTab('group-request')}
@@ -92,7 +92,7 @@ const Groups = () => {
                   Group Request <span className='number-grey'> 3</span>
                 </h4>
               </div>
-            }
+            } */}
 
           </div>
           <div className='displays'>

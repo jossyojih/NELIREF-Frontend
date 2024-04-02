@@ -59,7 +59,9 @@ const GroupsModal = ({ isOpen, onClose }) => {
   const mutation = useMutation({
     mutationFn: userService.createGroup,
     onSuccess: (data) => {
+      queryClient.invalidateQueries(['get-groups'])
       setIsSuccessModalOpen(true)
+
     },
     onError: (error) => {
       // Handle login error
@@ -87,10 +89,12 @@ const GroupsModal = ({ isOpen, onClose }) => {
       privacy,
       description,
     })
+
     setTitle('')
     setPrivacy('public')
     setDescription('')
   }
+
   return (
     <GenericModal isOpen={isOpen} onClose={onClose}>
       <Wrapper>

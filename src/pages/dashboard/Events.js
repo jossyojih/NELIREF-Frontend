@@ -10,8 +10,9 @@ import { BsImage } from 'react-icons/bs'
 import { BsCalendar2Event } from 'react-icons/bs'
 import AddEventModal from '../../components/Modals/AddEventModal'
 import { useQuery } from '@tanstack/react-query'
-import user from '../../services/api/user'
+import userService from '../../services/api/user'
 import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
+import { useSelector } from 'react-redux';
 
 const events = [
   {
@@ -28,7 +29,7 @@ const Events = () => {
   const [activeTab, setActiveTab] = useState('all-members')
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
   const options = { month: 'long', day: 'numeric' }
-
+  const { user } = useSelector((store) => store.user);
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
   }
@@ -39,21 +40,25 @@ const Events = () => {
 
   const getEvents = useQuery({
     queryKey: ['get-upload-events'],
-    queryFn: user.getEvents,
+    queryFn: userService.getEvents,
   })
 
   const data = getEvents?.data?.events
-  console.log(data)
+
 
   return (
     <Wrapper>
       {isAddEventModalOpen && <AddEventModal onClose={closeAddEventModal} />}
       <article className='tab-content'>
         <h2>Events</h2>
-        <div className='btn-primary '>
-          <BsCalendar2Event className='icon' />
-          <button onClick={openAddEventModal}>Add Event</button>
-        </div>
+        {
+          (user.userType === "admin" || user.userType === "super-admin") &&
+          <div className='btn-primary '>
+            <BsCalendar2Event className='icon' />
+            <button onClick={openAddEventModal}>Add Event</button>
+          </div>
+        }
+
       </article>
 
       <article className='members-container'>

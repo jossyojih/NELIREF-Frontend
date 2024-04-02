@@ -15,21 +15,18 @@ import AddPhotoModal from '../../components/Modals/AddPhotoModal'
 import AddUsefulLinks from '../../components/Modals/AddUsefulLinks'
 import AddPublicationsModal from '../../components/Modals/AddPublicationsModal'
 import AddDocumentModal from '../../components/Modals/AddDocumentModal'
-import { useMutation } from '@tanstack/react-query'
-
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import user from '../../services/api/user'
+import { useSelector } from 'react-redux';
 
 const Resources = () => {
   const [activeTab, setActiveTab] = useState('Documents')
+  const { user } = useSelector((store) => store.user);
   const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false)
   const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false)
   const [isAddPublicationsModalOpen, setIsAddPublicationsModalOpen] =
     useState(false)
   const [isAddUsefulLinksModalOpen, setIsAddUsefulLinksModalOpen] =
     useState(false)
-  
+
 
   const openAddDocumentModal = () => {
     setIsAddDocumentModalOpen(true)
@@ -85,10 +82,14 @@ const Resources = () => {
               <CiSearch className='search-icon' />
               <input type='text' placeholder='Search Documents' />
             </div>
-            <div className='btn-primary '>
-              <TiDocumentDelete className='icon' />
-              <button onClick={openAddDocumentModal}>Add Document</button>
-            </div>
+
+            {(user.userType === "admin" || user.userType === "super-admin") &&
+              <div className='btn-primary '>
+                <TiDocumentDelete className='icon' />
+                <button onClick={openAddDocumentModal}>Add Document</button>
+              </div>
+            }
+
           </div>
         </article>
       )}
@@ -100,10 +101,14 @@ const Resources = () => {
               <CiSearch className='search-icon' />
               <input type='text' placeholder='Search Photos' />
             </div>
-            <div className='btn-primary '>
-              <HiOutlinePhotograph className='icon' />
-              <button onClick={openAddPhotoModal}>Add Photos</button>
-            </div>
+            {
+              (user.userType === "admin" || user.userType === "super-admin") &&
+              <div className='btn-primary '>
+                <HiOutlinePhotograph className='icon' />
+                <button onClick={openAddPhotoModal}>Add Photos</button>
+              </div>
+            }
+
           </div>
         </article>
       )}
@@ -115,12 +120,15 @@ const Resources = () => {
               <CiSearch className='search-icon' />
               <input type='text' placeholder='Search Photos' />
             </div>
-            <div className='btn-primary '>
-              <IoLinkSharp className='icon' />
-              <button onClick={openAddUsefulLinksModal}>
-                Add usefull links
-              </button>
-            </div>
+            {(user.userType === "admin" || user.userType === "super-admin") &&
+              <div className='btn-primary '>
+                <IoLinkSharp className='icon' />
+                <button onClick={openAddUsefulLinksModal}>
+                  Add usefull links
+                </button>
+              </div>
+            }
+
           </div>
         </article>
       )}
@@ -132,12 +140,16 @@ const Resources = () => {
               <CiSearch className='search-icon' />
               <input type='text' placeholder='Search Photos' />
             </div>
-            <div className='btn-primary '>
-              <TiDocumentDelete className='icon' />
-              <button onClick={openAddPublicationsModal}>
-                Add publications
-              </button>
-            </div>
+            {
+              (user.userType === "admin" || user.userType === "super-admin") &&
+              <div className='btn-primary '>
+                <TiDocumentDelete className='icon' />
+                <button onClick={openAddPublicationsModal}>
+                  Add publications
+                </button>
+              </div>
+            }
+
           </div>
         </article>
       )}
@@ -160,18 +172,16 @@ const Resources = () => {
           </div>
           <div
             onClick={() => setActiveTab('Useful Links')}
-            className={`tab-btn ${
-              activeTab === 'Useful Links' ? 'active' : ''
-            }`}
+            className={`tab-btn ${activeTab === 'Useful Links' ? 'active' : ''
+              }`}
           >
             <FiLink2 className='icon' />
             <h4>Useful Links</h4>
           </div>
           <div
             onClick={() => setActiveTab('Publications and Research')}
-            className={`tab-btn ${
-              activeTab === 'Publications and Research' ? 'active' : ''
-            }`}
+            className={`tab-btn ${activeTab === 'Publications and Research' ? 'active' : ''
+              }`}
           >
             <TiDocumentText className='icon' />
             <h4>Publications and Research</h4>
