@@ -215,6 +215,14 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+  getGroupEvents = async (id) => {
+    try {
+      const response = await api.get(`/api/users/groups/${id}/events`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
 
   // Upload document
   uploadDocument = async (formData) => {

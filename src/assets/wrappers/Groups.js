@@ -208,7 +208,6 @@ const Wrapper = styled.main`
 
   .all-groups {
     background-color: #fff;
- 
   }
 
   .all-groups section.flex-column {
@@ -237,7 +236,9 @@ const Wrapper = styled.main`
   }
 
   .content .img {
-    width: 15%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
   }
 
   .member {
@@ -283,6 +284,40 @@ const Wrapper = styled.main`
     color: #2a4d93;
     font-weight: 600;
     cursor: pointer;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .tab-content {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .photos-search {
+      width: 100%;
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    .btn-primary {
+      padding: 0.5rem;
+    }
+
+    div.search {
+      width: 20%;
+    }
+
+    div.displays {
+      display: none;
+    }
+    section.tabs {
+      display: block;
+    }
+
+    div.groups {
+      width: 100%;
+      justify-content: space-between;
+      gap: 0;
+    }
   }
   /* Group Request */
 `

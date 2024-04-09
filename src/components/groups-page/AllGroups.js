@@ -103,11 +103,11 @@ const AllGroups = ({ groups, isError, isPending }) => {
                   <p>{item.description}</p>
                 </div>
               </div>
-              {/* <div className='flex'>
+              <div className='flex'>
                 {item?.privacy === 'public' ||
                 item?.members?.some(
                   (member) =>
-                    member?.user._id === user._id &&
+                    member?.user?._id === user._id &&
                     member.status === 'approved'
                 ) ? (
                   <button className='member'>
@@ -116,8 +116,8 @@ const AllGroups = ({ groups, isError, isPending }) => {
                   </button>
                 ) : item?.members?.some(
                     (member) =>
-                      member.user._id === user._id &&
-                      member.status === 'pending'
+                      member.user?._id === user?._id &&
+                      member?.status === 'pending'
                   ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
@@ -133,13 +133,13 @@ const AllGroups = ({ groups, isError, isPending }) => {
                   </button>
                 )}
 
-                {(user.userType === 'admin' ||
-                  user.userType === 'super-admin') && (
+                {(user?.userType === 'admin' ||
+                  user?.userType === 'super-admin') && (
                   <button className='member' onClick={openModal}>
                     Make Admin
                   </button>
                 )}
-              </div> */}
+              </div>
             </section>
           ))}
         </>

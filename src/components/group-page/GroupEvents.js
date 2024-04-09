@@ -1,5 +1,8 @@
 import React from 'react'
 import banner from '../../assets/images/info-session.png'
+import { useQuery } from '@tanstack/react-query'
+import userServices from '../../services/api/user'
+
 const jsonData = [
   {
     heading: 'General info Session',
@@ -24,17 +27,34 @@ const jsonData = [
   },
 ]
 
-const GroupEvents = () => {
+const GroupEvents = ({ id }) => {
+  const getGroupEvents = useQuery({
+    queryKey: [''],
+    queryFn: () => userServices.getGroupEvents(id),
+  })
+  const options = { month: 'long', day: 'numeric' }
+  const events = getGroupEvents?.data?.posts
+
+  console.log(getGroupEvents)
   return (
     <div className='post event'>
-      {jsonData.map((item, index) => (
+      {events?.map((item, index) => (
         <div key={index} className='card'>
-          <div className='card-img'> 
-            <img src={item.banner} alt='' />
+          <div className='card-img'>
+            <img src={item.file.url} alt='' />
           </div>
-          <p className='time'> {item.date}</p>
-          <h2>{item.heading}</h2>
-          <p className='content'>{item.paragraph}</p>
+          <p className='time'>
+            {' '}
+            {new Date(item.eventDate).toLocaleDateString('en-US', options)}
+          </p>
+          <p>
+            {' '}
+            <span>
+              {item.startTime} to {item.endTime}
+            </span>
+          </p>
+          <h2>{item.title}</h2>
+          <p className='content'>{item.summary}</p>
         </div>
       ))}
     </div>

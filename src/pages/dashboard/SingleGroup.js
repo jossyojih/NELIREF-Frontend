@@ -161,12 +161,12 @@ const SingleGroup = () => {
               <CiFolderOn /> Upload a File
             </button>
           </div>
-          {activeTab === 'feeds' && <GroupFeeds />}
-          {activeTab === 'events' && <GroupEvents />}
+          {activeTab === 'feeds' && <GroupFeeds id={groupId} />}
+          {activeTab === 'events' && <GroupEvents id={groupId} />}
           {activeTab === 'members' && <GroupMembers members={item?.members} />}
           {activeTab === 'files' && <GroupFiles id={groupId} />}
         </section>
-        <section>
+        <section className='aside'>
           <div className='description'>
             <h4>DESCRIPTION</h4>
             <p>{item?.description} </p>

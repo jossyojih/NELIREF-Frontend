@@ -21,15 +21,17 @@ const jsonData = [
 const GroupFiles = ({ id }) => {
   const getGroupFiles = useQuery({
     queryKey: [''],
-    queryFn: () => userServices.getGroupFiles('65f0620517c76cbbb10caf4d'),
+    queryFn: () => userServices.getGroupDocuments(id),
   })
+
+  const files = getGroupFiles?.data?.documents
 
   console.log(id)
   console.log(getGroupFiles)
   return (
     <div>
       <ul>
-        {jsonData.map((item, index) => (
+        {files?.map((item, index) => (
           <div className=' post li-flex'>
             <div className='file-name'>
               <span>
@@ -39,7 +41,9 @@ const GroupFiles = ({ id }) => {
             </div>
             <button>
               <RiFileDownloadLine className='icon' />
-              Download
+              <a href={item?.file?.url} target='blank'>
+                Download
+              </a>
             </button>
           </div>
         ))}
