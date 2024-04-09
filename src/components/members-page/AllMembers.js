@@ -35,14 +35,14 @@ const AllMembers = ({ members }) => {
   // Calculate pagination data
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentMembers = otherMembers.slice(indexOfFirstItem, indexOfLastItem)
+  const currentMembers = otherMembers?.slice(indexOfFirstItem, indexOfLastItem)
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   return (
     <article className='all-groups'>
-      {members.isPending ? (
+      {members?.isPending ? (
         [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
       ) : (
         <>
@@ -60,13 +60,13 @@ const AllMembers = ({ members }) => {
       <section className='pagination'>
         <p>
           Showing {indexOfFirstItem + 1}-
-          {Math.min(indexOfLastItem, otherMembers.length)} of{' '}
-          {otherMembers.length} members
+          {Math.min(indexOfLastItem, otherMembers?.length)} of{' '}
+          {otherMembers?.length} members
         </p>
 
         <div className='pagination-btns'>
           {Array.from(
-            { length: Math.ceil(otherMembers.length / itemsPerPage) },
+            { length: Math.ceil(otherMembers?.length / itemsPerPage) },
             (_, index) => (
               <button
                 key={index + 1}
@@ -81,7 +81,7 @@ const AllMembers = ({ members }) => {
             className='next-btn'
             onClick={() => paginate(currentPage + 1)}
             disabled={
-              currentPage === Math.ceil(otherMembers.length / itemsPerPage)
+              currentPage === Math.ceil(otherMembers?.length / itemsPerPage)
             }
           >
             {'>'}
