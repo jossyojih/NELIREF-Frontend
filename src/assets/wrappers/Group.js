@@ -19,6 +19,26 @@ const Wrapper = styled.main`
     font-weight: 600;
   }
 
+  .comment-input-container {
+    display: flex;
+    gap: 0.3rem;
+    width: 60%;
+  }
+
+  .comment-submit-btn {
+    border: none;
+    background-color: transparent;
+    color: #2a4d93;
+    font-size: 18px;
+  }
+  .comment-input-container input {
+    padding: 0.3rem;
+    background-color: #f2f7fd;
+    color: #1e1e1e;
+    border: none;
+    font-size: 13px;
+  }
+
   .profile-summary {
     display: flex;
     gap: 2rem;

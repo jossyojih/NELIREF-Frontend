@@ -78,6 +78,16 @@ const Wrapper = styled.main`
     color: var(--primary-blue);
     font-size: 14px;
     font-weight: bold;
+    cursor: pointer;
+  }
+
+  .comment-input {
+    font-size: 12px;
+    color: #1e1e1e;
+    width: 160%;
+    display: block;
+    padding: 0.4rem;
+    border-radius: 4px;
   }
 
   .updates {

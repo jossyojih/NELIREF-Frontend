@@ -1,9 +1,7 @@
-import group from '../../assets/images/group-img.png'
 import { MdOutlineCheckBox } from 'react-icons/md'
-import { MdOutlineAddBox } from 'react-icons/md'
 import { useEffect, useState } from 'react'
 import GroupApprovalModal from '../Modals/GroupApprovalModal'
-
+import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import groupImg from '../../../src/assets/images/group-img.png'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
@@ -13,8 +11,7 @@ import ConfirmationModal from '../Modals/ConfirmationModal'
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
 
-
-const AllGroups = ({ groups, isPending, isError }) => {
+const AllGroups = ({ groups, isError, isPending }) => {
   const navigate = useNavigate()
   const { user } = useSelector((store) => store.user)
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
@@ -22,6 +19,7 @@ const AllGroups = ({ groups, isPending, isError }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState(null)
   const [message, setMessage] = useState('')
+  const [allGroups, setAllGroups] = useState('')
 
   const openConfirmModal = () => {
     setConfirmModalOpen(true)
@@ -30,6 +28,8 @@ const AllGroups = ({ groups, isPending, isError }) => {
   const closeConfirmModal = () => {
     setConfirmModalOpen(false)
   }
+
+  console.log(groups)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -63,6 +63,7 @@ const AllGroups = ({ groups, isPending, isError }) => {
   useEffect(() => {
     console.log(groups)
     console.log(user)
+    setAllGroups(groups)
   }, [groups])
 
   return (
@@ -75,8 +76,8 @@ const AllGroups = ({ groups, isPending, isError }) => {
             <section key={index}>
               {isModalOpen && (
                 <GroupApprovalModal
-                  createdBy={item.createdBy}
-                  groupId={item._id}
+                  createdBy={item?.createdBy}
+                  groupId={item?._id}
                   isOpen={openModal}
                   onClose={closeModal}
                 />
@@ -86,7 +87,12 @@ const AllGroups = ({ groups, isPending, isError }) => {
                   <img src={groupImg} alt={`group-img-${index}`} />
                 </div>
                 <div>
-                  <p style={{ cursor: "pointer" }} onClick={() => navigate(`/group/${index}`, { state: { item } })}>
+                  <p
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      navigate(`/group/${index}`, { state: { item } })
+                    }
+                  >
                     <h5>{item.name}</h5>
                   </p>
 
@@ -97,20 +103,22 @@ const AllGroups = ({ groups, isPending, isError }) => {
                   <p>{item.description}</p>
                 </div>
               </div>
-              <div className='flex'>
+              {/* <div className='flex'>
                 {item?.privacy === 'public' ||
-                  item.members.some(
-                    (member) =>
-                      member.user._id === user._id && member.status === 'approved'
-                  ) ? (
+                item?.members?.some(
+                  (member) =>
+                    member?.user._id === user._id &&
+                    member.status === 'approved'
+                ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
                     Member
                   </button>
-                ) : item.members.some(
-                  (member) =>
-                    member.user._id === user._id && member.status === 'pending'
-                ) ? (
+                ) : item?.members?.some(
+                    (member) =>
+                      member.user._id === user._id &&
+                      member.status === 'pending'
+                  ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
                     Request Sent
@@ -118,22 +126,20 @@ const AllGroups = ({ groups, isPending, isError }) => {
                 ) : (
                   <button
                     className='member'
-                    onClick={() => joinGroup(item._id)}
+                    onClick={() => joinGroup(item?._id)}
                   >
                     <MdOutlineCheckBox className='icon' />
                     Join group
                   </button>
                 )}
 
-                {
-                  (user.userType === "admin" || user.userType === "super-admin") &&
+                {(user.userType === 'admin' ||
+                  user.userType === 'super-admin') && (
                   <button className='member' onClick={openModal}>
                     Make Admin
                   </button>
-                }
-
-
-              </div>
+                )}
+              </div> */}
             </section>
           ))}
         </>

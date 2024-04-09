@@ -208,6 +208,7 @@ const Wrapper = styled.main`
 
   .all-groups {
     background-color: #fff;
+ 
   }
 
   .all-groups section.flex-column {

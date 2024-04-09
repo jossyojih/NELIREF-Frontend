@@ -100,6 +100,13 @@ const Wrapper = styled.main`
   .thead {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
+    font-size: 14px;
+  }
+
+  .img-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .tcontainer-wrapper {
@@ -159,9 +166,9 @@ const Wrapper = styled.main`
     width: 100%;
   }
 
-.table-link {
-  color: var(--primary-blue);
-}
+  .table-link {
+    color: var(--primary-blue);
+  }
 
   .usefull-links {
     display: flex;

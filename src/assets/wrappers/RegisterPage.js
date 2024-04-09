@@ -23,11 +23,6 @@ const Wrapper = styled.article`
     height: 400px;
   }
 
-  .register-login-container.new-password article img {
-    width: 90%;
-    height: 60%;
-  }
-
   .new-pword-label {
     margin: 1rem auto;
   }
@@ -44,18 +39,11 @@ const Wrapper = styled.article`
     border-bottom: 1.2px solid #b7b4b4;
   }
 
-  .hero-img-container {
-    height: 200px;
-  }
-
   img {
     display: block;
     width: 100%;
+    height: 100%;
     object-fit: cover;
-  }
-
-  .hero-img-container img {
-    width: 90%;
   }
 
   .logo-container {

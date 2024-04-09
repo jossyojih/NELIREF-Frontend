@@ -11,6 +11,7 @@ import { Paper } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import user from '../../services/api/user'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
+import { useEffect, useState } from 'react'
 
 const rows = [
   {
@@ -40,12 +41,27 @@ const rows = [
 ]
 
 const Publications = () => {
+  const [itemsToShow, setItemsToShow] = useState(4)
   const getLinks = useQuery({
     queryKey: ['get-publications'],
     queryFn: user.getPublications,
   })
 
-  const data = getLinks?.data?.publications
+  const data = getLinks?.data?.publications?.slice(0, itemsToShow)
+  const handleLoadMore = () => {
+    setItemsToShow((prevCount) => prevCount + 4) // Increment itemsToShow by 4
+  }
+
+  useEffect(() => {
+    if (
+      !getLinks.isLoading &&
+      !getLinks.isError &&
+      data?.length === getLinks?.data?.publications?.length
+    ) {
+      setItemsToShow(getLinks?.data?.publications?.length)
+    }
+  }, [getLinks, data])
+
   console.log(data)
 
   {
@@ -125,9 +141,16 @@ const Publications = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <div className='tbtn-container'>
-              <button className='btn-primary load-more'>Load More</button>
-            </div>
+            {data?.length < getLinks?.data?.publications?.length && (
+              <div className='tbtn-container'>
+                <button
+                  className='btn-primary load-more'
+                  onClick={handleLoadMore}
+                >
+                  Load More
+                </button>
+              </div>
+            )}
           </React.Fragment>
         )}
         {getLinks.isError && <p>An Error Occurred</p>}

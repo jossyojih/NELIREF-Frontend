@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import CreateAccountPage3 from '../components/onboarding-page/CreateAccountPage3'
 import CreateAccountPage2 from '../components/onboarding-page/CreateAccountPage2'
 
-import main from '../assets/images/main.png'
+import main from '../assets/images/main.jpeg'
 import logo from '../assets/images/Logo.png'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { useMutation } from '@tanstack/react-query';

@@ -178,15 +178,14 @@ const Wrapper = styled.main`
     align-items: center;
     justify-content: space-between;
     margin: 2rem;
-
     padding: 0rem 0.2rem;
     padding-right: 3rem;
     padding-left: 0.3rem;
     border: 1.5px solid #b7b4b4;
   }
   .picture {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 10px;
     overflow: hidden;
     margin: 1rem 0;
@@ -279,6 +278,18 @@ const Wrapper = styled.main`
     border: none;
     background-color: transparent;
     color: #fff;
+  }
+
+  @media screen and (max-width: 700px) {
+    .events {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.5rem;
+    }
+    .event-content {
+      order: -1;
+    }
   }
 `
 

@@ -1,4 +1,4 @@
-import main from '../assets/images/main.png'
+import main from '../assets/images/main.jpeg'
 import logo from '../assets/images/Logo.png'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { Link } from 'react-router-dom'

@@ -204,7 +204,6 @@ const Wrapper = styled.main`
   }
 
   .all-groups {
-    height: 65vh;
     background-color: #fff;
   }
 
@@ -279,6 +278,10 @@ const Wrapper = styled.main`
     gap: 0.5rem;
   }
 
+  .content.members .img {
+    width: 60px;
+    height: 60px;
+  }
   .content.members div h6 {
     font-weight: 600;
     font-size: 13px;
@@ -342,6 +345,12 @@ const Wrapper = styled.main`
 
   .pagination-btns .next-btn {
     border: 1px solid #1e1e1e;
+  }
+
+  @media only screen and (max-width: 600px) {
+    div.displays {
+      display: none;
+    }
   }
 `
 

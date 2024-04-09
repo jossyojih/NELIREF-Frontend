@@ -74,18 +74,7 @@ const Members = () => {
           {activeTab === 'all-members' && <AllMembers members={members} />}
           {activeTab === 'my-connections' && <MyConnections connections={myConnections} />}
         </section>
-        <section className='pagination'>
-          <p>showing 1-20 of 260 members</p>
-
-          <div className='pagination-btns'>
-            <button className='active'>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>...</button>
-            <button>13</button>
-            <button className='next-btn'>{'>'}</button>
-          </div>
-        </section>
+       
       </article>
     </Wrapper>
   )

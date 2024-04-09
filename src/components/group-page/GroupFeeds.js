@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import profileImg from '../../assets/images/profile.png'
 import { SlLike } from 'react-icons/sl'
 import { TfiCommentAlt } from 'react-icons/tfi'
+import { LuSendHorizonal } from 'react-icons/lu'
 
 const GroupFeeds = () => {
   const postData = {
@@ -52,6 +53,28 @@ const GroupFeeds = () => {
     ],
   }
 
+  const [openCommentIndex, setOpenCommentIndex] = useState(null)
+  const [commentInput, setCommentInput] = useState('')
+
+  const toggleCommentInput = (postId, commentIndex) => {
+    setOpenCommentIndex((prevIndex) =>
+      prevIndex === `${postId}-${commentIndex}`
+        ? null
+        : `${postId}-${commentIndex}`
+    )
+    setCommentInput('')
+  }
+
+  const handleCommentChange = (event) => {
+    setCommentInput(event.target.value)
+  }
+
+  const handleCommentSubmit = (postId, commentIndex) => {
+    console.log('Comment submitted:', commentInput) // Replace with actual submission logic
+    setOpenCommentIndex(null)
+    setCommentInput('')
+  }
+
   return (
     <div className='app'>
       {postData.posts.map((post) => (
@@ -67,21 +90,38 @@ const GroupFeeds = () => {
               </div>
             </div>
             <div className='post-content'>
-              <p> {post.content}</p>
+              <p>{post.content}</p>
             </div>
             <div className='post-likes'>
               <p>
                 <SlLike className='icon' />
                 <span>{post.likes} likes</span>
               </p>
-              <p>
+              <p onClick={() => toggleCommentInput(post.id, 'post')}>
                 <TfiCommentAlt className='icon' />
                 <span>{post.commentsNo} comments</span>
               </p>
+              {openCommentIndex === `${post.id}-post` && (
+                <div className='comment-input-container'>
+                  <input
+                    type='text'
+                    className='comment-input'
+                    placeholder='Add a comment...'
+                    value={commentInput}
+                    onChange={handleCommentChange}
+                  />
+                  <button
+                    className='comment-submit-btn'
+                    onClick={() => handleCommentSubmit(post.id, 'post')}
+                  >
+                    <LuSendHorizonal />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className='comments'>
-            {post.comments.map((comment) => (
+            {post.comments.map((comment, commentIndex) => (
               <div key={comment.id} className='comment'>
                 <div className='post-author'>
                   <div className='img'>
@@ -93,17 +133,36 @@ const GroupFeeds = () => {
                   </div>
                 </div>
                 <div className='post-content'>
-                  <p> {comment.content}</p>
+                  <p>{comment.content}</p>
                 </div>
                 <div className='post-likes'>
                   <p>
                     <SlLike className='icon' />
                     <span>{post.likes} likes</span>
                   </p>
-                  <p>
+                  <p onClick={() => toggleCommentInput(post.id, commentIndex)}>
                     <TfiCommentAlt className='icon' />
                     <span>{post.commentsNo} comments</span>
                   </p>
+                  {openCommentIndex === `${post.id}-${commentIndex}` && (
+                    <div className='comment-input-container'>
+                      <input
+                        type='text'
+                        className='comment-input'
+                        placeholder='Add a comment...'
+                        value={commentInput}
+                        onChange={handleCommentChange}
+                      />
+                      <button
+                        className='comment-submit-btn'
+                        onClick={() =>
+                          handleCommentSubmit(post.id, commentIndex)
+                        }
+                      >
+                        <LuSendHorizonal />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
