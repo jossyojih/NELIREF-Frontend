@@ -14,6 +14,7 @@ import {
   Fundings,
   OthersProfile,
   SingleGroup,
+  SingleForum,
 } from './pages/dashboard'
 import Events from './pages/dashboard/Events'
 import Notifications from './pages/dashboard/Notifications'
@@ -44,6 +45,7 @@ function App() {
           <Route path='profile' element={<Profile />} />
           <Route path='user-profile/:id' element={<OthersProfile />} />
           <Route path='group/:id' element={<SingleGroup />} />
+          <Route path='forum/:id' element={<SingleForum />} />
           {/*for other users*/}
         </Route>
         <Route path='login' element={<Login />} />

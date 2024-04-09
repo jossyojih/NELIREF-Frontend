@@ -5,8 +5,10 @@ import userService from '../../services/api/user'
 import { useQuery } from '@tanstack/react-query'
 import forumImg from '../../assets/images/group-img.png'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
+import { Link, useNavigate } from 'react-router-dom'
 
 const MyForums = () => {
+  const navigate = useNavigate()
   const data = 1
   const data2 = [
     {
@@ -36,7 +38,14 @@ const MyForums = () => {
                   <img src={forumImg} alt={`group-img-${index}`} />
                 </div>
                 <div>
-                  <h5>{item.name}</h5>
+                  <h5
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      navigate(`/forum/${index}`, { state: { item } })
+                    }
+                  >
+                    {item.name}
+                  </h5>
                   <p>{item.description}</p>
                 </div>
               </div>

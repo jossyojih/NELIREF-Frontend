@@ -7,5 +7,17 @@ import Members from './Members'
 import Resources from './Resources'
 import OthersProfile from './OthersProfile'
 import SingleGroup from './SingleGroup'
+import SingleForum from './SingleForum'
 
-export { Resources, SingleGroup, Fundings, Groups, Forum, Feeds, Members, SharedLayout, OthersProfile }
+export {
+  Resources,
+  SingleGroup,
+  Fundings,
+  Groups,
+  Forum,
+  Feeds,
+  Members,
+  SharedLayout,
+  OthersProfile,
+  SingleForum,
+}
