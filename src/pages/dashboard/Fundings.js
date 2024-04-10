@@ -93,7 +93,7 @@ const Fundings = () => {
         ) : (
           <section className='funding-grid'>
             {getFundings?.data?.fundings?.map((event, index) => (
-              <section className='events' key={index}>
+              <section className='events forum' key={index}>
                 <div className='cover-picture'>
                   <img src={event.image} alt='' />
                 </div>

@@ -281,14 +281,46 @@ const Wrapper = styled.main`
   }
 
   @media screen and (max-width: 700px) {
-    .events {
-      display: flex;
+    .tab-content {
       flex-direction: column;
-      align-items: center;
+      align-items: start;
+    }
+
+    .photos-search {
+      width: 100%;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .photos-search div.search,
+    .btn-primary {
+      width: 100%;
+    }
+
+    .btn-primary {
       padding: 0.5rem;
     }
-    .event-content {
-      order: -1;
+
+    .events {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      padding: 0.5rem;
+      margin: 0.5rem;
+    }
+
+    .events.forum {
+      flex-direction: column;
+    }
+
+    .funding-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .picture {
+      width: 100%;
+      margin: 0;
     }
   }
 `
