@@ -121,5 +121,11 @@ const Wrapper = styled.main`
     display: flex;
     justify-content: center;
   }
+  @media only screen and (max-width: 700px) {
+    .updates {
+      display: none;
+    }
+    grid-template-columns: 1fr;
+  }
 `
 export default Wrapper

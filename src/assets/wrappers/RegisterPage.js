@@ -224,6 +224,31 @@ const Wrapper = styled.article`
   .error {
     color: #d9534f;
   }
+
+  @media only screen and (max-width: 700px) {
+    .hero-img-container {
+      display: none;
+    }
+
+    .register-login-container {
+      grid-template-columns: 1fr;
+    }
+    form {
+      padding: 1rem;
+    }
+
+    h2 {
+      padding: 1rem;
+    }
+
+    .img-register {
+      display: none;
+    }
+
+    .register-login-container.new-password {
+      height: 450px;
+    }
+  }
 `
 
 export default Wrapper

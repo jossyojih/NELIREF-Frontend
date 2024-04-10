@@ -6,10 +6,10 @@ const MyGroups = ({ groups }) => {
 
   return (
     <article className='all-groups'>
-      <section>
+      <section className='all-groups-section'> 
         {groups.map((item, index) => (
-          <div className='content' key={index}>
-            <div className='img'>
+          <div className='content my' key={index}>
+            <div className='img img-my'>
               <img src={groupImg} alt={`group-img-${index}`} />
             </div>
             <div>

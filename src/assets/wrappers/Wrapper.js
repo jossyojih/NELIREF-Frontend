@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Wrapper = styled.main`
+export const Wrapper = styled.main`
   .tab-content {
     display: flex;
     align-items: center;
@@ -331,7 +331,7 @@ const Wrapper = styled.main`
     .flex {
       width: 100%;
       justify-content: space-between;
-      gap: 0.5rem;
+      gap: 0;
       margin: 1rem;
     }
 
@@ -341,38 +341,11 @@ const Wrapper = styled.main`
 
     .content.my {
       width: 70%;
-    }
-    .all-groups .approved {
-      flex-direction: column;
-      gap: 1rem;
-    }
+  dis  }
 
-    .all-groups section {
-      flex-direction: column;
-    }
+    .all-groups.approved {
 
-    .content.my {
-      flex-direction: column;
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-
-    .img-img-my {
-      width: 200px;
-      display: block;
-    }
-    .img.img-my img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    .content .img.img-my {
-      width: auto;
     }
   }
   /* Group Request */
 `
-
-export default Wrapper

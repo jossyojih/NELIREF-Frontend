@@ -184,6 +184,27 @@ const Wrapper = styled.main`
   .tcontainer-wrapper.bg-white {
     background-color: #fff;
   }
+
+  @media only screen and (max-width: 700px) {
+    .tab-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .photos-search {
+      width: 90%;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      padding: 0.7rem;
+    }
+
+    .tabs {
+      gap: 1rem;
+    }
+  }
 `
 
 export default Wrapper

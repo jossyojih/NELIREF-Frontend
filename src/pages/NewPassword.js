@@ -66,7 +66,7 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
   return (
     <Wrapper>
       <article className='register-login-container new-password'>
-        <article>
+        <article className='img-register'>
           <img src={main} alt='hero-img' />
         </article>
         <article>
@@ -74,7 +74,6 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
             <div className='logo'>
               <img src={logo} alt='logo' />
             </div>
-            <h5>NELIREF</h5>
           </section>
           <section>
             <h2>Enter New Password</h2>

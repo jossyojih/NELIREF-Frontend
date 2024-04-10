@@ -109,7 +109,6 @@ const ResetPassword = () => {
                 <div className='logo'>
                   <img src={logo} alt='logo' />
                 </div>
-                <h5>NELIREF</h5>
               </section>
               <section>
                 <h2>Reset Password</h2>

@@ -289,6 +289,22 @@ const Wrapper = styled.article`
   .d-flex .red {
     background-color: #eb4335;
   }
+
+  .content-style {
+    background-color: white;
+    width: 30%;
+    margin: auto;
+    margin-top: 5%;
+    overflow: hidden;
+    border-radius: 5px;
+    padding: 1.5rem;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .content-style {
+      width: 80%;
+    }
+  }
   /* Forum Modal */
 `
 

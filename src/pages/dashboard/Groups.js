@@ -73,7 +73,12 @@ const Groups = () => {
               className={`tab-btn ${activeTab === 'Photos' ? 'active' : ''}`}
             >
               <h4>
-                All Groups <span className='number'>{data?.length}</span>
+                All Groups{' '}
+                <span
+                  className={activeTab === 'Photos' ? 'number' : 'number-grey'}
+                >
+                  {data?.length}
+                </span>
               </h4>
             </div>
             <div
@@ -82,7 +87,13 @@ const Groups = () => {
             >
               <h4>
                 My Groups{' '}
-                <span className='number-grey'>{myGroups?.length}</span>
+                <span
+                  className={
+                    activeTab === 'my-groups' ? 'number' : 'number-grey'
+                  }
+                >
+                  {myGroups?.length}
+                </span>
               </h4>
             </div>
 
@@ -94,7 +105,15 @@ const Groups = () => {
                 }`}
               >
                 <h4>
-                  Group Request <span className='number-grey'> 3</span>
+                  Group Request{' '}
+                  <span
+                    className={
+                      activeTab === 'group-request' ? 'number' : 'number-grey'
+                    }
+                  >
+                    {' '}
+                    3
+                  </span>
                 </h4>
               </div>
             )}

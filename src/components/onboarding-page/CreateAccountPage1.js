@@ -71,7 +71,7 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
   return (
     <Wrapper>
       <article className='register-login-container'>
-        <article>
+        <article className='img-register'>
           <img src={main} alt='hero-img' />
         </article>
         <article>

@@ -25,9 +25,9 @@ const GroupRequest = () => {
     // Add more objects as needed
   ]
   return (
-    <article className='all-groups'>
+    <article className='all-groups '>
       {isModalOpen && <GroupRequestModal onClose={closeModal} />}
-      <section>
+      <section className='approved'>
         {data.map((item, index) => (
           <div className='content' key={index}>
             <div>

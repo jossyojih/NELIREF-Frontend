@@ -83,7 +83,7 @@ const AllGroups = ({ groups, isError, isPending }) => {
                 />
               )}
               <div className='content' key={index}>
-                <div className='img'>
+                <div className='img '>
                   <img src={groupImg} alt={`group-img-${index}`} />
                 </div>
                 <div>
@@ -135,7 +135,7 @@ const AllGroups = ({ groups, isError, isPending }) => {
 
                 {(user?.userType === 'admin' ||
                   user?.userType === 'super-admin') && (
-                  <button className='member' onClick={openModal}>
+                  <button className='member green' onClick={openModal}>
                     Make Admin
                   </button>
                 )}
