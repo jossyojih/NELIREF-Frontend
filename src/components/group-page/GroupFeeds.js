@@ -5,56 +5,9 @@ import { TfiCommentAlt } from 'react-icons/tfi'
 import { LuSendHorizonal } from 'react-icons/lu'
 import { useQuery } from '@tanstack/react-query'
 import userServices from '../../services/api/user'
+import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 
 const GroupFeeds = ({ id }) => {
-  const postData = {
-    posts: [
-      {
-        id: 1,
-        img: profileImg,
-        time: '46 min. ago',
-        author: 'John Doe',
-        content: 'Just had an amazing hiking trip!',
-        likes: 25,
-        commentsNo: 24,
-        comments: [
-          {
-            id: 101,
-            img: profileImg,
-            time: '46 min. ago',
-            author: 'Jane Smith',
-            content: 'Looks like fun! Where did you go?',
-          },
-          {
-            id: 102,
-            img: profileImg,
-            time: '46 min. ago',
-            author: 'Mike Johnson',
-            content: 'Great photo! Wish I was there.',
-          },
-        ],
-      },
-      {
-        id: 2,
-        img: profileImg,
-        time: '46 min. ago',
-        author: 'Alice Johnson',
-        content: 'Enjoying the sunset at the beach!',
-        likes: 30,
-        commentsNo: 24,
-        comments: [
-          {
-            img: profileImg,
-            time: '46 min. ago',
-            id: 103,
-            author: 'Bob Brown',
-            content: 'Beautiful view!',
-          },
-        ],
-      },
-    ],
-  }
-
   const getGroupPosts = useQuery({
     queryKey: ['get-groups-post'],
     queryFn: () => userServices.getGroupPost(id),
@@ -114,74 +67,33 @@ const GroupFeeds = ({ id }) => {
 
   return (
     <div className='app'>
-      {groupPost?.map((post) => (
-        <div key={post.id}>
-          <div className='post'>
-            <div className='post-author'>
-              <div className='img'>
-                <img src={profileImg} alt='' />
-              </div>
-              <div>
-                <h3>{post.author}</h3>
-                <p>{formatTimeAgo(post.createdAt)}</p>
-              </div>
-            </div>
-            <div className='post-content'>
-              <p>{post.message}</p>
-            </div>
-            <div className='post-likes'>
-              <p>
-                <SlLike className='icon' />
-                <span>{post.likes.length} likes</span>
-              </p>
-              <p onClick={() => toggleCommentInput(post.id, 'post')}>
-                <TfiCommentAlt className='icon' />
-                <span>{post.comments.length} comments</span>
-              </p>
-              {openCommentIndex === `${post.id}-post` && (
-                <div className='comment-input-container'>
-                  <input
-                    type='text'
-                    className='comment-input'
-                    placeholder='Add a comment...'
-                    value={commentInput}
-                    onChange={handleCommentChange}
-                  />
-                  <button
-                    className='comment-submit-btn'
-                    onClick={() => handleCommentSubmit(post.id, 'post')}
-                  >
-                    <LuSendHorizonal />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className='comments'>
-            {post.comments.map((comment, commentIndex) => (
-              <div key={comment.id} className='comment'>
+      {getGroupPosts.isPending
+        ? [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
+        : groupPost?.map((post) => (
+            <div key={post.id}>
+              <div className='post'>
                 <div className='post-author'>
                   <div className='img'>
-                    <img src={comment.img} alt='' />
+                    <img src={profileImg} alt='' />
                   </div>
                   <div>
-                    <h3>{comment.author}</h3>
-                    <p>{comment.time}</p>
+                    <h3>{post.author}</h3>
+                    <p>{formatTimeAgo(post.createdAt)}</p>
                   </div>
                 </div>
                 <div className='post-content'>
-                  <p>{comment.content}</p>
+                  <p>{post.message}</p>
                 </div>
                 <div className='post-likes'>
                   <p>
                     <SlLike className='icon' />
-                    <span>{post.likes} likes</span>
+                    <span>{post.likes.length} likes</span>
                   </p>
-                  <p onClick={() => toggleCommentInput(post.id, commentIndex)}>
+                  <p onClick={() => toggleCommentInput(post.id, 'post')}>
                     <TfiCommentAlt className='icon' />
-                    <span>{post.commentsNo} comments</span>
+                    <span>{post.comments.length} comments</span>
                   </p>
-                  {openCommentIndex === `${post.id}-${commentIndex}` && (
+                  {openCommentIndex === `${post.id}-post` && (
                     <div className='comment-input-container'>
                       <input
                         type='text'
@@ -192,9 +104,7 @@ const GroupFeeds = ({ id }) => {
                       />
                       <button
                         className='comment-submit-btn'
-                        onClick={() =>
-                          handleCommentSubmit(post.id, commentIndex)
-                        }
+                        onClick={() => handleCommentSubmit(post.id, 'post')}
                       >
                         <LuSendHorizonal />
                       </button>
@@ -202,10 +112,59 @@ const GroupFeeds = ({ id }) => {
                   )}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      ))}
+              <div className='comments'>
+                {post.comments.map((comment, commentIndex) => (
+                  <div key={comment.id} className='comment'>
+                    <div className='post-author'>
+                      <div className='img'>
+                        <img src={comment.img} alt='' />
+                      </div>
+                      <div>
+                        <h3>{comment.author}</h3>
+                        <p>{comment.time}</p>
+                      </div>
+                    </div>
+                    <div className='post-content'>
+                      <p>{comment.content}</p>
+                    </div>
+                    <div className='post-likes'>
+                      <p>
+                        <SlLike className='icon' />
+                        <span>{post.likes} likes</span>
+                      </p>
+                      <p
+                        onClick={() =>
+                          toggleCommentInput(post.id, commentIndex)
+                        }
+                      >
+                        <TfiCommentAlt className='icon' />
+                        <span>{post.commentsNo} comments</span>
+                      </p>
+                      {openCommentIndex === `${post.id}-${commentIndex}` && (
+                        <div className='comment-input-container'>
+                          <input
+                            type='text'
+                            className='comment-input'
+                            placeholder='Add a comment...'
+                            value={commentInput}
+                            onChange={handleCommentChange}
+                          />
+                          <button
+                            className='comment-submit-btn'
+                            onClick={() =>
+                              handleCommentSubmit(post.id, commentIndex)
+                            }
+                          >
+                            <LuSendHorizonal />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
     </div>
   )
 }

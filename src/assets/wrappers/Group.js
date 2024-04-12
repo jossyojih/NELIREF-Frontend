@@ -8,6 +8,11 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
 
+  .flex-skel {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   .members-container {
     overflow: hidden;
     border-radius: 10px 10px 0 0;

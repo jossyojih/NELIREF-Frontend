@@ -34,7 +34,7 @@ const Wrapper = styled.main`
 
   .icon-send {
     color: #2a4d93;
-    font-size: 18px;
+    font-size: 24px;
   }
 
   .search {

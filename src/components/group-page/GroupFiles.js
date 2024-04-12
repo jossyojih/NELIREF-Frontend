@@ -3,6 +3,7 @@ import { FaRegFileAlt } from 'react-icons/fa'
 import { RiFileDownloadLine } from 'react-icons/ri'
 import { useQuery } from '@tanstack/react-query'
 import userServices from '../../services/api/user'
+import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 
 const jsonData = [
   {
@@ -18,6 +19,7 @@ const jsonData = [
     download: '#',
   },
 ]
+
 const GroupFiles = ({ id }) => {
   const getGroupFiles = useQuery({
     queryKey: [''],
@@ -31,22 +33,30 @@ const GroupFiles = ({ id }) => {
   return (
     <div>
       <ul>
-        {files?.map((item, index) => (
-          <div className=' post li-flex'>
-            <div className='file-name'>
-              <span>
-                <FaRegFileAlt className='icon' />
-              </span>
-              <p>{item.name}</p>
-            </div>
-            <button>
-              <RiFileDownloadLine className='icon' />
-              <a href={item?.file?.url} target='blank'>
-                Download
-              </a>
-            </button>
-          </div>
-        ))}
+        {getGroupFiles.isPending
+          ? [1, 2, 3, 4, 5].map((n) => (
+              <SkeletonArticle key={n} theme='light' />
+            ))
+          : files?.map((item, index) => (
+              <li key={index} className='post li-flex'>
+                <div className='file-name'>
+                  <span>
+                    <FaRegFileAlt className='icon' />
+                  </span>
+                  <p>{item.name}</p>
+                </div>
+                <button>
+                  <RiFileDownloadLine className='icon' />
+                  <a
+                    href={item?.file?.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    Download
+                  </a>
+                </button>
+              </li>
+            ))}
       </ul>
     </div>
   )
