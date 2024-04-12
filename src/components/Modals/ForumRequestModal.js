@@ -26,7 +26,7 @@ const ForumRequestModal = ({ onClose, message }) => {
   }
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Forum Request</h3>
           <button onClick={onClose}>

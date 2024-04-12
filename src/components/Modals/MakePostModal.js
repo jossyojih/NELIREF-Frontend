@@ -81,7 +81,7 @@ const MakePostModal = ({ onClose, message, id }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Make a post </h3>
           <button onClick={onClose}>

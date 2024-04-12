@@ -111,7 +111,7 @@ const AddGroupDocumentModal = ({ onClose, message, id }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Add Document</h3>
           <button onClick={onClose}>

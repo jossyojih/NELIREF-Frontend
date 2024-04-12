@@ -79,7 +79,7 @@ const AddUsefulLinks = ({ onClose, message }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Add Link</h3>
           <button onClick={onClose}>

@@ -6,13 +6,12 @@ import {
   IoIosArrowBack,
 } from 'react-icons/io'
 import { RiHotspotLine } from 'react-icons/ri'
-import { BsImage } from 'react-icons/bs'
 import { BsCalendar2Event } from 'react-icons/bs'
 import AddEventModal from '../../components/Modals/AddEventModal'
 import { useQuery } from '@tanstack/react-query'
 import userService from '../../services/api/user'
 import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
 const events = [
   {
@@ -28,8 +27,9 @@ const events = [
 const Events = () => {
   const [activeTab, setActiveTab] = useState('all-members')
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
+  const [visibleEvents, setVisibleEvents] = useState(2) // Number of initially visible events
   const options = { month: 'long', day: 'numeric' }
-  const { user } = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user)
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
   }
@@ -45,20 +45,21 @@ const Events = () => {
 
   const data = getEvents?.data?.events
 
+  const handleLoadMore = () => {
+    setVisibleEvents((prevVisibleEvents) => prevVisibleEvents + 2) // Increase by 4 for each load more click
+  }
 
   return (
     <Wrapper>
       {isAddEventModalOpen && <AddEventModal onClose={closeAddEventModal} />}
       <article className='tab-content'>
         <h2>Events</h2>
-        {
-          (user.userType === "admin" || user.userType === "super-admin") &&
+        {user.userType === 'admin' || user.userType === 'super-admin' ? (
           <div className='btn-primary '>
             <BsCalendar2Event className='icon' />
             <button onClick={openAddEventModal}>Add Event</button>
           </div>
-        }
-
+        ) : null}
       </article>
 
       <article className='members-container'>
@@ -88,7 +89,7 @@ const Events = () => {
         ) : (
           <section className='event-container'>
             <section>
-              {data?.map((event, index) => (
+              {data?.slice(0, visibleEvents).map((event, index) => (
                 <section className='events' key={index}>
                   <div className='event-content'>
                     <p>
@@ -111,10 +112,17 @@ const Events = () => {
                 </section>
               ))}
             </section>
+            {visibleEvents < data?.length && (
+              <div className='flex-btn'>
+                <button className='member' onClick={handleLoadMore}>
+                  Load more
+                </button>
+              </div>
+            )}
           </section>
         )}
       </article>
-      {getEvents.isError && <p>An Error Occured</p>}
+      {getEvents.isError && <p>An Error Occurred</p>}
     </Wrapper>
   )
 }

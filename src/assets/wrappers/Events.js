@@ -8,6 +8,20 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
 
+  .member {
+    padding: 0.5rem 2rem;
+    background-color: #2a4d93;
+    border: none;
+    color: #fff;
+
+    margin: 1rem auto;
+  }
+
+  .flex-btn {
+    display: flex;
+    justify-content: center;
+  }
+
   .skeleton-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

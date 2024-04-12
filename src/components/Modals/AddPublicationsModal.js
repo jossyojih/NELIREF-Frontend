@@ -103,7 +103,7 @@ const AddPublicationsModal = ({ onClose, message }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Add Publications/Research</h3>
           <button onClick={onClose}>

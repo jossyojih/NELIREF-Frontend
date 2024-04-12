@@ -224,6 +224,15 @@ class UserOBJ {
     }
   }
 
+  getGroupPost = async (id) => {
+    try {
+      const response = await api.get(`/api/users/groups/${id}/posts`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
   // Upload document
   uploadDocument = async (formData) => {
     try {

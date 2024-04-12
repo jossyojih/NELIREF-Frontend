@@ -70,7 +70,7 @@ const AddPhotoModal = ({ onClose, message }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <form style={contentStyle} onSubmit={handlePhotoUpload}>
+      <form className='content-style' onSubmit={handlePhotoUpload}>
         <div className='heading'>
           <h3>Add Photo</h3>
           <button onClick={onClose}>

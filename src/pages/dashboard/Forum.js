@@ -5,12 +5,14 @@ import MyForums from '../../components/forums-page/MyForums'
 import { useState } from 'react'
 import ForumModal from '../../components/Modals/ForumModal'
 import ForumRequest from '../../components/forums-page/ForumRequest'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
+import userService from '../../services/api/user'
+import { useQuery } from '@tanstack/react-query'
 
 const Forum = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Photos')
-  const { user } = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user)
   const openModal = () => {
     setIsModalOpen(true)
   }
@@ -19,7 +21,12 @@ const Forum = () => {
     setIsModalOpen(false)
   }
 
+  const forums = useQuery({
+    queryKey: ['get-forum'],
+    queryFn: userService.getForums,
+  })
 
+  console.log(forums)
 
   return (
     <Wrapper>
@@ -31,14 +38,12 @@ const Forum = () => {
             <CiSearch className='search-icon' />
             <input type='text' placeholder='Search forum' />
           </div>
-          {
-            (user.userType === "admin" || user.userType === "super-admin") &&
+          {(user.userType === 'admin' || user.userType === 'super-admin') && (
             <div className='btn-primary '>
               <CgAddR className='icon' />
               <button onClick={openModal}>Create New Forum</button>
             </div>
-          }
-
+          )}
         </div>
       </article>
 
@@ -47,21 +52,23 @@ const Forum = () => {
           <div className='groups'>
             <div className={`tab-btn active`}>
               <div className='groups'>
-                <div
-                  onClick={() => setActiveTab('Photos')}
-                  className={`tab-btn ${activeTab === 'Photos' ? 'active' : ''
+                <div onClick={() => setActiveTab('Photos')}>
+                  <h4
+                    className={`tab-btn ${
+                      activeTab === 'Photos' ? 'active' : 'grey'
                     }`}
-                >
-                  <h4>
-                    Forums <span className='number'>12</span>
+                  >
+                    Forums{' '}
+                    <span className='number'>{forums?.data?.length}</span>
                   </h4>
                 </div>
-                <div
-                  onClick={() => setActiveTab('my-groups')}
-                  className={`tab-btn ${activeTab === 'my-groups' ? 'active' : ''
+                <div>
+                  <h4
+                    onClick={() => setActiveTab('my-groups')}
+                    className={`${
+                      activeTab === 'my-groups' ? 'active' : 'grey'
                     }`}
-                >
-                  <h4>
+                  >
                     Forums Request <span className='number-grey'> 1</span>
                   </h4>
                 </div>

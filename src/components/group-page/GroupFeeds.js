@@ -3,8 +3,10 @@ import profileImg from '../../assets/images/profile.png'
 import { SlLike } from 'react-icons/sl'
 import { TfiCommentAlt } from 'react-icons/tfi'
 import { LuSendHorizonal } from 'react-icons/lu'
+import { useQuery } from '@tanstack/react-query'
+import userServices from '../../services/api/user'
 
-const GroupFeeds = () => {
+const GroupFeeds = ({ id }) => {
   const postData = {
     posts: [
       {
@@ -53,8 +55,43 @@ const GroupFeeds = () => {
     ],
   }
 
+  const getGroupPosts = useQuery({
+    queryKey: ['get-groups-post'],
+    queryFn: () => userServices.getGroupPost(id),
+  })
+
+  const groupPost = getGroupPosts?.data?.posts
+
+  console.log(getGroupPosts)
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
   const [commentInput, setCommentInput] = useState('')
+
+  function formatTimeAgo(dateString) {
+    const currentDate = new Date()
+    const commentDate = new Date(dateString)
+
+    const timeDifference = currentDate - commentDate
+    const seconds = Math.floor(timeDifference / 1000)
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+    const days = Math.floor(hours / 24)
+    const weeks = Math.floor(days / 7)
+    const months = Math.floor(days / 30)
+
+    if (months > 0) {
+      return `${months} ${months === 1 ? 'month' : 'months'} ago`
+    } else if (weeks > 0) {
+      return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`
+    } else if (days > 0) {
+      return `${days} ${days === 1 ? 'day' : 'days'} ago`
+    } else if (hours > 0) {
+      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`
+    } else if (minutes > 0) {
+      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`
+    } else {
+      return 'Just now'
+    }
+  }
 
   const toggleCommentInput = (postId, commentIndex) => {
     setOpenCommentIndex((prevIndex) =>
@@ -77,29 +114,29 @@ const GroupFeeds = () => {
 
   return (
     <div className='app'>
-      {postData.posts.map((post) => (
+      {groupPost?.map((post) => (
         <div key={post.id}>
           <div className='post'>
             <div className='post-author'>
               <div className='img'>
-                <img src={post.img} alt='' />
+                <img src={profileImg} alt='' />
               </div>
               <div>
                 <h3>{post.author}</h3>
-                <p>{post.time}</p>
+                <p>{formatTimeAgo(post.createdAt)}</p>
               </div>
             </div>
             <div className='post-content'>
-              <p>{post.content}</p>
+              <p>{post.message}</p>
             </div>
             <div className='post-likes'>
               <p>
                 <SlLike className='icon' />
-                <span>{post.likes} likes</span>
+                <span>{post.likes.length} likes</span>
               </p>
               <p onClick={() => toggleCommentInput(post.id, 'post')}>
                 <TfiCommentAlt className='icon' />
-                <span>{post.commentsNo} comments</span>
+                <span>{post.comments.length} comments</span>
               </p>
               {openCommentIndex === `${post.id}-post` && (
                 <div className='comment-input-container'>

@@ -117,7 +117,7 @@ const CreatePollModal = ({ onClose, message }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Create Poll</h3>
           <button onClick={onClose}>

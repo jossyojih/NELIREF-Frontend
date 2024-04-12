@@ -206,6 +206,14 @@ const Wrapper = styled.main`
     color: #2a4d93;
   }
 
+  .member.loadmore {
+    margin-top: 1.3rem;
+  }
+
+.grey {
+  color: #b7b4b4;
+}
+
   .all-groups {
     background-color: #fff;
   }

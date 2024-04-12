@@ -32,10 +32,43 @@ const Wrapper = styled.section`
       width: 60%;
       display: block;
       background-color: #fff;
+      animation-name: slideFromLeft;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in-out;
     }
 
     .sidebar-none {
-      display: none;
+      opacity: 1;
+      animation-name: fadeOutAndHide;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards; /* Keeps the final state of the animation */
+    }
+
+    @keyframes slideFromLeft {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(0%);
+      }
+    }
+
+    @keyframes fadeOutAndHide {
+      0% {
+        opacity: 1;
+      }
+
+      20% {
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.5; /* Fade out gradually */
+      }
+      100% {
+        opacity: 0;
+        display: none; /* Hide the element after the animation */
+      }
     }
   }
 `

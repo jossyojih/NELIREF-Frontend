@@ -24,8 +24,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
     width: '35%',
     height: '500px',
     margin: 'auto',
-
-    marginTop: '2%',
+    marginTop: '1%',
     overflowY: 'scroll',
     borderRadius: '5px',
     padding: '1.5rem',
@@ -119,7 +118,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style2'>
         <div className='heading'>
           <h3>Create Group Event</h3>
           <button onClick={onClose}>
@@ -127,7 +126,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
           </button>
         </div>
         <form onSubmit={handleEventUpload}>
-          <label>
+          <label className='reduce'>
             Title of Event
             <input
               type='text'
@@ -136,7 +135,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </label>
-          <label>
+          <label className='reduce'>
             Category
             <select
               value={category}
@@ -146,8 +145,8 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
               <option value='group2'>On-site </option>
             </select>
           </label>
-          <div className='event-flex'>
-            <label>
+          <div className='event-flex '>
+            <label className='reduce'> 
               Event Date
               <input
                 type='date'
@@ -155,7 +154,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
                 onChange={(e) => setEventDate(e.target.value)}
               />
             </label>
-            <label className='event-time'>
+            <label className='event-time reduce'>
               Event Time
               <div className='input-flex'>
                 <input
@@ -174,9 +173,9 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
               </div>
             </label>
           </div>
-          <label className='summary-text'>
+          <label className='summary-text two'>
             Summary of text
-            <p>Summary can include every details of the event.</p>
+            <p className='reduce'>Summary can include every details of the event.</p>
             <textarea
               type='text'
               placeholder='Write here'
@@ -185,14 +184,14 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
             />
           </label>
 
-          <div class='custom-file-upload file'>
+          <div class='custom-file-upload file margin'>
             <input type='file' id='upload' onChange={handleDocumentChange} />
             <RiFileListLine />
             <label for='upload'>
               {selectedDocument ? 'File ready for upload' : 'Choose file'}
             </label>
           </div>
-          <p className='p-info'>
+          <p className='p-info two'>
             You can upload cover photo/ flyer in (jpg, png). Maximum file size
             is 10mb.
           </p>

@@ -117,7 +117,7 @@ const AddEventModal = ({ onClose, message }) => {
 
   return (
     <Wrapper style={modalStyle}>
-      <div style={contentStyle}>
+      <div className='content-style'>
         <div className='heading'>
           <h3>Add Publications/Research</h3>
           <button onClick={onClose}>
@@ -125,7 +125,7 @@ const AddEventModal = ({ onClose, message }) => {
           </button>
         </div>
         <form onSubmit={handleEventUpload}>
-          <label>
+          <label className='reduce'>
             Title of Event
             <input
               type='text'
@@ -134,7 +134,7 @@ const AddEventModal = ({ onClose, message }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </label>
-          <label>
+          <label className='reduce'>
             Category
             <select
               value={category}
@@ -145,7 +145,7 @@ const AddEventModal = ({ onClose, message }) => {
             </select>
           </label>
           <div className='event-flex'>
-            <label>
+            <label className='reduce'>
               Event Date
               <input
                 type='date'
@@ -153,7 +153,7 @@ const AddEventModal = ({ onClose, message }) => {
                 onChange={(e) => setEventDate(e.target.value)}
               />
             </label>
-            <label className='event-time'>
+            <label className='event-time reduce'>
               Event Time
               <div className='input-flex'>
                 <input
@@ -172,7 +172,7 @@ const AddEventModal = ({ onClose, message }) => {
               </div>
             </label>
           </div>
-          <label className='summary-text'>
+          <label className='summary-text two'>
             Summary of text
             <p>Summary can include every details of the event.</p>
             <textarea
@@ -183,14 +183,14 @@ const AddEventModal = ({ onClose, message }) => {
             />
           </label>
 
-          <div class='custom-file-upload file'>
+          <div class='custom-file-upload file margin'>
             <input type='file' id='upload' onChange={handleDocumentChange} />
             <RiFileListLine />
             <label for='upload'>
               {selectedDocument ? 'File ready for upload' : 'Choose file'}
             </label>
           </div>
-          <p className='p-info'>
+          <p className='p-info two'>
             You can upload cover photo/ flyer in (jpg, png). Maximum file size
             is 10mb.
           </p>

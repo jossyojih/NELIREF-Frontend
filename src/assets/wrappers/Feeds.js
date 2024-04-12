@@ -26,6 +26,17 @@ const Wrapper = styled.main`
     outline: none;
   }
 
+  .flex-input {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .icon-send {
+    color: #2a4d93;
+    font-size: 18px;
+  }
+
   .search {
     display: flex;
     align-items: center;

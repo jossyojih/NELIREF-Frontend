@@ -19,6 +19,7 @@ const AllGroups = ({ groups, isError, isPending }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState(null)
   const [message, setMessage] = useState('')
+  const [visibleGroups, setVisibleGroups] = useState(3) // Number of initially visible groups
   const [allGroups, setAllGroups] = useState('')
 
   const openConfirmModal = () => {
@@ -28,8 +29,6 @@ const AllGroups = ({ groups, isError, isPending }) => {
   const closeConfirmModal = () => {
     setConfirmModalOpen(false)
   }
-
-  console.log(groups)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -60,11 +59,16 @@ const AllGroups = ({ groups, isError, isPending }) => {
       toast.error(error)
     },
   })
+
   useEffect(() => {
     console.log(groups)
     console.log(user)
     setAllGroups(groups)
   }, [groups])
+
+  const handleLoadMore = () => {
+    setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 3) // Increase by 4 for each load more click
+  }
 
   return (
     <article className='all-groups'>
@@ -72,79 +76,91 @@ const AllGroups = ({ groups, isError, isPending }) => {
         [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)}
       <section className='flex-column'>
         <>
-          {groups?.map((item, index) => (
-            <section key={index}>
-              {isModalOpen && (
-                <GroupApprovalModal
-                  createdBy={item?.createdBy}
-                  groupId={item?._id}
-                  isOpen={openModal}
-                  onClose={closeModal}
-                />
-              )}
-              <div className='content' key={index}>
-                <div className='img '>
-                  <img src={groupImg} alt={`group-img-${index}`} />
-                </div>
-                <div>
-                  <p
-                    style={{ cursor: 'pointer' }}
-                    onClick={() =>
-                      navigate(`/group/${index}`, { state: { item } })
-                    }
-                  >
-                    <h5>{item.name}</h5>
-                  </p>
+          {groups?.slice(0, visibleGroups).map(
+            (
+              item,
+              index // Only map through visible groups
+            ) => (
+              <section key={index}>
+                {isModalOpen && (
+                  <GroupApprovalModal
+                    createdBy={item?.createdBy}
+                    groupId={item?._id}
+                    isOpen={openModal}
+                    onClose={closeModal}
+                  />
+                )}
+                <div className='content' key={index}>
+                  <div className='img '>
+                    <img src={groupImg} alt={`group-img-${index}`} />
+                  </div>
+                  <div>
+                    <p
+                      style={{ cursor: 'pointer' }}
+                      onClick={() =>
+                        navigate(`/group/${index}`, { state: { item } })
+                      }
+                    >
+                      <h5>{item.name}</h5>
+                    </p>
 
-                  <p>
-                    {item?.privacy === 'public' ? 'All' : item.members?.length}{' '}
-                    Members
-                  </p>
-                  <p>{item.description}</p>
+                    <p>
+                      {item?.privacy === 'public'
+                        ? 'All'
+                        : item.members?.length}{' '}
+                      Members
+                    </p>
+                    <p>{item.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div className='flex'>
-                {item?.privacy === 'public' ||
-                item?.members?.some(
-                  (member) =>
-                    member?.user?._id === user._id &&
-                    member.status === 'approved'
-                ) ? (
-                  <button className='member'>
-                    <MdOutlineCheckBox className='icon' />
-                    Member
-                  </button>
-                ) : item?.members?.some(
+                <div className='flex'>
+                  {item?.privacy === 'public' ||
+                  item?.members?.some(
                     (member) =>
-                      member.user?._id === user?._id &&
-                      member?.status === 'pending'
+                      member?.user?._id === user._id &&
+                      member.status === 'approved'
                   ) ? (
-                  <button className='member'>
-                    <MdOutlineCheckBox className='icon' />
-                    Request Sent
-                  </button>
-                ) : (
-                  <button
-                    className='member'
-                    onClick={() => joinGroup(item?._id)}
-                  >
-                    <MdOutlineCheckBox className='icon' />
-                    Join group
-                  </button>
-                )}
+                    <button className='member'>
+                      <MdOutlineCheckBox className='icon' />
+                      Member
+                    </button>
+                  ) : item?.members?.some(
+                      (member) =>
+                        member.user?._id === user?._id &&
+                        member?.status === 'pending'
+                    ) ? (
+                    <button className='member'>
+                      <MdOutlineCheckBox className='icon' />
+                      Request Sent
+                    </button>
+                  ) : (
+                    <button
+                      className='member'
+                      onClick={() => joinGroup(item?._id)}
+                    >
+                      <MdOutlineCheckBox className='icon' />
+                      Join group
+                    </button>
+                  )}
 
-                {(user?.userType === 'admin' ||
-                  user?.userType === 'super-admin') && (
-                  <button className='member green' onClick={openModal}>
-                    Make Admin
-                  </button>
-                )}
-              </div>
-            </section>
-          ))}
+                  {(user?.userType === 'admin' ||
+                    user?.userType === 'super-admin') && (
+                    <button className='member green' onClick={openModal}>
+                      Make Admin
+                    </button>
+                  )}
+                </div>
+              </section>
+            )
+          )}
         </>
+        {visibleGroups < groups?.length && ( // Show load more button if there are more groups to display
+          <button className='member loadmore' onClick={handleLoadMore}>
+            Load more
+          </button>
+        )}
       </section>
-      {isError && <p>An Error Occured</p>}
+      {isError && <p>An Error Occurred</p>}
       {confirmModalOpen && (
         <ConfirmationModal
           onClose={closeConfirmModal}

@@ -1,5 +1,4 @@
-import group from '../../assets/images/group-img.png'
-import emptystate from '../../assets/images/empty-state.png'
+import React, { useState } from 'react'
 import { MdOutlineCheckBox } from 'react-icons/md'
 import userService from '../../services/api/user'
 import { useQuery } from '@tanstack/react-query'
@@ -9,16 +8,11 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const MyForums = () => {
   const navigate = useNavigate()
-  const data = 1
-  const data2 = [
-    {
-      imgSrc: group,
-      title: 'New members Questions and Answers',
-      membersCount: '12,003 Members',
-      description: 'All Questions concerning our platform can be asked here',
-    },
-    // Add more objects as needed
-  ]
+  const [visibleForums, setVisibleForums] = useState(4) // Number of initially visible forums
+
+  const handleLoadMore = () => {
+    setVisibleForums((prevVisibleForums) => prevVisibleForums + 4) // Increase by 4 for each load more click
+  }
 
   const forums = useQuery({
     queryKey: ['get-forum'],
@@ -32,32 +26,42 @@ const MyForums = () => {
       ) : (
         <article className='all-groups'>
           <section>
-            {forums?.data?.map((item, index) => (
-              <div className='content' key={index}>
-                <div className='img'>
-                  <img src={forumImg} alt={`group-img-${index}`} />
+            {forums?.data?.slice(0, visibleForums).map(
+              (
+                item,
+                index // Only map through visible forums
+              ) => (
+                <div className='content' key={index}>
+                  <div className='img'>
+                    <img src={forumImg} alt={`group-img-${index}`} />
+                  </div>
+                  <div>
+                    <h5
+                      style={{ cursor: 'pointer' }}
+                      onClick={() =>
+                        navigate(`/forum/${index}`, { state: { item } })
+                      }
+                    >
+                      {item.name}
+                    </h5>
+                    <p>{item.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h5
-                    style={{ cursor: 'pointer' }}
-                    onClick={() =>
-                      navigate(`/forum/${index}`, { state: { item } })
-                    }
-                  >
-                    {item.name}
-                  </h5>
-                  <p>{item.description}</p>
-                </div>
-              </div>
-            ))}
-            <button className='member'>
+              )
+            )}
+            <button className='member' onClick={handleLoadMore}>
               <MdOutlineCheckBox className='icon' />
               Member
             </button>
           </section>
+          {visibleForums < forums?.data?.length && ( // Show load more button if there are more forums to display
+            <button className='member' onClick={handleLoadMore}>
+              Load more
+            </button>
+          )}
         </article>
       )}
-      {forums.isError && <p>An Error Occured</p>}
+      {forums.isError && <p>An Error Occurred</p>}
     </article>
   )
 }

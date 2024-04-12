@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query'
 import formatTimeAgo from '../../utils/utilsFunction'
 import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 import Updates from '../../components/feed-page/Updates'
+import { IoSendSharp } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
 
 const Feeds = () => {
@@ -80,12 +81,13 @@ const Feeds = () => {
                     </p>
                     {/* Input button conditionally rendered based on openCommentIndex */}
                     {openCommentIndex === index && (
-                      <div>
+                      <div className='flex-input'>
                         <input
                           type='text'
                           className='comment-input'
                           placeholder='Add a comment...'
                         />
+                        <IoSendSharp className='icon-send' />
                       </div>
                     )}
                   </div>
