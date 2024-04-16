@@ -14,10 +14,9 @@ const GroupFeeds = ({ id }) => {
   })
 
   const groupPost = getGroupPosts?.data?.posts
-
-  console.log(getGroupPosts)
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
   const [commentInput, setCommentInput] = useState('')
+  const [displayCount, setDisplayCount] = useState(3) // Initial display count
 
   function formatTimeAgo(dateString) {
     const currentDate = new Date()
@@ -65,11 +64,15 @@ const GroupFeeds = ({ id }) => {
     setCommentInput('')
   }
 
+  const handleLoadMore = () => {
+    setDisplayCount((prevCount) => prevCount + 3) // Increase display count by 5
+  }
+
   return (
     <div className='app'>
       {getGroupPosts.isPending
         ? [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
-        : groupPost?.map((post) => (
+        : groupPost?.slice(0, displayCount).map((post) => (
             <div key={post.id}>
               <div className='post'>
                 <div className='post-author'>
@@ -77,7 +80,7 @@ const GroupFeeds = ({ id }) => {
                     <img src={profileImg} alt='' />
                   </div>
                   <div>
-                    <h3>{post.author}</h3>
+                    <h3>{'John Doe'}</h3>
                     <p>{formatTimeAgo(post.createdAt)}</p>
                   </div>
                 </div>
@@ -130,7 +133,7 @@ const GroupFeeds = ({ id }) => {
                     <div className='post-likes'>
                       <p>
                         <SlLike className='icon' />
-                        <span>{post.likes} likes</span>
+                        <span>{comment.likes} likes</span>
                       </p>
                       <p
                         onClick={() =>
@@ -138,7 +141,7 @@ const GroupFeeds = ({ id }) => {
                         }
                       >
                         <TfiCommentAlt className='icon' />
-                        <span>{post.commentsNo} comments</span>
+                        <span>{comment.commentsNo} comments</span>
                       </p>
                       {openCommentIndex === `${post.id}-${commentIndex}` && (
                         <div className='comment-input-container'>
@@ -165,6 +168,13 @@ const GroupFeeds = ({ id }) => {
               </div>
             </div>
           ))}
+      {groupPost && groupPost.length > displayCount && (
+        <div className='d-flex'>
+          <button className='load-more-btn' onClick={handleLoadMore}>
+            Load More
+          </button> 
+        </div>
+      )}
     </div>
   )
 }

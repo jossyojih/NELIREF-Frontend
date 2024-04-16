@@ -573,6 +573,22 @@ const Wrapper = styled.main`
     cursor: pointer;
   }
 
+  .d-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .load-more-btn {
+    border: none;
+    background-color: #2a4d93;
+    color: #fff;
+    width: 30%;
+    margin: 1rem auto;
+    padding: 0.65rem;
+    border-radius: 5px;
+  }
+
   .edit-education {
     padding: 1rem;
     display: flex;
