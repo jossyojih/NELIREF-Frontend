@@ -576,7 +576,7 @@ const Wrapper = styled.main`
   .d-flex{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: centero;
   }
 
   .load-more-btn {
