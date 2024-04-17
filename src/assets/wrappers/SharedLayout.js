@@ -18,6 +18,11 @@ const Wrapper = styled.section`
   .small-sidebar {
     display: none;
   }
+
+  .big-sidebar {
+   position: relative;
+  }
+
   @media only screen and (max-width: 1000px) {
     .big-sidebar {
       display: none;
