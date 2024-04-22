@@ -24,16 +24,16 @@ const Wrapper = styled.aside`
     display: flex;
     flex-direction: column;
     color: var(--primary-blue);
-    padding-left: 2rem;
+    padding-left: 1rem;
   }
 
   .nav-link {
     display: flex;
     align-items: center;
     color: var(--grey-500);
-    margin: 1rem 0;
-    padding: 0.7rem 0;
-    padding-left: 1.3rem;
+    margin: .7rem 0;
+    padding: 0.5rem 0;
+    padding-left: 1rem;
     text-transform: capitalize;
     transition: var(--transition);
     text-decoration: none;

@@ -5,34 +5,45 @@ const Wrapper = styled.section`
     max-width: 1440px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 21% auto;
-  }
-  .dashboard-page {
-    margin: 0 auto;
-    padding: 2rem 0;
   }
 
   .dashboard-page {
-    width: 90%;
+    position: relative;
+  }
+
+  .page-dashboard {
+    position: absolute;
+    top: 100px;
+    left: 280px;
+    width: 75%;
   }
   .small-sidebar {
     display: none;
   }
 
   .big-sidebar {
-   position: relative;
+    position: fixed;
+    z-index: 999;
+    width: 250px;
   }
 
   @media only screen and (max-width: 1000px) {
     .big-sidebar {
       display: none;
     }
+
+    .page-dashboard {
+      position: absolute;
+      top: 100px;
+      left: 2rem;
+      width: 100%;
+    }
     .dashboard {
       grid-template-columns: 1fr;
     }
     .small-sidebar {
       position: absolute;
-      z-index: 2;
+      z-index: 1200;
       top: 0;
       width: 60%;
       display: block;
@@ -40,6 +51,7 @@ const Wrapper = styled.section`
       animation-name: slideFromLeft;
       animation-duration: 0.5s;
       animation-timing-function: ease-in-out;
+      
     }
 
     .sidebar-none {

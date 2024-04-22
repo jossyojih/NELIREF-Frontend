@@ -7,11 +7,11 @@ import AllMembers from '../../components/members-page/AllMembers'
 import MyConnections from '../../components/members-page/MyConnections'
 import { useQuery } from '@tanstack/react-query'
 import user from '../../services/api/user'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
 const Members = () => {
   const [activeTab, setActiveTab] = useState('all-members')
-  const { connections } = useSelector((store) => store.user);
+  const { connections } = useSelector((store) => store.user)
   const [myConnections, setMyConnections] = useState([])
 
   const members = useQuery({
@@ -19,17 +19,21 @@ const Members = () => {
     queryFn: user.getMembers,
   })
 
-  const totalMembers = members?.data?.members.reduce(
-    (sum) => sum + 1,
-    0
-  )
+  console.log(members)
+
+  const totalMembers = members?.data?.members.reduce((sum) => sum + 1, 0)
 
   useEffect(() => {
-
     if (connections?.length > 0) {
-      setMyConnections(members?.data?.members.filter(member => connections.some(item => (item.user === member._id && item.status === "connected"))))
+      setMyConnections(
+        members?.data?.members.filter((member) =>
+          connections.some(
+            (item) => item.user === member._id && item.status === 'connected'
+          )
+        )
+      )
     }
-    return () => { }
+    return () => {}
   }, [members?.data?.members])
 
   return (
@@ -43,8 +47,9 @@ const Members = () => {
           <div className='groups'>
             <div
               onClick={() => setActiveTab('all-members')}
-              className={`tab-btn ${activeTab === 'all-members' ? 'active' : ''
-                }`}
+              className={`tab-btn ${
+                activeTab === 'all-members' ? 'active' : ''
+              }`}
             >
               <h4>
                 All Members <span className='number'>{totalMembers}</span>
@@ -52,11 +57,19 @@ const Members = () => {
             </div>
             <div
               onClick={() => setActiveTab('my-connections')}
-              className={`tab-btn ${activeTab === 'my-connections' ? 'active' : ''
-                }`}
+              className={`tab-btn ${
+                activeTab === 'my-connections' ? 'active' : ''
+              }`}
             >
               <h4>
-                My Connections <span className='number-grey'> {connections?.filter(item => item.status === "connected")?.length}</span>
+                My Connections{' '}
+                <span className='number-grey'>
+                  {' '}
+                  {
+                    connections?.filter((item) => item.status === 'connected')
+                      ?.length
+                  }
+                </span>
               </h4>
             </div>
           </div>
@@ -72,9 +85,10 @@ const Members = () => {
 
         <section>
           {activeTab === 'all-members' && <AllMembers members={members} />}
-          {activeTab === 'my-connections' && <MyConnections connections={myConnections} />}
+          {activeTab === 'my-connections' && (
+            <MyConnections connections={myConnections} />
+          )}
         </section>
-       
       </article>
     </Wrapper>
   )

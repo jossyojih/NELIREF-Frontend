@@ -7,12 +7,32 @@ const Wrapper = styled.main`
   gap: 2rem;
   align-items: start;
 
-  .feeds,
+  .feeds {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    height: 450px;
+    overflow-y: scroll;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-btn button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
   .updates {
     background-color: #fff;
     padding: 1rem 2rem;
     border-radius: 15px;
   }
+
   input {
     display: block;
     width: 100%;

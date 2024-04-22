@@ -8,7 +8,10 @@ const Wrapper = styled.nav`
   align-items: center;
   padding: 0.5rem 6rem;
   background-color: #fff;
-  position: relative;
+  position: fixed;
+  width: 100%;
+  left: 10%;
+  z-index: 440;
 
   input {
     display: block;
@@ -103,13 +106,14 @@ const Wrapper = styled.nav`
     cursor: pointer;
   }
 
-  .menu-icon{
+  .menu-icon {
     display: none;
   }
 
   @media only screen and (max-width: 1000px) {
     grid-template-columns: 1fr 3fr 1fr;
     padding: 0.5rem 1rem;
+    left: 0;
 
     .menu-icon {
       display: block;

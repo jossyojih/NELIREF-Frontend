@@ -8,7 +8,7 @@ const AllMembers = ({ members }) => {
   const [userData, setUserData] = useState([])
   const [otherMembers, setOtherMembers] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage] = useState(20)
+  const [itemsPerPage] = useState(3)
 
   useEffect(() => {
     const updateMembersData = () => {
@@ -40,6 +40,20 @@ const AllMembers = ({ members }) => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
+  // Go to next page
+  const nextPage = () => {
+    if (currentPage < Math.ceil(otherMembers?.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  // Go to previous page
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
   return (
     <article className='all-groups'>
       {members?.isPending ? (
@@ -50,7 +64,6 @@ const AllMembers = ({ members }) => {
             userData.map((user) => (
               <MemberCard key={user?._id} member={user} isMe={true} />
             ))}
-
           {currentMembers?.length > 0 &&
             currentMembers.map((member) => (
               <MemberCard key={member?._id} member={member} />
@@ -59,12 +72,14 @@ const AllMembers = ({ members }) => {
       )}
       <section className='pagination'>
         <p>
-          Showing {indexOfFirstItem + 1}-
+          Showing {indexOfFirstItem + 1}-{' '}
           {Math.min(indexOfLastItem, otherMembers?.length)} of{' '}
           {otherMembers?.length} members
         </p>
-
         <div className='pagination-btns'>
+          <button onClick={prevPage} disabled={currentPage === 1}>
+            {'<'}
+          </button>
           {Array.from(
             { length: Math.ceil(otherMembers?.length / itemsPerPage) },
             (_, index) => (
@@ -78,8 +93,7 @@ const AllMembers = ({ members }) => {
             )
           )}
           <button
-            className='next-btn'
-            onClick={() => paginate(currentPage + 1)}
+            onClick={nextPage}
             disabled={
               currentPage === Math.ceil(otherMembers?.length / itemsPerPage)
             }
