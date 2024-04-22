@@ -57,7 +57,7 @@ const Fundings = () => {
             <CiSearch className='search-icon' />
             <input type='text' placeholder='Search funding' />
           </div>
-          <div className='btn-primary '>
+          <div className='btn-primary fund '>
             <CgAddR className='icon' />
             <button onClick={openAddFundingModal}>Create New Funding</button>
           </div>

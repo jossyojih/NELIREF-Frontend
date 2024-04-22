@@ -294,6 +294,12 @@ const Wrapper = styled.main`
     color: #fff;
   }
 
+  .btn-primary.fund {
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+  }
+
   @media screen and (max-width: 700px) {
     .tab-content {
       flex-direction: column;
