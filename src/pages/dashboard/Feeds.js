@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import profile from '../../assets/images/profile.png'
 import Wrapper from '../../assets/wrappers/Feeds'
 import { BsThreeDots } from 'react-icons/bs'
@@ -14,18 +14,18 @@ import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 import Updates from '../../components/feed-page/Updates'
 import { IoSendSharp } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
-import { MdOutlineArrowForwardIos } from 'react-icons/md'
-import { MdOutlineArrowBackIosNew } from 'react-icons/md'
 
 const Feeds = () => {
   const { user } = useSelector((store) => store.user)
   const [pageNum, setPageNum] = useState(1)
   const pageLimit = 10
+  const containerRef = useRef(null)
 
   // Fetch feeds using useQuery
-  const feeds = useQuery({
-    queryKey: ['get-feeds'],
-    queryFn: (page, limit) => userService.getFeeds(pageNum, pageLimit),
+  const { isPending, data, isPreviousData } = useQuery({
+    queryKey: ['get-feeds', pageNum],
+    queryFn: () => userService.getFeeds(pageNum, pageLimit),
+    keepPreviousData: true,
   })
 
   // State to track which comment input is open
@@ -36,22 +36,38 @@ const Feeds = () => {
     setOpenCommentIndex((prevIndex) => (prevIndex === index ? null : index))
   }
 
-  // Function to handle page navigation
-  const handlePageNavigation = (direction) => {
-    if (direction === 'next') {
+  // State to keep track of all data
+  const [allData, setAllData] = useState([])
+
+  const handleScroll = useCallback(() => {
+    const container = containerRef.current
+
+    if (
+      !isPending &&
+      container.scrollTop + container.clientHeight >=
+        container.scrollHeight - 100 &&
+      data?.results?.length >= pageLimit
+    ) {
       setPageNum((prevPageNum) => prevPageNum + 1)
-    } else if (direction === 'prev' && pageNum > 1) {
-      setPageNum((prevPageNum) => prevPageNum - 1)
     }
-  }
+  }, [isPending, data?.results?.length])
 
   useEffect(() => {
-    // Additional logic can be added here if needed
-  }, [feeds])
+    const container = containerRef.current
+
+    container.addEventListener('scroll', handleScroll)
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
+  useEffect(() => {
+    if (data?.results) {
+      setAllData((prevData) => [...prevData, ...data.results])
+    }
+  }, [data])
 
   return (
     <Wrapper>
-      <article className='feeds'>
+      <article className='feeds' ref={containerRef}>
         <section className='search'>
           <CgProfile className='icon' />
           <div className='search'>
@@ -61,10 +77,10 @@ const Feeds = () => {
           <BsCameraVideo className='icon' />
         </section>
 
-        {feeds.isPending ? (
+        {isPending ? (
           [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
-        ) : feeds?.data?.results?.length > 0 ? (
-          feeds.data.results.map((feed, index) => (
+        ) : allData.length > 0 ? (
+          allData.map((feed, index) => (
             <section key={index} className='feeds-card'>
               <div>
                 <div className='feeds-content'>
@@ -113,26 +129,6 @@ const Feeds = () => {
         ) : (
           <p className='no-members'>No more members to display</p>
         )}
-        <div
-          className='nav-btn'
-          style={{
-            display: feeds?.data?.results?.length > 0 ? 'flex' : 'none',
-            justifyContent: 'space-between',
-          }}
-        >
-          <button
-            onClick={() => handlePageNavigation('prev')}
-            disabled={pageNum <= 1}
-          >
-            <MdOutlineArrowBackIosNew />
-          </button>
-          <button
-            onClick={() => handlePageNavigation('next')}
-            disabled={feeds?.data?.results?.length === 0}
-          >
-            <MdOutlineArrowForwardIos />
-          </button>
-        </div>
       </article>
       <Updates />
     </Wrapper>
