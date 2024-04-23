@@ -31,7 +31,7 @@ const Wrapper = styled.aside`
     display: flex;
     align-items: center;
     color: var(--grey-500);
-    margin: .7rem 0;
+    margin: 0.7rem 0;
     padding: 0.5rem 0;
     padding-left: 1rem;
     text-transform: capitalize;
@@ -43,6 +43,7 @@ const Wrapper = styled.aside`
     padding-left: 2rem;
     background-color: var(--primary-blue);
     border-radius: 60px 0px 0px 60px;
+    margin-left: 1rem;
     color: #fff;
   }
 
