@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import profile from '../../assets/images/profile.png'
 import Wrapper from '../../assets/wrappers/Feeds'
 import { BsThreeDots } from 'react-icons/bs'
@@ -23,7 +23,7 @@ const Feeds = () => {
   const containerRef = useRef(null)
 
   // Fetch feeds using useQuery
-  const { isPending, data, isPreviousData } = useQuery({
+  const { isPending, data } = useQuery({
     queryKey: ['get-feeds', pageNum],
     queryFn: () => userService.getFeeds(pageNum, pageLimit),
     keepPreviousData: true,
@@ -77,16 +77,7 @@ const Feeds = () => {
           <BsCameraVideo className='icon' />
         </section>
 
-        {isPending ? (
-          <div className='center-rotate'>
-            <RotatingLines
-              type='Oval'
-              style={{ color: '#FFF' }}
-              height={20}
-              width={20}
-            />
-          </div>
-        ) : allData?.length > 0 ? (
+        {allData?.length > 0 ? (
           allData?.map((feed, index) => (
             <section key={index} className='feeds-card'>
               <div>
@@ -134,9 +125,20 @@ const Feeds = () => {
             </section>
           ))
         ) : (
-          <p className='no-members'>No more members to display</p>
+          <p className='no-members'></p>
+        )}
+        {isPending && (
+          <div className='center-rotate'>
+            <RotatingLines
+              type='Oval'
+              style={{ color: '#FFF' }}
+              height={20}
+              width={20}
+            />
+          </div>
         )}
       </article>
+
       <Updates />
     </Wrapper>
   )
