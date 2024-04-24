@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
 import { FaPlus } from 'react-icons/fa6'
 
 const MakePostModal = ({ onClose, message, id }) => {
+  const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -16,6 +17,7 @@ const MakePostModal = ({ onClose, message, id }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1222,
   }
 
   const contentStyle = {
@@ -37,6 +39,7 @@ const MakePostModal = ({ onClose, message, id }) => {
     queryKey: ['get-posts'],
     onSuccess: (data) => {
       toast.success('Post created successfully')
+         queryClient.invalidateQueries(['get-group-posts'])
       onClose()
     },
     onError: (error) => {

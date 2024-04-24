@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { RiFileListLine } from 'react-icons/ri'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
+import zIndex from '@mui/material/styles/zIndex'
 
 const AddPublicationsModal = ({ onClose, message }) => {
+  const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -17,6 +19,7 @@ const AddPublicationsModal = ({ onClose, message }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1200,
   }
 
   const contentStyle = {
@@ -94,6 +97,7 @@ const AddPublicationsModal = ({ onClose, message }) => {
     queryKey: ['get-publications'],
     onSuccess: (data) => {
       toast.success('Document uploaded successfully')
+         queryClient.invalidateQueries(['get-publications'])
     },
     onError: (error) => {
       console.error('Error:', error)

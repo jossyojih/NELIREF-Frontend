@@ -4,12 +4,13 @@ import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
 import { useState } from 'react'
 import SuccessModal from './SuccessModal'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { RotatingLines } from 'react-loader-spinner'
 import userService from '../../services/api/user'
 
 const ForumModal = ({ isOpen, onClose }) => {
+  const queryClient = useQueryClient()
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -35,6 +36,7 @@ const ForumModal = ({ isOpen, onClose }) => {
     mutationFn: userService.addForum,
     onSuccess: (data) => {
       setIsSuccessModalOpen(true)
+      queryClient.invalidateQueries(['get-forums'])
     },
     onError: (error) => {
       toast.error('Error')

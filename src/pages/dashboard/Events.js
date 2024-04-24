@@ -39,7 +39,7 @@ const Events = () => {
   }
 
   const getEvents = useQuery({
-    queryKey: ['get-upload-events'],
+    queryKey: ['get-events'],
     queryFn: userService.getEvents,
   })
 

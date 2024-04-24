@@ -20,14 +20,13 @@ const SuccessModal = ({ onClose, message }) => {
     overflow: 'hidden',
     borderRadius: '5px',
     padding: '1.5rem',
+    zIndex: 1222,
   }
   return (
     <Wrapper style={modalStyle}>
       <div style={contentStyle}>
         <h3>Succes!</h3>
-        <p>
-          {message}
-        </p>
+        <p>{message}</p>
 
         <button onClick={onClose}>Continue</button>
       </div>

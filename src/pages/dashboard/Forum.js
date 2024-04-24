@@ -22,7 +22,7 @@ const Forum = () => {
   }
 
   const forums = useQuery({
-    queryKey: ['get-forum'],
+    queryKey: ['get-forums'],
     queryFn: userService.getForums,
   })
 

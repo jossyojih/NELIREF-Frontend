@@ -1,3 +1,5 @@
+import zIndex from '@mui/material/styles/zIndex'
+
 const GenericModal = ({ isOpen, children }) => {
   const modalStyle = {
     display: isOpen ? 'block' : 'none',
@@ -7,6 +9,7 @@ const GenericModal = ({ isOpen, children }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1300,
   }
 
   const contentStyle = {
@@ -17,6 +20,7 @@ const GenericModal = ({ isOpen, children }) => {
     height: '500px',
     overflowY: 'scroll',
     borderRadius: '5px',
+    zIndex: 1300,
   }
 
   return (

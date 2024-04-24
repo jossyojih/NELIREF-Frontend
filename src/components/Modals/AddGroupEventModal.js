@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { RiFileListLine } from 'react-icons/ri'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
 
 const AddGroupEventModal = ({ onClose, message, id }) => {
+   const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -17,6 +18,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1222,
   }
 
   const contentStyle = {
@@ -108,6 +110,7 @@ const AddGroupEventModal = ({ onClose, message, id }) => {
     queryKey: ['get-group-events'],
     onSuccess: (data) => {
       toast.success('Event saved successfully')
+        queryClient.invalidateQueries(['get-group-events'])
       onClose()
     },
     onError: (error) => {

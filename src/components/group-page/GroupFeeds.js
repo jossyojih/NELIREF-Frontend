@@ -9,7 +9,7 @@ import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 
 const GroupFeeds = ({ id }) => {
   const getGroupPosts = useQuery({
-    queryKey: ['get-groups-post'],
+    queryKey: ['get-group-posts'],
     queryFn: () => userServices.getGroupPost(id),
   })
 
@@ -172,7 +172,7 @@ const GroupFeeds = ({ id }) => {
         <div className='d-flex'>
           <button className='load-more-btn' onClick={handleLoadMore}>
             Load More
-          </button> 
+          </button>
         </div>
       )}
     </div>

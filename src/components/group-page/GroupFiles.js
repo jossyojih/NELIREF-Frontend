@@ -22,7 +22,7 @@ const jsonData = [
 
 const GroupFiles = ({ id }) => {
   const getGroupFiles = useQuery({
-    queryKey: [''],
+    queryKey: ['get-group-files'],
     queryFn: () => userServices.getGroupDocuments(id),
   })
 

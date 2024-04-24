@@ -3,7 +3,7 @@ import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
 import { MdInsertPhoto } from 'react-icons/md'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
@@ -11,7 +11,7 @@ import { MdPhoto } from 'react-icons/md'
 import { RotatingLines } from 'react-loader-spinner'
 
 const AddFundingModal = ({ onClose, message }) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -20,6 +20,7 @@ const AddFundingModal = ({ onClose, message }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1222,
   }
 
   const contentStyle = {
@@ -67,14 +68,14 @@ const AddFundingModal = ({ onClose, message }) => {
       return
     }
     if (!selecteDocument) {
-      if (!window.confirm("No image selected. Click Ok to continue.")) return
+      if (!window.confirm('No image selected. Click Ok to continue.')) return
     }
 
     if (!summaryValue) {
       toast.error('Please enter summary')
       return
     }
-    let formData;
+    let formData
 
     if (selecteDocument) {
       formData = new FormData()
@@ -86,7 +87,7 @@ const AddFundingModal = ({ onClose, message }) => {
       formData = {
         title: documentTitle,
         summary: summaryValue,
-        url: urlValue
+        url: urlValue,
       }
     }
 
@@ -99,12 +100,13 @@ const AddFundingModal = ({ onClose, message }) => {
     }
   }
 
-
   const documentMutation = useMutation({
-    mutationFn: selecteDocument ? user.addFundings : user.addFundingsWithoutImage,
+    mutationFn: selecteDocument
+      ? user.addFundings
+      : user.addFundingsWithoutImage,
     onSuccess: (data) => {
       toast.success('Funding uploaded successfully')
-      queryClient.invalidateQueries(['get-fundings']);
+      queryClient.invalidateQueries(['get-fundings'])
       onClose()
     },
     onError: (error) => {

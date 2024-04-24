@@ -331,6 +331,7 @@ const Wrapper = styled.article`
     overflow: hidden;
     border-radius: 5px;
     padding: 1.5rem;
+    z-index: 99999;
   }
   .content-style2 {
     background-color: white;
@@ -340,6 +341,7 @@ const Wrapper = styled.article`
     overflow: hidden;
     border-radius: 5px;
     padding: 1rem;
+    z-index: 99999;
   }
 
   @media only screen and (max-width: 700px) {

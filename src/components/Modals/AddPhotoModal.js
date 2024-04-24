@@ -3,13 +3,14 @@ import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
 import { MdInsertPhoto } from 'react-icons/md'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { RotatingLines } from 'react-loader-spinner'
 import user from '../../services/api/user'
 
 const AddPhotoModal = ({ onClose, message }) => {
+    const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -18,6 +19,7 @@ const AddPhotoModal = ({ onClose, message }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1222,
   }
 
   const contentStyle = {
@@ -61,6 +63,7 @@ const AddPhotoModal = ({ onClose, message }) => {
     queryKey: ['get-photos'],
     onSuccess: (data) => {
       toast.success('Photo uploaded successfully')
+       queryClient.invalidateQueries(['get-photos'])
     },
     onError: (error) => {
       console.error('Error:', error)

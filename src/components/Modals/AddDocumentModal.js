@@ -3,14 +3,16 @@ import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
 import { MdInsertPhoto } from 'react-icons/md'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
 import { useEffect } from 'react'
+import zIndex from '@mui/material/styles/zIndex'
 
 const AddDocumentModal = ({ onClose, message }) => {
+  const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -19,6 +21,7 @@ const AddDocumentModal = ({ onClose, message }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1220,
   }
 
   const [selectedGroup, setSelectedGroup] = useState()
@@ -88,9 +91,11 @@ const AddDocumentModal = ({ onClose, message }) => {
 
   const documentMutation = useMutation({
     mutationFn: user.uploadDocument,
+
     queryKey: ['get-documents'],
     onSuccess: (data) => {
       toast.success('Document uploaded successfully')
+      queryClient.invalidateQueries(['get-documents'])
     },
     onError: (error) => {
       console.error('Error:', error)

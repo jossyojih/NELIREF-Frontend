@@ -5,7 +5,7 @@ import SkeletonGridCard from '../../components/skeletons/SkeletonGridCard'
 
 const GroupEvents = ({ id }) => {
   const getGroupEvents = useQuery({
-    queryKey: [''],
+    queryKey: ['get-group-events'],
     queryFn: () => userServices.getGroupEvents(id),
   })
   const options = { month: 'long', day: 'numeric' }

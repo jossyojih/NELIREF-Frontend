@@ -2,13 +2,14 @@ import React from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { loginSuccess } from '../../redux/reducers/userReducer'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
 
 const AddUsefulLinks = ({ onClose, message }) => {
+  const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -17,6 +18,7 @@ const AddUsefulLinks = ({ onClose, message }) => {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1222,
   }
 
   const contentStyle = {
@@ -49,6 +51,7 @@ const AddUsefulLinks = ({ onClose, message }) => {
     queryKey: ['get-usefull-links'],
     onSuccess: (data) => {
       toast.success('Link Added')
+      queryClient.invalidateQueries(['get-usefull-links'])
     },
     onError: (error) => {
       toast.error(error)
