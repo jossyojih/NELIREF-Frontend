@@ -14,6 +14,7 @@ import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 import Updates from '../../components/feed-page/Updates'
 import { IoSendSharp } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
+import { RotatingLines } from 'react-loader-spinner'
 
 const Feeds = () => {
   const { user } = useSelector((store) => store.user)
@@ -39,25 +40,24 @@ const Feeds = () => {
   // State to keep track of all data
   const [allData, setAllData] = useState([])
 
-  const handleScroll = useCallback(() => {
-    const container = containerRef.current
-
-    if (
-      !isPending &&
-      container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 100 &&
-      data?.results?.length >= pageLimit
-    ) {
-      setPageNum((prevPageNum) => prevPageNum + 1)
-    }
-  }, [isPending, data?.results?.length])
-
   useEffect(() => {
-    const container = containerRef.current
+    const handleWindowScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight
+      const scrollTop = document.documentElement.scrollTop
+      const clientHeight = document.documentElement.clientHeight
 
-    container.addEventListener('scroll', handleScroll)
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [handleScroll])
+      if (
+        !isPending &&
+        scrollTop + clientHeight >= scrollHeight - 100 &&
+        data?.results?.length >= pageLimit
+      ) {
+        setPageNum((prevPageNum) => prevPageNum + 1)
+      }
+    }
+
+    window.addEventListener('scroll', handleWindowScroll)
+    return () => window.removeEventListener('scroll', handleWindowScroll)
+  }, [isPending, data?.results?.length])
 
   useEffect(() => {
     if (data?.results) {
@@ -66,8 +66,8 @@ const Feeds = () => {
   }, [data])
 
   return (
-    <Wrapper>
-      <article className='feeds' ref={containerRef}>
+    <Wrapper ref={containerRef}>
+      <article className='feeds'>
         <section className='search'>
           <CgProfile className='icon' />
           <div className='search'>
@@ -78,9 +78,16 @@ const Feeds = () => {
         </section>
 
         {isPending ? (
-          [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
-        ) : allData.length > 0 ? (
-          allData.map((feed, index) => (
+          <div className='center-rotate'>
+            <RotatingLines
+              type='Oval'
+              style={{ color: '#FFF' }}
+              height={20}
+              width={20}
+            />
+          </div>
+        ) : allData?.length > 0 ? (
+          allData?.map((feed, index) => (
             <section key={index} className='feeds-card'>
               <div>
                 <div className='feeds-content'>

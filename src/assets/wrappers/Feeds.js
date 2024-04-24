@@ -11,10 +11,12 @@ const Wrapper = styled.main`
     background-color: #fff;
     padding: 1rem 2rem;
     border-radius: 15px;
-    height: 450px;
-    overflow-y: scroll;
   }
 
+  .center-rotate {
+    display: flex;
+    justify-content: center;
+  }
   .nav-btn {
     display: flex;
     align-items: center;
