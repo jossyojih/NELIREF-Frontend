@@ -1,25 +1,20 @@
 import React, { useState } from 'react'
 import Wrapper from '../../assets/wrappers/Events'
-import {
-  IoIosArrowDown,
-  IoIosArrowForward,
-  IoIosArrowBack,
-} from 'react-icons/io'
-import { RiHotspotLine } from 'react-icons/ri'
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import { CiSearch } from 'react-icons/ci'
 import { CgAddR } from 'react-icons/cg'
-import { BsImage } from 'react-icons/bs'
 import AddFundingModal from '../../components/Modals/AddFundingModal'
 import { useQuery } from '@tanstack/react-query'
 import user from '../../services/api/user'
-import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6'
 import SkeletonGridCard from '../../components/skeletons/SkeletonGridCard'
+import { useSelector } from 'react-redux'
 
 const Fundings = () => {
   const [activeTab, setActiveTab] = useState('all-members')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isAddFundingModalOpen, setIsAddFundingModalOpen] = useState(false)
+  const { user } = useSelector((store) => store.user)
 
   const closeAddFundingModal = () => {
     setIsAddFundingModalOpen(false)
@@ -43,7 +38,6 @@ const Fundings = () => {
     queryFn: user.getFundings,
   })
 
-
   return (
     <Wrapper>
       {isAddFundingModalOpen && (
@@ -57,10 +51,13 @@ const Fundings = () => {
             <CiSearch className='search-icon' />
             <input type='text' placeholder='Search funding' />
           </div>
-          <div className='btn-primary fund '>
-            <CgAddR className='icon' />
-            <button onClick={openAddFundingModal}>Create New Funding</button>
-          </div>
+
+          {(user.userType === 'admin' || user.userType === 'super-admin') && (
+            <div className='btn-primary fund' onClick={openAddFundingModal}>
+              <CgAddR className='icon' />
+              <button onClick={openAddFundingModal}>Create New Funding</button>
+            </div>
+          )}
         </div>
       </article>
 
