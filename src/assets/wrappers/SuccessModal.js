@@ -148,6 +148,8 @@ const Wrapper = styled.article`
 
   .photo-icon {
     font-size: 100px;
+    width: 50%;
+    margin: 1rem auto;
     color: #b7b4b4;
     display: flex;
     align-items: center;

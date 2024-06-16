@@ -207,8 +207,9 @@ const Wrapper = styled.main`
 
   .all-groups section {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
+    gap: 1rem;
     padding: 1.5rem;
     border: 1.5px #b7b4b4 solid;
   }

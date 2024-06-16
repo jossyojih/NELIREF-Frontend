@@ -24,6 +24,51 @@ const Wrapper = styled.main`
     font-weight: 600;
   }
 
+  .bg-img-container {
+    position: relative;
+  }
+
+  .icon-edit {
+    color: #2a4d93;
+    cursor: pointer;
+  }
+
+  .edit-profile {
+    font-size: 40px;
+    position: absolute;
+    bottom: 1rem;
+    left: 90%;
+    color: #2a4d93;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  .edit-photo {
+    font-size: 40px;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 0;
+    right: 0;
+    background-color: #f2f7fd;
+    border-radius: 50%;
+    color: #2a4d93;
+  }
+
+  .edit-photo .icon-edit {
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
   .comment-input-container {
     display: flex;
     gap: 0.3rem;
@@ -102,6 +147,8 @@ const Wrapper = styled.main`
     background-color: #fff;
     border-radius: 50%;
     margin-top: -4rem;
+    position: relative;
+    z-index: 9;
   }
 
   .profile-image img {
@@ -573,7 +620,7 @@ const Wrapper = styled.main`
     cursor: pointer;
   }
 
-  .d-flex{
+  .d-flex {
     display: flex;
     align-items: center;
     justify-content: centero;

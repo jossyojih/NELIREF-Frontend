@@ -49,16 +49,12 @@ const MyForums = () => {
                 </div>
               )
             )}
-            <button className='member' onClick={handleLoadMore}>
-              <MdOutlineCheckBox className='icon' />
-              Member
-            </button>
+            {visibleForums < forums?.data?.length && ( // Show load more button if there are more forums to display
+              <button className='member' onClick={handleLoadMore}>
+                Load more
+              </button>
+            )}
           </section>
-          {visibleForums < forums?.data?.length && ( // Show load more button if there are more forums to display
-            <button className='member' onClick={handleLoadMore}>
-              Load more
-            </button>
-          )}
         </article>
       )}
       {forums.isError && <p>An Error Occurred</p>}

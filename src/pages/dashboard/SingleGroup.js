@@ -18,6 +18,9 @@ import AddGroupEventModal from '../../components/Modals/AddGroupEventModal'
 import CreatePollModal from '../../components/Modals/CreatePollModal'
 import MakePostModal from '../../components/Modals/MakePostModal'
 import AddGroupDocumentModal from '../../components/Modals/AddGroupDocumentModal'
+import EditGroup from '../../components/Modals/EditGroup'
+import EditGroupPhoto from '../../components/Modals/EditGroupPhoto'
+import { CiEdit } from 'react-icons/ci'
 
 const SingleGroup = () => {
   const location = useLocation()
@@ -26,6 +29,23 @@ const SingleGroup = () => {
   const { id } = useParams()
 
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
+  const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false)
+  const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false)
+
+  const openIsEditPhotoModal = () => {
+    setIsEditPhotoModalOpen(true)
+  }
+
+  const closeIsEditPhotoModal = () => {
+    setIsEditPhotoModalOpen(false)
+  }
+
+  const openEditGroupModal = () => {
+    setIsEditGroupModalOpen(true)
+  }
+  const closeEditGroupModal = () => {
+    setIsEditGroupModalOpen(false)
+  }
   // Access the item object from the location state
   const item = location.state?.item
   const groupId = item._id
@@ -91,9 +111,22 @@ const SingleGroup = () => {
           id={groupId}
         />
       )}
+      {isEditPhotoModalOpen && (
+        <EditGroupPhoto onClose={closeIsEditPhotoModal} id={groupId} />
+      )}
+
+      <EditGroup
+        isOpen={isEditGroupModalOpen}
+        id={groupId}
+        onClose={closeEditGroupModal}
+      />
+
       <article>
-        <div>
+        <div className='bg-img-container'>
           <img src={profileBg} alt='' />
+          <span className='edit-profile' onClick={openEditGroupModal}>
+            <CiEdit className='icon-edit' />
+          </span>
         </div>
         <section className='profile-summary'>
           <div className='profile-image'>
@@ -105,6 +138,9 @@ const SingleGroup = () => {
               alt=''
               className='img'
             />
+            <span className='edit-photo' onClick={openIsEditPhotoModal}>
+              <CiEdit className='icon-edit' />
+            </span>
           </div>
           <div>
             <h3 className='profile-name'>{item?.name}</h3>
