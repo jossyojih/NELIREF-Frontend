@@ -24,6 +24,17 @@ const Wrapper = styled.main`
     font-weight: 600;
   }
 
+  .post-likes {
+    margin-left: 3rem;
+  }
+
+  .post-likes #liked {
+    color: #2a4d93;
+  }
+
+  .post-likes p#unlike {
+    color: #b7b4b4;
+  }
   .bg-img-container {
     position: relative;
   }
@@ -67,12 +78,20 @@ const Wrapper = styled.main`
     display: flex;
     align-items: center;
     justify-content: center;
-
   }
-  .comment-input-container {
+  .comment-input-container form {
     display: flex;
     gap: 0.3rem;
-    width: 60%;
+    width: 80%;
+    margin-left: 3rem;
+    margin-top: 0.5rem;
+    align-items: center;
+  }
+
+  .comment-input-container input {
+    display: block;
+    padding: 0.5rem;
+    width: 50%;
   }
 
   a {
@@ -290,6 +309,7 @@ const Wrapper = styled.main`
     font-size: 22px;
     color: #2a4d93;
     display: block;
+    cursor: pointer;
   }
 
   .icons {
@@ -524,6 +544,10 @@ const Wrapper = styled.main`
   }
 
   .post-content {
+    font-size: 12px;
+    margin-left: 3rem;
+  }
+  .post-content p {
     font-size: 12px;
   }
 

@@ -1,47 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import profileImg from '../../assets/images/profile.png'
 import { SlLike } from 'react-icons/sl'
 import { TfiCommentAlt } from 'react-icons/tfi'
 import { LuSendHorizonal } from 'react-icons/lu'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import userServices from '../../services/api/user'
 import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
+import { RotatingLines } from 'react-loader-spinner'
+import { toast } from 'react-toastify'
+import formatTimeAgo from '../../utils/utilsFunction'
 
 const GroupFeeds = ({ id }) => {
+  const queryClient = useQueryClient()
+
   const getGroupPosts = useQuery({
-    queryKey: ['get-group-posts'],
+    queryKey: ['get-group-posts', id],
     queryFn: () => userServices.getGroupPost(id),
   })
 
   const groupPost = getGroupPosts?.data?.posts
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
-  const [commentInput, setCommentInput] = useState('')
+  const [commentInputs, setCommentInputs] = useState({})
   const [displayCount, setDisplayCount] = useState(2) // Initial display count
 
-  function formatTimeAgo(dateString) {
-    const currentDate = new Date()
-    const commentDate = new Date(dateString)
+  const likeMutation = useMutation({
+    mutationFn: (postId) => userServices.likeGroupPost(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-group-posts', id])
+      toast.success('Like added successfully')
+    },
+    onError: (error) => {
+      console.error('Like error:', error)
+      toast.error('Error liking post')
+    },
+  })
 
-    const timeDifference = currentDate - commentDate
-    const seconds = Math.floor(timeDifference / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
-    const weeks = Math.floor(days / 7)
-    const months = Math.floor(days / 30)
+  const commentMutation = useMutation({
+    mutationFn: ({ postId, comment }) =>
+      userServices.groupComment(postId, { comment }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-group-posts', id])
+      toast.success('Comment added successfully')
+    },
+    onError: (error) => {
+      console.error('Comment error:', error)
+      toast.error('Error adding comment')
+    },
+  })
 
-    if (months > 0) {
-      return `${months} ${months === 1 ? 'month' : 'months'} ago`
-    } else if (weeks > 0) {
-      return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`
-    } else if (days > 0) {
-      return `${days} ${days === 1 ? 'day' : 'days'} ago`
-    } else if (hours > 0) {
-      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`
-    } else if (minutes > 0) {
-      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`
-    } else {
-      return 'Just now'
+  const handleLike = (postId) => {
+    likeMutation.mutate(postId)
+  }
+
+  const handleCommentChange = (index, value) => {
+    setCommentInputs((prev) => ({
+      ...prev,
+      [index]: value,
+    }))
+  }
+
+  const handleCommentSubmit = (e, postId, index) => {
+    e.preventDefault()
+    const comment = commentInputs[index]
+    if (comment) {
+      commentMutation.mutate({ postId, comment })
+      setCommentInputs((prev) => ({
+        ...prev,
+        [index]: '',
+      }))
     }
   }
 
@@ -51,29 +77,22 @@ const GroupFeeds = ({ id }) => {
         ? null
         : `${postId}-${commentIndex}`
     )
-    setCommentInput('')
-  }
-
-  const handleCommentChange = (event) => {
-    setCommentInput(event.target.value)
-  }
-
-  const handleCommentSubmit = (postId, commentIndex) => {
-    console.log('Comment submitted:', commentInput) // Replace with actual submission logic
-    setOpenCommentIndex(null)
-    setCommentInput('')
+    setCommentInputs((prev) => ({
+      ...prev,
+      [`${postId}-${commentIndex}`]: '',
+    }))
   }
 
   const handleLoadMore = () => {
-    setDisplayCount((prevCount) => prevCount + 3) // Increase display count by 5
+    setDisplayCount((prevCount) => prevCount + 3) // Increase display count by 3
   }
 
   return (
     <div className='app'>
-      {getGroupPosts.isPending
+      {getGroupPosts.isLoading
         ? [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
-        : groupPost?.slice(0, displayCount).map((post) => (
-            <div key={post.id}>
+        : groupPost?.slice(0, displayCount).map((post, index) => (
+            <div key={post._id}>
               <div className='post'>
                 <div className='post-author'>
                   <div className='img'>
@@ -85,86 +104,50 @@ const GroupFeeds = ({ id }) => {
                   </div>
                 </div>
                 <div className='post-content'>
-                  <p>{post.message}</p>
+                  {post.comments?.map((comment, index) => (
+                    <p key={index}>{comment.comment}</p>
+                  ))}
                 </div>
                 <div className='post-likes'>
-                  <p>
-                    <SlLike className='icon' />
-                    <span>{post.likes.length} likes</span>
+                  <p id={post.likes.includes(post._id) ? 'liked' : 'unlike'}>
+                    <SlLike onClick={() => handleLike(post._id)} />
+                    <span>
+                      {post.likes.length === 0 ? 'like' : post.likes.length}
+                    </span>
                   </p>
-                  <p onClick={() => toggleCommentInput(post.id, 'post')}>
+                  <p onClick={() => toggleCommentInput(post._id, 'post')}>
                     <TfiCommentAlt className='icon' />
-                    <span>{post.comments.length} comments</span>
+                    <span>
+                      {post.comments.length === 0 ? '' : post.comments.length}{' '}
+                      comments
+                    </span>
                   </p>
-                  {openCommentIndex === `${post.id}-post` && (
-                    <div className='comment-input-container'>
+                </div>
+                {openCommentIndex === `${post._id}-post` && (
+                  <div className='comment-input-container'>
+                    <form
+                      onSubmit={(e) =>
+                        handleCommentSubmit(e, post._id, `${post._id}-post`)
+                      }
+                    >
                       <input
                         type='text'
                         className='comment-input'
                         placeholder='Add a comment...'
-                        value={commentInput}
-                        onChange={handleCommentChange}
+                        value={commentInputs[`${post._id}-post`] || ''}
+                        onChange={(e) =>
+                          handleCommentChange(
+                            `${post._id}-post`,
+                            e.target.value
+                          )
+                        }
                       />
-                      <button
-                        className='comment-submit-btn'
-                        onClick={() => handleCommentSubmit(post.id, 'post')}
-                      >
+                      <button className='comment-submit-btn' type='submit'>
                         <LuSendHorizonal />
                       </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className='comments'>
-                {post.comments.map((comment, commentIndex) => (
-                  <div key={comment.id} className='comment'>
-                    <div className='post-author'>
-                      <div className='img'>
-                        <img src={comment.img} alt='' />
-                      </div>
-                      <div>
-                        <h3>{comment.author}</h3>
-                        <p>{comment.time}</p>
-                      </div>
-                    </div>
-                    <div className='post-content'>
-                      <p>{comment.content}</p>
-                    </div>
-                    <div className='post-likes'>
-                      <p>
-                        <SlLike className='icon' />
-                        <span>{comment.likes} likes</span>
-                      </p>
-                      <p
-                        onClick={() =>
-                          toggleCommentInput(post.id, commentIndex)
-                        }
-                      >
-                        <TfiCommentAlt className='icon' />
-                        <span>{comment.commentsNo} comments</span>
-                      </p>
-                      {openCommentIndex === `${post.id}-${commentIndex}` && (
-                        <div className='comment-input-container'>
-                          <input
-                            type='text'
-                            className='comment-input'
-                            placeholder='Add a comment...'
-                            value={commentInput}
-                            onChange={handleCommentChange}
-                          />
-                          <button
-                            className='comment-submit-btn'
-                            onClick={() =>
-                              handleCommentSubmit(post.id, commentIndex)
-                            }
-                          >
-                            <LuSendHorizonal />
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                    </form>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           ))}

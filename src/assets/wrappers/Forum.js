@@ -245,6 +245,21 @@ const Wrapper = styled.main`
     color: #1e1e1e;
   }
 
+  .forums {
+    background-color: #fff;
+  }
+
+  .content.forum {
+    border: 1px solid #b7b4b4;
+    padding: 20px;
+  }
+
+  .edit-btns {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+  }
   .member.join-group {
     background-color: #fff;
     color: #1e1e1e;

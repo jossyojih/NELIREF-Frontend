@@ -95,6 +95,18 @@ class AdminOBJ {
       throw err?.response?.data || err.message
     }
   }
+  // Update Single Forum
+
+  editForum = async (params, data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.patch(`api/admin/forums/${params}`, data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
 
   //Update Group Photo
 
@@ -102,6 +114,25 @@ class AdminOBJ {
     try {
       const response = await api.patch(
         `/api/admin/groups/${params}/photo`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+  
+  //Update forum Photo
+  updateForumPhoto = async (params, formData) => {
+    try {
+      const response = await api.patch(
+        `/api/admin/forums/${params}/photo`,
         formData,
         {
           headers: {

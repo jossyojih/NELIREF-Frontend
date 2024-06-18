@@ -5,10 +5,35 @@ import { useQuery } from '@tanstack/react-query'
 import forumImg from '../../assets/images/group-img.png'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
 import { Link, useNavigate } from 'react-router-dom'
-
+import EditForumPhoto from '../Modals/EditForumPhoto'
+import EditForumModal from '../Modals/EditForumModal'
 const MyForums = () => {
   const navigate = useNavigate()
   const [visibleForums, setVisibleForums] = useState(4) // Number of initially visible forums
+  const [isEditForumModalOpen, setIsEditForumModalOpen] = useState(false)
+  const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false)
+  const [editForumData, setEditForumData] = useState({ id: null, item: null })
+  const [editForumPhoto, setEditForumPhoto] = useState(null)
+
+  // New state to store edit forum data
+
+  const openIsEditPhotoModal = (id) => {
+    setEditForumPhoto(id)
+    setIsEditPhotoModalOpen(true)
+  }
+
+  const closeIsEditPhotoModal = () => {
+    setIsEditPhotoModalOpen(false)
+  }
+
+  const openEditForumModal = (id, item) => {
+    setEditForumData({ id, item }) // Set the id and item to state
+    setIsEditForumModalOpen(true)
+  }
+
+  const closeEditForumModal = () => {
+    setIsEditForumModalOpen(false)
+  }
 
   const handleLoadMore = () => {
     setVisibleForums((prevVisibleForums) => prevVisibleForums + 4) // Increase by 4 for each load more click
@@ -31,9 +56,9 @@ const MyForums = () => {
                 item,
                 index // Only map through visible forums
               ) => (
-                <div className='content' key={index}>
+                <div className='content forum' key={index}>
                   <div className='img'>
-                    <img src={forumImg} alt={`group-img-${index}`} />
+                    <img src={item.photo} alt={`group-img-${index}`} />
                   </div>
                   <div>
                     <h5
@@ -45,6 +70,20 @@ const MyForums = () => {
                       {item.name}
                     </h5>
                     <p>{item.description}</p>
+                    <div className='edit-btns'>
+                      <button
+                        className='member'
+                        onClick={() => openEditForumModal(item?._id, item)}
+                      >
+                        Edit Forum
+                      </button>
+                      <button
+                        className='member'
+                        onClick={() => openIsEditPhotoModal(item?._id)}
+                      >
+                        Edit Photo
+                      </button>
+                    </div>
                   </div>
                 </div>
               )
@@ -58,6 +97,19 @@ const MyForums = () => {
         </article>
       )}
       {forums.isError && <p>An Error Occurred</p>}
+      <EditForumModal
+        isOpen={isEditForumModalOpen}
+        id={editForumData?.id} // Pass the id from state
+        onClose={closeEditForumModal}
+        item={editForumData?.item} // Pass the item from state
+      />
+
+      {isEditPhotoModalOpen && (
+        <EditForumPhoto
+          onClose={closeIsEditPhotoModal}
+          id={editForumPhoto} // Pass the id from state
+        />
+      )}
     </article>
   )
 }
