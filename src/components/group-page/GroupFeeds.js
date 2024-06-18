@@ -27,7 +27,6 @@ const GroupFeeds = ({ id }) => {
     mutationFn: (postId) => userServices.likeGroupPost(postId),
     onSuccess: () => {
       queryClient.invalidateQueries(['get-group-posts', id])
-      toast.success('Like added successfully')
     },
     onError: (error) => {
       console.error('Like error:', error)

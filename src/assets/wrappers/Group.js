@@ -28,12 +28,14 @@ const Wrapper = styled.main`
     margin-left: 3rem;
   }
 
-  .post-likes #liked {
+  .post .post-likes #liked {
     color: #2a4d93;
+    cursor: pointer;
   }
 
-  .post-likes p#unlike {
-    color: #b7b4b4;
+  .post .post-likes #unlike {
+    color: #2a4d93;
+    cursor: pointer;
   }
   .bg-img-container {
     position: relative;

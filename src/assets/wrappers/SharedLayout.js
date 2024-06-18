@@ -21,10 +21,15 @@ const Wrapper = styled.section`
     display: none;
   }
 
+  .big-sidebar aside {
+    height: 100vh;
+  }
+
   .big-sidebar {
     position: fixed;
     z-index: 999;
     width: 250px;
+    height: 100vh;
   }
 
   @media only screen and (max-width: 1000px) {
@@ -51,7 +56,6 @@ const Wrapper = styled.section`
       animation-name: slideFromLeft;
       animation-duration: 0.5s;
       animation-timing-function: ease-in-out;
-      
     }
 
     .sidebar-none {
