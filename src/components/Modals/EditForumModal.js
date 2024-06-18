@@ -1,28 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import GenericModal from './GenericModal'
 import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
-import { useState, useEffect } from 'react'
 import SuccessModal from './SuccessModal'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import adminService from '../../services/api/admin'
-import { toast } from 'react-toastify'
-import ConfirmationModal from './ConfirmationModal'
-import { RotatingLines } from 'react-loader-spinner'
 import userService from '../../services/api/admin'
+import { toast } from 'react-toastify'
+import { RotatingLines } from 'react-loader-spinner'
 
 const EditForumModal = ({ isOpen, onClose, id, item }) => {
   const queryClient = useQueryClient()
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const [message, setMessage] = useState(item)
-
-  console.log(message)
-  console.log(id)
+  const [title, setTitle] = useState('')
+  const [privacy, setPrivacy] = useState('public')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     setMessage(item)
-  }, [id])
+    setTitle(item?.name || '')
+    setPrivacy(item?.privacy || 'public')
+    setDescription(item?.description || '')
+  }, [item])
 
   const openConfirmModal = () => {
     setConfirmModalOpen(true)
@@ -31,9 +31,6 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
   const closeConfirmModal = () => {
     setConfirmModalOpen(false)
   }
-  const [title, setTitle] = useState(item?.name)
-  const [privacy, setPrivacy] = useState(item?.privacy)
-  const [description, setDescription] = useState(item?.description)
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value)
@@ -51,6 +48,7 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
     e.preventDefault()
     setIsSuccessModalOpen(true)
   }
+
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false)
     onClose()
@@ -63,7 +61,6 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
       setIsSuccessModalOpen(true)
     },
     onError: (error) => {
-      // Handle login error
       toast.error('Error')
     },
   })
@@ -82,15 +79,10 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
       toast.error('Description is required')
       return
     }
-    // If there are no validation errors, submit the form
     mutation.mutate({
       params: id,
       data: { name: title, privacy, description },
     })
-
-    setTitle('')
-    setPrivacy('public')
-    setDescription('')
   }
 
   const renderDescriptionWithLineBreaks = (description) => {
@@ -113,8 +105,8 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
         <form>
           <p className='note'>
             Fill in details of the forum you want to create, also indicate if
-            you wan it private or public. Approval for the forum should take a
-            maximum of 72 hours
+            you want it private or public. Approval for the forum should take a
+            maximum of 72 hours.
           </p>
           <div>
             <label>Title of Group</label>
@@ -137,7 +129,7 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
             <label>Description (What will the group be about)</label>
             <textarea
               type='text'
-              placeholder='Enter title here'
+              placeholder='Enter description here'
               value={description}
               onChange={handleDescriptionChange}
             />
@@ -146,7 +138,6 @@ const EditForumModal = ({ isOpen, onClose, id, item }) => {
           </div>
           <div className='btn'>
             <button onClick={handleSubmit}>
-              {' '}
               {mutation.isPending ? (
                 <RotatingLines
                   type='Oval'
