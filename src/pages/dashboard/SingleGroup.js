@@ -27,6 +27,7 @@ const SingleGroup = () => {
   const [activeTab, setActiveTab] = useState('feeds')
   const { user } = useSelector((state) => state.user)
   const { id } = useParams()
+  console.log(location)
 
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
   const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false)
@@ -111,15 +112,9 @@ const SingleGroup = () => {
           id={groupId}
         />
       )}
-      {isEditPhotoModalOpen && (
+      {/* {isEditPhotoModalOpen && (
         <EditGroupPhoto onClose={closeIsEditPhotoModal} id={groupId} />
-      )}
-
-      <EditGroup
-        isOpen={isEditGroupModalOpen}
-        id={groupId}
-        onClose={closeEditGroupModal}
-      />
+      )} */}
 
       <article>
         <div className='bg-img-container'>
@@ -138,7 +133,7 @@ const SingleGroup = () => {
               alt=''
               className='img'
             />
-            <span className='edit-photo' onClick={openIsEditPhotoModal}>
+            <span className='edit-photo'>
               <CiEdit className='icon-edit' />
             </span>
           </div>

@@ -16,7 +16,7 @@ const GroupFeeds = ({ id }) => {
   const groupPost = getGroupPosts?.data?.posts
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
   const [commentInput, setCommentInput] = useState('')
-  const [displayCount, setDisplayCount] = useState(3) // Initial display count
+  const [displayCount, setDisplayCount] = useState(2) // Initial display count
 
   function formatTimeAgo(dateString) {
     const currentDate = new Date()

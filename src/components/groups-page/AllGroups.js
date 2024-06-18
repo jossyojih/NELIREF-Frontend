@@ -10,6 +10,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import ConfirmationModal from '../Modals/ConfirmationModal'
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
+import EditGroup from '../Modals/EditGroup'
+import EditGroupPhoto from '../Modals/EditGroupPhoto'
 
 const AllGroups = ({ groups, isError, isPending }) => {
   const navigate = useNavigate()
@@ -21,6 +23,30 @@ const AllGroups = ({ groups, isError, isPending }) => {
   const [message, setMessage] = useState('')
   const [visibleGroups, setVisibleGroups] = useState(3) // Number of initially visible groups
   const [allGroups, setAllGroups] = useState('')
+  const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false)
+  const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false)
+  const [editGroupData, setEditGroupData] = useState({ id: null, item: null })
+  const [editGroupPhoto, setEditGroupPhoto] = useState(null)
+
+  // New state to store edit group data
+
+  const openIsEditPhotoModal = (id) => {
+    setEditGroupPhoto(id)
+    setIsEditPhotoModalOpen(true)
+  }
+
+  const closeIsEditPhotoModal = () => {
+    setIsEditPhotoModalOpen(false)
+  }
+
+  const openEditGroupModal = (id, item) => {
+    setEditGroupData({ id, item }) // Set the id and item to state
+    setIsEditGroupModalOpen(true)
+  }
+
+  const closeEditGroupModal = () => {
+    setIsEditGroupModalOpen(false)
+  }
 
   const openConfirmModal = () => {
     setConfirmModalOpen(true)
@@ -70,6 +96,8 @@ const AllGroups = ({ groups, isError, isPending }) => {
     setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 3) // Increase by 4 for each load more click
   }
 
+  console.log(allGroups)
+
   return (
     <article className='all-groups'>
       {isPending &&
@@ -90,6 +118,7 @@ const AllGroups = ({ groups, isError, isPending }) => {
                     onClose={closeModal}
                   />
                 )}
+
                 <div className='content' key={index}>
                   <div className='img '>
                     <img src={groupImg} alt={`group-img-${index}`} />
@@ -111,6 +140,20 @@ const AllGroups = ({ groups, isError, isPending }) => {
                       Members
                     </p>
                     <p>{item.description}</p>
+                    <div className='edit-btns'>
+                      <button
+                        className='member'
+                        onClick={() => openEditGroupModal(item?._id, item)}
+                      >
+                        Edit Group
+                      </button>
+                      <button
+                        className='member'
+                        onClick={() => openIsEditPhotoModal(item?._id)}
+                      >
+                        Edit Photo
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div className='flex'>
@@ -167,6 +210,20 @@ const AllGroups = ({ groups, isError, isPending }) => {
           action={() => mutation.mutate(selectedGroup)}
           isLoading={mutation?.isPending}
           message={message}
+        />
+      )}
+
+      <EditGroup
+        isOpen={isEditGroupModalOpen}
+        id={editGroupData?.id} // Pass the id from state
+        onClose={closeEditGroupModal}
+        item={editGroupData?.item} // Pass the item from state
+      />
+
+      {isEditPhotoModalOpen && (
+        <EditGroupPhoto
+          onClose={closeIsEditPhotoModal}
+          id={setEditGroupPhoto?.id}
         />
       )}
     </article>

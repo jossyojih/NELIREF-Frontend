@@ -8,6 +8,12 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
 
+  .edit-btns {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    gap: 1rem;
+  }
   .flex {
     display: flex;
     align-items: center;
@@ -210,9 +216,9 @@ const Wrapper = styled.main`
     margin-top: 1.3rem;
   }
 
-.grey {
-  color: #b7b4b4;
-}
+  .grey {
+    color: #b7b4b4;
+  }
 
   .all-groups {
     background-color: #fff;

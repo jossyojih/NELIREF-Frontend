@@ -443,6 +443,55 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  //Like feeds
+
+  likeFeed = async (params) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/users/feeds/${params}/reaction`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Comment of feeds
+  commentFeed = async (params, data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/users/feeds/${params}/comment`, data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Like group post
+  likeGroupPost = async (params) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/users/groups/posts/${params}/reaction`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Comment on group
+  groupComment= async (params, data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/users/groups/posts/${params}/comment`, data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
 }
 
 const user = new UserOBJ()

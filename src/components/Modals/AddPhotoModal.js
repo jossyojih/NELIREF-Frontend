@@ -91,7 +91,9 @@ const AddPhotoModal = ({ onClose, message }) => {
           </p>
           <div class='custom-file-upload'>
             <input type='file' id='upload' onChange={handlePhotoChange} />
-            <label for='upload'>Upload photo</label>
+            <label for='upload'>
+              {selectedPhoto ? 'File ready for upload' : 'Choose file'}
+            </label>
           </div>
         </div>
         <button className='action-btn' type='submit'>

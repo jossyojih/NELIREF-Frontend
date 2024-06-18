@@ -2,27 +2,27 @@ import React from 'react'
 import GenericModal from './GenericModal'
 import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SuccessModal from './SuccessModal'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import adminService from '../../services/api/admin'
 import { toast } from 'react-toastify'
 import ConfirmationModal from './ConfirmationModal'
 import { RotatingLines } from 'react-loader-spinner'
-import userService from '../../services/api/user'
+import userService from '../../services/api/admin'
 
-const EditGroup = ({ isOpen, onClose }) => {
+const EditGroup = ({ isOpen, onClose, id, item }) => {
   const queryClient = useQueryClient()
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(item)
 
-  const [formData, setFormData] = useState({
-    name: '',
-    privacy: '',
-    description: '',
-  })
-  const [formErrors, setFormErrors] = useState({})
+  console.log(message)
+  console.log(id)
+
+  useEffect(() => {
+    setMessage(item)
+  }, [id])
 
   const openConfirmModal = () => {
     setConfirmModalOpen(true)
@@ -31,9 +31,9 @@ const EditGroup = ({ isOpen, onClose }) => {
   const closeConfirmModal = () => {
     setConfirmModalOpen(false)
   }
-  const [title, setTitle] = useState('')
-  const [privacy, setPrivacy] = useState('public')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState(item?.name)
+  const [privacy, setPrivacy] = useState(item?.privacy)
+  const [description, setDescription] = useState(item?.description)
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value)
@@ -57,7 +57,7 @@ const EditGroup = ({ isOpen, onClose }) => {
   }
 
   const mutation = useMutation({
-    mutationFn: userService.createGroup,
+    mutationFn: ({ params, data }) => userService.editGroup(params, data),
     onSuccess: (data) => {
       queryClient.invalidateQueries(['get-groups'])
       setIsSuccessModalOpen(true)
@@ -84,9 +84,8 @@ const EditGroup = ({ isOpen, onClose }) => {
     }
     // If there are no validation errors, submit the form
     mutation.mutate({
-      name: title,
-      privacy,
-      description,
+      params: id,
+      data: { name: title, privacy, description },
     })
 
     setTitle('')
@@ -164,15 +163,6 @@ const EditGroup = ({ isOpen, onClose }) => {
         {isSuccessModalOpen ? (
           <SuccessModal onClose={closeSuccessModal} />
         ) : null}
-
-        {confirmModalOpen && (
-          <ConfirmationModal
-            onClose={closeConfirmModal}
-            action={mutation.mutate}
-            isLoading={mutation.isPending}
-            message={message}
-          />
-        )}
       </Wrapper>
     </GenericModal>
   )

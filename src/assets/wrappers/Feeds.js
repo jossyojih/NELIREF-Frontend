@@ -49,14 +49,22 @@ const Wrapper = styled.main`
   }
 
   .flex-input {
+    margin-left: 3rem;
+    margin-top: 0.5rem;
+  }
+
+  .flex-input form {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
   .icon-send {
     color: #2a4d93;
-    font-size: 24px;
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
   }
 
   .search {
@@ -107,11 +115,36 @@ const Wrapper = styled.main`
     font-size: 12px;
     gap: 0.5rem;
   }
+
+  .feed-icon.liked {
+    color: #2a4d93;
+  }
+
+  .feed-icon.unlike {
+    color: #b7b4b4;
+  }
+
+  .feed-icons p {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+  }
+
   .feed-icon {
-    color: var(--primary-blue);
+    color: #b7b4b4;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+    margin-left: 3rem;
+  }
+
+  .comments {
+    margin-left: 3rem;
+  }
+
+  .comments p {
+    font-size: 13px;
+    margin: 0.5rem 0;
   }
 
   .comment-input {

@@ -7,9 +7,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { RotatingLines } from 'react-loader-spinner'
-import user from '../../services/api/user'
+import user from '../../services/api/admin'
 
-const EditGroupPhoto = ({ onClose, message }) => {
+const EditGroupPhoto = ({ onClose, id }) => {
   const queryClient = useQueryClient()
   const modalStyle = {
     display: 'block',
@@ -22,6 +22,7 @@ const EditGroupPhoto = ({ onClose, message }) => {
     zIndex: 1222,
   }
 
+  console.log("Hello " + id)
   const contentStyle = {
     backgroundColor: 'white',
     width: '30%',
@@ -49,7 +50,10 @@ const EditGroupPhoto = ({ onClose, message }) => {
       formData.append('photo', selectedPhoto)
 
       try {
-        await documentMutation.mutateAsync(formData)
+        await documentMutation.mutateAsync({
+          params: id,
+          formData,
+        })
         setSelectedPhoto(null)
         onClose() // Reset selected file after upload
       } catch (error) {
@@ -59,7 +63,7 @@ const EditGroupPhoto = ({ onClose, message }) => {
   }
 
   const documentMutation = useMutation({
-    mutationFn: user.uploadPhoto,
+    mutationFn: ({ params, data }) => user.updateGroupPhoto(params, data),
     queryKey: ['get-photos'],
     onSuccess: (data) => {
       toast.success('Photo uploaded successfully')
@@ -75,7 +79,7 @@ const EditGroupPhoto = ({ onClose, message }) => {
     <Wrapper style={modalStyle}>
       <form className='content-style' onSubmit={handlePhotoUpload}>
         <div className='heading'>
-          <h3>Edit Photo</h3>
+          <h3>Edit group Photo</h3>
           <button onClick={onClose}>
             <IoMdClose />
           </button>
@@ -91,7 +95,9 @@ const EditGroupPhoto = ({ onClose, message }) => {
           </p>
           <div class='custom-file-upload'>
             <input type='file' id='upload' onChange={handlePhotoChange} />
-            <label for='upload'>Upload photo</label>
+            <label for='upload'>
+              {selectedPhoto ? 'File ready for upload' : 'Choose file'}
+            </label>
           </div>
         </div>
         <button className='action-btn' type='submit'>
@@ -103,7 +109,7 @@ const EditGroupPhoto = ({ onClose, message }) => {
               width={20}
             />
           ) : (
-            <>Update Photo</>
+            <>Upload photo</>
           )}
         </button>
       </form>
