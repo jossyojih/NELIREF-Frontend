@@ -10,7 +10,7 @@ const MyGroups = ({ groups }) => {
   }
 
   return (
-    <article className='all-groups'>
+    <article className=' my-groups'>
       <section className='all-groups-section'>
         {groups.slice(0, visibleGroups).map(
           (
@@ -21,19 +21,19 @@ const MyGroups = ({ groups }) => {
               <div className='img img-my'>
                 <img src={groupImg} alt={`group-img-${index}`} />
               </div>
-              <div>
-                <h5>{item.name}</h5>
+              <div className='my-group-content'>
+                <h5 id='heading'>{item.name}</h5>
                 <p>
                   {item?.privacy === 'public' ? 'All' : item.members?.length}{' '}
                   Members
                 </p>
-                <p>{item.description}</p>
+                <p id='desc'>{item.description}</p>
               </div>
             </div>
           )
         )}
         {visibleGroups < groups.length && ( // Show load more button if there are more groups to display
-          <button className='member loadmore' onClick={handleLoadMore}>
+          <button className='member loadmore group' onClick={handleLoadMore}>
             Load more
           </button>
         )}
