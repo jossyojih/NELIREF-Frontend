@@ -15,6 +15,7 @@ import { IoSendSharp } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
 import { RotatingLines } from 'react-loader-spinner'
 import { toast } from 'react-toastify'
+import PostCard from '../../components/feed-page/Postcard'
 
 const Feeds = () => {
   const { user } = useSelector((store) => store.user)
@@ -41,7 +42,7 @@ const Feeds = () => {
     },
   })
 
-  console.log(data)
+  console.log(allData)
 
   // State to track which comment input is open
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
@@ -140,70 +141,79 @@ const Feeds = () => {
 
         {allData?.length > 0 ? (
           allData?.map((feed, index) => (
-            <section key={index} className='feeds-card'>
-              <div>
-                <div className='feeds-content'>
+            <>
+              {feed.group ? (
+                <PostCard key={feed._id} post={feed} />
+              ) : (
+                <section key={index} className='feeds-card'>
                   <div>
-                    <img
-                      src={profile}
-                      width={34}
-                      alt='profile'
-                      className='profile'
-                    />
+                    <div className='feeds-content'>
+                      <div>
+                        <img
+                          src={profile}
+                          style={{ width: '40px' }}
+                          alt='profile'
+                          className='profile'
+                        />
+                      </div>
+                      <div>
+                        <p>
+                          {user._id === feed.user && feed.type === 'new-reg'
+                            ? 'You became a registered member'
+                            : feed.message}
+                        </p>
+                        <p className='time'>{formatTimeAgo(feed.createdAt)}</p>
+                      </div>
+                    </div>
+                    <div className='feeds-icons'>
+                      <p>
+                        <SlLike
+                          className={`feed-icon ${
+                            feed.likes.includes(user._id) ? 'liked' : 'unlike'
+                          }`}
+                          onClick={() => handleLike(feed._id)}
+                        />
+                        {feed.likes.length === 0 ? 'like' : feed.likes.length}
+                      </p>
+                      <p onClick={() => toggleCommentInput(index)}>
+                        <TfiCommentAlt className='feed-icon' /> Comment
+                      </p>
+                      {/* Input button conditionally rendered based on openCommentIndex */}
+                    </div>
+                    {openCommentIndex === index && (
+                      <div className='flex-input'>
+                        <form
+                          onSubmit={(e) =>
+                            handleCommentSubmit(e, feed._id, index)
+                          }
+                        >
+                          <input
+                            type='text'
+                            className='comment-input'
+                            placeholder='Add a comment...'
+                            value={commentInputs[index] || ''}
+                            onChange={(e) =>
+                              handleCommentChange(index, e.target.value)
+                            }
+                          />
+                          <button type='submit' className='icon-send'>
+                            <IoSendSharp />
+                          </button>
+                        </form>
+                      </div>
+                    )}
+                    <div className='comments'>
+                      {feed.comments?.map((comment, index) => (
+                        <p key={index}>{comment.comment}</p>
+                      ))}
+                    </div>
                   </div>
                   <div>
-                    <p>
-                      {user._id === feed.user && feed.type === 'new-reg'
-                        ? 'You became a registered member'
-                        : feed.message}
-                    </p>
-                    <p className='time'>{formatTimeAgo(feed.createdAt)}</p>
+                    <BsThreeDots />
                   </div>
-                </div>
-                <div className='feeds-icons'>
-                  <p>
-                    <SlLike
-                      className={`feed-icon ${feed.likes.includes(user._id) ? 'liked' : 'unlike'
-                        }`}
-                      onClick={() => handleLike(feed._id)}
-                    />
-                    {feed.likes.length === 0 ? 'like' : feed.likes.length}
-                  </p>
-                  <p onClick={() => toggleCommentInput(index)}>
-                    <TfiCommentAlt className='feed-icon' /> Comment
-                  </p>
-                  {/* Input button conditionally rendered based on openCommentIndex */}
-                </div>
-                {openCommentIndex === index && (
-                  <div className='flex-input'>
-                    <form
-                      onSubmit={(e) => handleCommentSubmit(e, feed._id, index)}
-                    >
-                      <input
-                        type='text'
-                        className='comment-input'
-                        placeholder='Add a comment...'
-                        value={commentInputs[index] || ''}
-                        onChange={(e) =>
-                          handleCommentChange(index, e.target.value)
-                        }
-                      />
-                      <button type='submit' className='icon-send'>
-                        <IoSendSharp />
-                      </button>
-                    </form>
-                  </div>
-                )}
-                <div className='comments'>
-                  {feed.comments?.map((comment, index) => (
-                    <p key={index}>{comment.comment}</p>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <BsThreeDots />
-              </div>
-            </section>
+                </section>
+              )}
+            </>
           ))
         ) : (
           <p className='no-members'></p>

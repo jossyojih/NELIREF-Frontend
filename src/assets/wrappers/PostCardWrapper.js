@@ -672,17 +672,6 @@ const Wrapper = styled.main`
     display: flex;
     justify-content: space-between;
   }
-
-  @media screen and (max-width: 700px) {
-    /* Your styles for screens with a maximum width of 500px and below */
-    .aside {
-      display: none;
-    }
-
-    .tab-container {
-      grid-template-columns: 1fr;
-    }
-  }
 `
 
 export default Wrapper
