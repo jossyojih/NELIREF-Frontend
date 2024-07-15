@@ -27,7 +27,7 @@ const SingleGroup = () => {
   const [activeTab, setActiveTab] = useState('feeds')
   const { user } = useSelector((state) => state.user)
   const { id } = useParams()
-  console.log(location)
+
 
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
   const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false)
@@ -142,7 +142,7 @@ const SingleGroup = () => {
             <p>
               {' '}
               <span>{item?.members?.length} Members</span> |{' '}
-              <span> 243 Online</span>
+              <span> { } Online</span>
             </p>
           </div>
         </section>
@@ -194,7 +194,7 @@ const SingleGroup = () => {
           </div>
           {activeTab === 'feeds' && <GroupFeeds id={groupId} />}
           {activeTab === 'events' && <GroupEvents id={groupId} />}
-          {activeTab === 'members' && <GroupMembers members={item?.members} />}
+          {activeTab === 'members' && <GroupMembers members={item?.members} id={groupId} />}
           {activeTab === 'files' && <GroupFiles id={groupId} />}
         </section>
         <section className='aside'>

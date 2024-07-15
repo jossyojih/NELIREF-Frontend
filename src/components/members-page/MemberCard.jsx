@@ -16,7 +16,6 @@ const MemberCard = ({ member, isMe }) => {
   const [message, setMessage] = useState('')
   const [activeMember, setActiveMember] = useState(null)
   const queryClient = useQueryClient()
-  console.log(member)
 
   const openConfirmModal = () => {
     setConfirmModalOpen(true)

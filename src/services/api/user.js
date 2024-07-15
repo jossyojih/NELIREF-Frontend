@@ -432,6 +432,18 @@ class UserOBJ {
     }
   }
 
+  AcceptGroupJoinGroup = async (groupId, data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/users/groups/${groupId}/action`, data)
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+
   //Forum Members
   addForumMember = async (forum, data) => {
     try {
@@ -482,7 +494,7 @@ class UserOBJ {
   }
 
   //Comment on group
-  groupComment= async (params, data) => {
+  groupComment = async (params, data) => {
     try {
       // Check if data is not empty
 

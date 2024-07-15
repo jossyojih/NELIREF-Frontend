@@ -129,14 +129,14 @@ const Feeds = () => {
   return (
     <Wrapper ref={containerRef}>
       <article className='feeds'>
-        <section className='search'>
+        {/* <section className='search'>
           <CgProfile className='icon' />
           <div className='search'>
             <input type='text' placeholder='search' />
           </div>
           <HiOutlinePhotograph className='icon' />
           <BsCameraVideo className='icon' />
-        </section>
+        </section> */}
 
         {allData?.length > 0 ? (
           allData?.map((feed, index) => (
@@ -163,9 +163,8 @@ const Feeds = () => {
                 <div className='feeds-icons'>
                   <p>
                     <SlLike
-                      className={`feed-icon ${
-                        feed.likes.includes(user._id) ? 'liked' : 'unlike'
-                      }`}
+                      className={`feed-icon ${feed.likes.includes(user._id) ? 'liked' : 'unlike'
+                        }`}
                       onClick={() => handleLike(feed._id)}
                     />
                     {feed.likes.length === 0 ? 'like' : feed.likes.length}
