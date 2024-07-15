@@ -28,7 +28,6 @@ const SingleGroup = () => {
   const { user } = useSelector((state) => state.user)
   const { id } = useParams()
 
-
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
   const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false)
   const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false)
@@ -50,6 +49,8 @@ const SingleGroup = () => {
   // Access the item object from the location state
   const item = location.state?.item
   const groupId = item._id
+
+  console.log(item)
 
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
@@ -140,9 +141,16 @@ const SingleGroup = () => {
           <div>
             <h3 className='profile-name'>{item?.name}</h3>
             <p>
-              {' '}
-              <span>{item?.members?.length} Members</span> |{' '}
-              <span> { } Online</span>
+              {item?.privacy === 'public' ? (
+                <p>
+                  <span> All Members</span> | <span> {} Online</span>
+                </p>
+              ) : (
+                <p>
+                  <span>{item?.members?.length} Members</span> |{' '}
+                  <span> {} Online</span>
+                </p>
+              )}
             </p>
           </div>
         </section>
@@ -170,7 +178,14 @@ const SingleGroup = () => {
               onClick={() => setActiveTab('members')}
               className={`tab-btn ${activeTab === 'members' ? 'active' : ''}`}
             >
-              Members <span className='member-no'>{item?.members?.length}</span>
+              {item?.privacy === 'public' ? (
+                ''
+              ) : (
+                <p>
+                  Members {''}{' '}
+                  <span className='member-no'>{item?.members?.length}</span>
+                </p>
+              )}
             </h3>
           </div>
         </div>
@@ -194,7 +209,9 @@ const SingleGroup = () => {
           </div>
           {activeTab === 'feeds' && <GroupFeeds id={groupId} />}
           {activeTab === 'events' && <GroupEvents id={groupId} />}
-          {activeTab === 'members' && <GroupMembers members={item?.members} id={groupId} />}
+          {activeTab === 'members' && (
+            <GroupMembers members={item?.members} id={groupId} />
+          )}
           {activeTab === 'files' && <GroupFiles id={groupId} />}
         </section>
         <section className='aside'>

@@ -57,10 +57,10 @@ const MyForums = () => {
                 index // Only map through visible forums
               ) => (
                 <div className='content forum' key={index}>
-                  <div className='img'>
+                  <div style={{width:"250px"}} className='img'>
                     <img src={item.photo} alt={`group-img-${index}`} />
                   </div>
-                  <div>
+                  <div style={{width:"70%"}}>
                     <h5
                       style={{ cursor: 'pointer' }}
                       onClick={() =>
@@ -69,7 +69,7 @@ const MyForums = () => {
                     >
                       {item.name}
                     </h5>
-                    <p>{item.description}</p>
+                    <p style={{textAlign:"justify"}}>{item.description}</p>
                     <div className='edit-btns'>
                       <button
                         className='member'

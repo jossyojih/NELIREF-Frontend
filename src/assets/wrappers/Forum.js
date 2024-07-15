@@ -210,6 +210,7 @@ const Wrapper = styled.main`
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
+    background-color: #fff;
     padding: 1.5rem;
   }
 
@@ -374,16 +375,6 @@ const Wrapper = styled.main`
       margin-bottom: 1rem;
     }
 
-    .img {
-      height: 100px;
-    }
-
-    .content .img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
     .content .img {
       width: 100%;
       height: 150px;
