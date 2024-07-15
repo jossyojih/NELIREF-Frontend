@@ -8,7 +8,6 @@ import userServices from '../../services/api/user'
 import { toast } from 'react-toastify'
 import formatTimeAgo from '../../utils/utilsFunction'
 
-
 const PostCard = ({ post }) => {
   const queryClient = useQueryClient()
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
@@ -62,7 +61,6 @@ const PostCard = ({ post }) => {
     }
   }
 
-  console.log(post)
   const toggleCommentInput = (postId, commentIndex) => {
     setOpenCommentIndex((prevIndex) =>
       prevIndex === `${postId}-${commentIndex}`
@@ -87,7 +85,6 @@ const PostCard = ({ post }) => {
             <p>{formatTimeAgo(post.createdAt)}</p>
           </div>
         </div>
-        <p style={{ margin: '1rem 0' }}>{post.message}</p>
 
         <div
           style={{
@@ -99,42 +96,7 @@ const PostCard = ({ post }) => {
         >
           <img src={post.file.url} alt='' />
         </div>
-        <div
-          style={{ marginTop: '1.5rem', marginBottom: '1rem' }}
-          className='post-content'
-        >
-          {post.comments?.map((comment, index) => (
-            <div
-              key={index}
-              style={{
-                display: 'flex',
-                gap: '1rem',
-                alignItems: 'start',
-                marginTop: '1.5rem',
-                marginBottom: '1rem',
-              }}
-            >
-              <img
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  objectFit: 'cover',
-                  display: 'block',
-                  borderRadius: '50%',
-                }}
-                src={comment.by.photo}
-                alt=''
-              />
-
-              <div>
-                <h3 style={{ color: 'rgb(42, 77, 147)', fontWeight: '400' }}>
-                  {comment.by.full_name}
-                </h3>
-                <p style={{ fontSize: '12px' }}>{comment.comment}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <p style={{ margin: '1rem 0' }}>{post.message}</p>
         <div style={{ marginLeft: '4rem' }} className='post-likes'>
           <p id={post.likes.includes(post._id) ? 'icon-liked' : 'icon-unlike'}>
             <SlLike
@@ -155,25 +117,61 @@ const PostCard = ({ post }) => {
           </p>
         </div>
         {openCommentIndex === `${post._id}-post` && (
-          <div className='comment-input-container'>
-            <form
-              onSubmit={(e) =>
-                handleCommentSubmit(e, post._id, `${post._id}-post`)
-              }
-            >
-              <input
-                type='text'
-                className='comment-input'
-                placeholder='Add a comment...'
-                value={commentInputs[`${post._id}-post`] || ''}
-                onChange={(e) =>
-                  handleCommentChange(`${post._id}-post`, e.target.value)
+          <div>
+            <div className='comment-input-container'>
+              <form
+                onSubmit={(e) =>
+                  handleCommentSubmit(e, post._id, `${post._id}-post`)
                 }
-              />
-              <button className='comment-submit-btn' type='submit'>
-                <LuSendHorizonal />
-              </button>
-            </form>
+              >
+                <input
+                  type='text'
+                  className='comment-input'
+                  placeholder='Add a comment...'
+                  value={commentInputs[`${post._id}-post`] || ''}
+                  onChange={(e) =>
+                    handleCommentChange(`${post._id}-post`, e.target.value)
+                  }
+                />
+                <button className='comment-submit-btn' type='submit'>
+                  <LuSendHorizonal />
+                </button>
+              </form>
+            </div>
+            <div className='post-content'>
+              {post.comments?.map((comment, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    alignItems: 'start',
+                    marginTop: '1.5rem',
+                    marginBottom: '1rem',
+                  }}
+                >
+                  <img
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      objectFit: 'cover',
+                      display: 'block',
+                      borderRadius: '50%',
+                    }}
+                    src={comment.by.photo}
+                    alt=''
+                  />
+                  <div>
+                    <h3
+                      style={{ color: 'rgb(42, 77, 147)', fontWeight: '400' }}
+                    >
+                      {comment.by.full_name}
+                    </h3>
+                    <p style={{ fontSize: '12px' }}>{comment.comment}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
