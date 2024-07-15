@@ -211,7 +211,6 @@ const Wrapper = styled.main`
     justify-content: space-between;
     gap: 1rem;
     padding: 1.5rem;
-    border: 1.5px #b7b4b4 solid;
   }
 
   .all-groups .content {

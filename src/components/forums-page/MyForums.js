@@ -89,7 +89,15 @@ const MyForums = () => {
               )
             )}
             {visibleForums < forums?.data?.length && ( // Show load more button if there are more forums to display
-              <button className='member' onClick={handleLoadMore}>
+              <button
+                style={{
+                  width: '15%',
+                  margin: '.5rem auto',
+                  justifyContent: 'center',
+                }}
+                className='member'
+                onClick={handleLoadMore}
+              >
                 Load more
               </button>
             )}

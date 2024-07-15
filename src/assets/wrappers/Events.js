@@ -68,8 +68,16 @@ const Wrapper = styled.main`
     font-size: 14px;
     color: #1e1e1e;
   }
+
+  .event-content {
+    width: 60%;
+  }
   .event-content.funding {
     padding: 0.5rem;
+  }
+
+  .picture {
+    width: 70%;
   }
 
   .cover-picture img {
@@ -192,9 +200,7 @@ const Wrapper = styled.main`
     align-items: center;
     justify-content: space-between;
     margin: 2rem;
-    padding: 0rem 0.2rem;
-    padding-right: 3rem;
-    padding-left: 0.3rem;
+    padding: 0.9rem;
     border: 1.5px solid #b7b4b4;
   }
   .picture {
@@ -259,6 +265,7 @@ const Wrapper = styled.main`
   }
   .summary {
     color: #1e1e1e;
+    text-align: justify;
     font-size: 13px;
   }
 
