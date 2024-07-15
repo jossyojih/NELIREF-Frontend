@@ -18,7 +18,7 @@ const Wrapper = styled.main`
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: 55%;
+
     justify-content: end;
   }
 
@@ -266,19 +266,28 @@ const Wrapper = styled.main`
 
   .all-groups section section {
     width: 100%;
+    border-top: 1px solid #b7b4b4;
+    border-bottom: 1px solid #b7b4b4;
   }
   .all-groups section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem;
-    border: 1.5px #b7b4b4 solid;
+    padding: 1rem 0;
+    margin: 0 1.5rem;
   }
 
   .all-groups .content {
     display: flex;
+    width: 65%;
+    align-items: center;
     gap: 1rem;
   }
+
+  .all-groups .content div p {
+    text-align: justify;
+  }
+
   .img img {
     width: 100%;
     display: block;
@@ -382,7 +391,6 @@ const Wrapper = styled.main`
     }
 
     .flex {
-      width: 100%;
       justify-content: space-between;
       gap: 0.5rem;
       margin: 1rem;

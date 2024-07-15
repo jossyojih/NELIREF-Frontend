@@ -94,7 +94,6 @@ const AllGroups = ({ groups, isError, isPending }) => {
     setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 3) // Increase by 4 for each load more click
   }
 
-
   return (
     <article className='all-groups'>
       {isPending &&
@@ -117,8 +116,12 @@ const AllGroups = ({ groups, isError, isPending }) => {
                 )}
 
                 <div className='content' key={index}>
-                  <div className='img '>
-                    <img src={groupImg} alt={`group-img-${index}`} />
+                  <div style={{ width: '420px' }}>
+                    <img
+                      style={{ width: '100%', display:'block' }}
+                      src={groupImg}
+                      alt={`group-img-${index}`}
+                    />
                   </div>
                   <div>
                     <p
@@ -155,20 +158,20 @@ const AllGroups = ({ groups, isError, isPending }) => {
                 </div>
                 <div className='flex'>
                   {item?.privacy === 'public' ||
-                    item?.members?.some(
-                      (member) =>
-                        member?.user?._id === user._id &&
-                        member.status === 'approved'
-                    ) ? (
+                  item?.members?.some(
+                    (member) =>
+                      member?.user?._id === user._id &&
+                      member.status === 'approved'
+                  ) ? (
                     <button className='member'>
                       <MdOutlineCheckBox className='icon' />
                       Member
                     </button>
                   ) : item?.members?.some(
-                    (member) =>
-                      member.user?._id === user?._id &&
-                      member?.status === 'pending'
-                  ) ? (
+                      (member) =>
+                        member.user?._id === user?._id &&
+                        member?.status === 'pending'
+                    ) ? (
                     <button className='member'>
                       <MdOutlineCheckBox className='icon' />
                       Request Sent
@@ -185,10 +188,10 @@ const AllGroups = ({ groups, isError, isPending }) => {
 
                   {(user?.userType === 'admin' ||
                     user?.userType === 'super-admin') && (
-                      <button className='member green' onClick={openModal}>
-                        Make Admin
-                      </button>
-                    )}
+                    <button className='member green' onClick={openModal}>
+                      Make Admin
+                    </button>
+                  )}
                 </div>
               </section>
             )

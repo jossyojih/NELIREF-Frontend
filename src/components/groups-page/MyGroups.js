@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { MdOutlineCheckBox } from 'react-icons/md'
 import groupImg from '../../assets/images/group-img.png'
+import { useNavigate } from 'react-router-dom'
 
 const MyGroups = ({ groups }) => {
   const [visibleGroups, setVisibleGroups] = useState(4) // Number of initially visible groups
-
+  const navigate = useNavigate()
   const handleLoadMore = () => {
     setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 4) // Increase by 4 for each load more click
   }
@@ -22,7 +23,15 @@ const MyGroups = ({ groups }) => {
                 <img src={groupImg} alt={`group-img-${index}`} />
               </div>
               <div className='my-group-content'>
-                <h5 id='heading'>{item.name}</h5>
+                <h5
+                  style={{ cursor: 'pointer' }}
+                  onClick={() =>
+                    navigate(`/group/${index}`, { state: { item } })
+                  }
+                  id='heading'
+                >
+                  {item.name}
+                </h5>
                 <p>
                   {item?.privacy === 'public' ? 'All' : item.members?.length}{' '}
                   Members
