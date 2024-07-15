@@ -11,6 +11,8 @@ import CreatePollModal from '../../components/Modals/CreatePollModal'
 import MakePostModal from '../../components/Modals/MakePostModal'
 import AddGroupDocumentModal from '../../components/Modals/AddGroupDocumentModal'
 import ForumFeeds from '../../components/forum-page/ForumFeeds'
+import UpdateForumPhotoModal from '../../components/Modals/UpdateForumPhotoModal'
+import { CiEdit } from 'react-icons/ci'
 
 const SingleForum = () => {
   const location = useLocation()
@@ -22,14 +24,28 @@ const SingleForum = () => {
   // Access the item object from the location state
   const item = location.state?.item
   const groupId = item._id
+  console.log(item)
 
   // const getOtherUserProfile = useQuery({
   //   queryKey: ['get-user-profile'],
   //   queryFn: () => userServices.getOthersProfile(id),
   // })
 
+  const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false)
+
+  const openAddPhotoModal = () => {
+    setIsAddPhotoModalOpen(true)
+  }
+
+  const closeAddPhotoModal = () => {
+    setIsAddPhotoModalOpen(false)
+  }
+
   return (
     <Wrapper>
+      {isAddPhotoModalOpen && (
+        <UpdateForumPhotoModal groupId={groupId} onClose={closeAddPhotoModal} />
+      )}
       <article>
         <div>
           <img src={profileBg} alt='' />
@@ -37,14 +53,15 @@ const SingleForum = () => {
         <section className='profile-summary'>
           <div className='profile-image'>
             <img
-              src={
-                // getOtherUserProfile?.data?.photo ||
-                profile
-              }
+              src={item?.photo ? item?.photo : profile}
               alt=''
               className='img'
             />
+            <div className='edit-photo' onClick={openAddPhotoModal}>
+              <CiEdit style={{fontSize: "30px"}} />
+            </div>
           </div>
+
           <div>
             <h3 className='profile-name'>Scholarship Information</h3>
             <p>

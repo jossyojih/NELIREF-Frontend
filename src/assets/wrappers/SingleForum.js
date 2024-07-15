@@ -8,6 +8,27 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
 
+  .profile-image {
+    position: relative;
+  }
+
+  .edit-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0.4rem;
+    background-color: #fff;
+    color: #2a4d93;
+    font-size: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5rem;
+    left: 5.5rem;
+    border: 1px solid #2a4d93;
+  }
+
   .members-container {
     overflow: hidden;
     border-radius: 10px 10px 0 0;

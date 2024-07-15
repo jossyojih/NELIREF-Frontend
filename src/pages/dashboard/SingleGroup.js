@@ -21,6 +21,7 @@ import AddGroupDocumentModal from '../../components/Modals/AddGroupDocumentModal
 import EditGroup from '../../components/Modals/EditGroup'
 import EditGroupPhoto from '../../components/Modals/EditGroupPhoto'
 import { CiEdit } from 'react-icons/ci'
+import UpdateGroupPhotoModal from '../../components/Modals/UpdateGroupPhotoModal'
 
 const SingleGroup = () => {
   const location = useLocation()
@@ -54,6 +55,15 @@ const SingleGroup = () => {
 
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
+  }
+  const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false)
+
+  const openAddPhotoModal = () => {
+    setIsAddPhotoModalOpen(true)
+  }
+
+  const closeAddPhotoModal = () => {
+    setIsAddPhotoModalOpen(false)
   }
 
   const closeAddEventModal = () => {
@@ -98,6 +108,9 @@ const SingleGroup = () => {
 
   return (
     <Wrapper>
+      {isAddPhotoModalOpen && (
+        <UpdateGroupPhotoModal groupId={groupId} onClose={closeAddPhotoModal} />
+      )}
       {isAddEventModalOpen && (
         <AddGroupEventModal onClose={closeAddEventModal} id={groupId} />
       )}
@@ -120,21 +133,15 @@ const SingleGroup = () => {
       <article>
         <div className='bg-img-container'>
           <img src={profileBg} alt='' />
-          <span className='edit-profile' onClick={openEditGroupModal}>
-            <CiEdit className='icon-edit' />
-          </span>
         </div>
         <section className='profile-summary'>
           <div className='profile-image'>
             <img
-              src={
-                // getOtherUserProfile?.data?.photo ||
-                profile
-              }
+              src={item?.photo ? item?.photo : profile}
               alt=''
               className='img'
             />
-            <span className='edit-photo'>
+            <span onClick={openAddPhotoModal} className='edit-photo'>
               <CiEdit className='icon-edit' />
             </span>
           </div>

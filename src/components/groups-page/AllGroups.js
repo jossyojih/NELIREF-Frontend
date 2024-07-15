@@ -86,6 +86,7 @@ const AllGroups = ({ groups, isError, isPending }) => {
     },
   })
 
+  console.log(groups)
   useEffect(() => {
     setAllGroups(groups)
   }, [groups])
@@ -93,6 +94,8 @@ const AllGroups = ({ groups, isError, isPending }) => {
   const handleLoadMore = () => {
     setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 3) // Increase by 4 for each load more click
   }
+
+  console.log(groups)
 
   return (
     <article className='all-groups'>
@@ -118,8 +121,13 @@ const AllGroups = ({ groups, isError, isPending }) => {
                 <div className='content' key={index}>
                   <div style={{ width: '420px' }}>
                     <img
-                      style={{ width: '100%', display:'block' }}
-                      src={groupImg}
+                      style={{
+                        width: '100%',
+                        display: 'block',
+                        height: '150px',
+                        objectFit: 'cover',
+                      }}
+                      src={item.photo ? item.photo : groupImg}
                       alt={`group-img-${index}`}
                     />
                   </div>

@@ -172,13 +172,27 @@ const Wrapper = styled.main`
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: rgb(183, 180, 180) !important;
+    color: rgb(183, 180, 180);
   }
 
   .comment .post-author img {
     width: 30px;
   }
 
+  .comment-input-container form {
+    display: flex;
+    gap: 0.3rem;
+    width: 80%;
+    margin-left: 3rem;
+    margin-top: 0.5rem;
+    align-items: center;
+  }
+
+  .comment-input-container input {
+    display: block;
+    padding: 0.5rem;
+    width: 50%;
+  }
   .comments {
     margin: 1rem 0;
     padding: 0 1.5rem;
@@ -288,6 +302,21 @@ const Wrapper = styled.main`
     justify-content: space-between;
     gap: 0.5rem;
   }
+
+  .comment-submit-btn {
+    border: none;
+    background-color: transparent;
+    color: #2a4d93;
+    font-size: 18px;
+  }
+  .comment-submit-btn {
+    border: none;
+    background-color: transparent;
+    color: #2a4d93;
+    font-size: 18px;
+  }
+
+ 
 
   .icon-send {
     color: #2a4d93;

@@ -130,15 +130,6 @@ const Feeds = () => {
   return (
     <Wrapper ref={containerRef}>
       <article className='feeds'>
-        {/* <section className='search'>
-          <CgProfile className='icon' />
-          <div className='search'>
-            <input type='text' placeholder='search' />
-          </div>
-          <HiOutlinePhotograph className='icon' />
-          <BsCameraVideo className='icon' />
-        </section> */}
-
         {allData?.length > 0 ? (
           allData?.map((feed, index) => (
             <>
@@ -168,6 +159,7 @@ const Feeds = () => {
                     <div className='feeds-icons'>
                       <p>
                         <SlLike
+                          style={{ cursor: 'pointer' }}
                           className={`feed-icon ${
                             feed.likes.includes(user._id) ? 'liked' : 'unlike'
                           }`}
@@ -175,7 +167,10 @@ const Feeds = () => {
                         />
                         {feed.likes.length === 0 ? 'like' : feed.likes.length}
                       </p>
-                      <p onClick={() => toggleCommentInput(index)}>
+                      <p
+                        onClick={() => toggleCommentInput(index)}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <TfiCommentAlt className='feed-icon' /> Comment
                       </p>
                       {/* Input button conditionally rendered based on openCommentIndex */}
