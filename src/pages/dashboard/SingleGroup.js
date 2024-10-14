@@ -49,7 +49,7 @@ const SingleGroup = () => {
   }
   // Access the item object from the location state
   const item = location.state?.item
-  const groupId = item._id
+  const groupId = item?._id
 
   console.log(item)
 

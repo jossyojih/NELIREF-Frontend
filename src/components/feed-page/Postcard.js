@@ -8,10 +8,36 @@ import userServices from '../../services/api/user'
 import { toast } from 'react-toastify'
 import formatTimeAgo from '../../utils/utilsFunction'
 
+// Function to shorten URLs and place them on a new line
+const formatMessageWithLinks = (message) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  return message.split(urlRegex).map((part, index) => {
+    if (part.match(urlRegex)) {
+      const shortenedUrl = part.length > 30 ? `${part.slice(0, 30)}...` : part
+      return (
+        <div key={index} style={{ marginTop: '.2rem' }}>
+          <a
+            href={part}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ color: '#2a4d93', wordBreak: 'break-word' }}
+          >
+            {shortenedUrl}
+          </a>
+        </div>
+      )
+    }
+    return part
+  })
+}
+
 const PostCard = ({ post }) => {
   const queryClient = useQueryClient()
   const [openCommentIndex, setOpenCommentIndex] = useState(null)
   const [commentInputs, setCommentInputs] = useState({})
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const MAX_CHAR_COUNT = 100 // Maximum characters to show before "See more"
 
   const likeMutation = useMutation({
     mutationFn: (postId) => userServices.likeGroupPost(postId),
@@ -73,6 +99,26 @@ const PostCard = ({ post }) => {
     }))
   }
 
+  const toggleExpanded = () => setIsExpanded(!isExpanded)
+
+  const getFormattedMessage = () => {
+    const formattedMessage = formatMessageWithLinks(post.message)
+    if (post.message.length <= MAX_CHAR_COUNT || isExpanded) {
+      return formattedMessage
+    }
+    return (
+      <>
+        {formatMessageWithLinks(post.message.slice(0, MAX_CHAR_COUNT))}{' '}
+        <span
+          onClick={toggleExpanded}
+          style={{ color: '#2a4d93', cursor: 'pointer' }}
+        >
+          See more
+        </span>
+      </>
+    )
+  }
+
   return (
     <div className='post'>
       <div>
@@ -96,7 +142,19 @@ const PostCard = ({ post }) => {
         >
           <img src={post.file.url} alt='' />
         </div>
-        <p style={{ margin: '1rem 0' }}>{post.message}</p>
+
+        {/* Use the updated getFormattedMessage function here */}
+        <p style={{ margin: '1rem 0' }}>{getFormattedMessage()}</p>
+
+        {isExpanded && (
+          <span
+            onClick={toggleExpanded}
+            style={{ color: '#2a4d93', cursor: 'pointer' }}
+          >
+            See less
+          </span>
+        )}
+
         <div style={{ marginLeft: '4rem' }} className='post-likes'>
           <p id={post.likes.includes(post._id) ? 'icon-liked' : 'icon-unlike'}>
             <SlLike
@@ -116,6 +174,7 @@ const PostCard = ({ post }) => {
             </span>
           </p>
         </div>
+
         {openCommentIndex === `${post._id}-post` && (
           <div>
             <div className='comment-input-container'>
@@ -138,6 +197,7 @@ const PostCard = ({ post }) => {
                 </button>
               </form>
             </div>
+
             <div className='post-content'>
               {post.comments?.map((comment, index) => (
                 <div

@@ -28,7 +28,9 @@ const AllGroups = ({ groups, isError, isPending }) => {
   const [editGroupData, setEditGroupData] = useState({ id: null, item: null })
   const [editGroupPhoto, setEditGroupPhoto] = useState(null)
 
-  // New state to store edit group data
+  const [showMore, setShowMore] = useState(
+    Array(groups?.length).fill(false) // Initialize state to track whether full text is shown for each group
+  )
 
   const openIsEditPhotoModal = (id) => {
     setEditGroupPhoto(id)
@@ -79,23 +81,31 @@ const AllGroups = ({ groups, isError, isPending }) => {
       closeConfirmModal()
     },
     onError: (error) => {
-      console.error('Login error:', error)
-      toast.error(error?.error)
-      toast.error(error?.message)
-      toast.error(error)
+      console.error('Join group error:', error)
+      toast.error(error?.message || 'Error joining group')
     },
   })
 
-  console.log(groups)
   useEffect(() => {
     setAllGroups(groups)
   }, [groups])
 
   const handleLoadMore = () => {
-    setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 3) // Increase by 4 for each load more click
+    setVisibleGroups((prevVisibleGroups) => prevVisibleGroups + 3) // Increase by 3 for each load more click
   }
 
-  console.log(groups)
+  const truncateText = (text, limit) => {
+    if (text.length > limit) {
+      return `${text.substring(0, limit)}...`
+    }
+    return text
+  }
+
+  const toggleShowMore = (index) => {
+    const updatedShowMore = [...showMore]
+    updatedShowMore[index] = !updatedShowMore[index] // Toggle between show more/less
+    setShowMore(updatedShowMore)
+  }
 
   return (
     <article className='all-groups'>
@@ -147,7 +157,23 @@ const AllGroups = ({ groups, isError, isPending }) => {
                         : item.members?.length}{' '}
                       Members
                     </p>
-                    <p>{item.description}</p>
+                    <p>
+                      {showMore[index]
+                        ? item.description
+                        : truncateText(item.description, 100)}
+                      {item?.description?.length > 100 && (
+                        <span
+                          style={{
+                            color: '#2a4d93',
+                            fontWeight: '500',
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => toggleShowMore(index)}
+                        >
+                          {showMore[index] ? ' Show less' : ' Show more'}
+                        </span>
+                      )}
+                    </p>
                     <div className='edit-btns'>
                       <button
                         className='member'
@@ -231,7 +257,7 @@ const AllGroups = ({ groups, isError, isPending }) => {
       {isEditPhotoModalOpen && (
         <EditGroupPhoto
           onClose={closeIsEditPhotoModal}
-          id={setEditGroupPhoto?.id}
+          id={editGroupPhoto?.id}
         />
       )}
     </article>
