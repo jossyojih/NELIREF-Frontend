@@ -3,24 +3,16 @@ import Wrapper from '../../assets/wrappers/Group'
 import profileBg from '../../assets/images/profile-bg.png'
 import profile from '../../assets/images/profile.png'
 import { useSelector } from 'react-redux'
-import { useQuery } from '@tanstack/react-query'
-import userServices from '../../services/api/user'
 import { useParams, useLocation } from 'react-router-dom'
 import GroupFeeds from '../../components/group-page/GroupFeeds'
 import GroupEvents from '../../components/group-page/GroupEvents'
 import GroupMembers from '../../components/group-page/GroupMembers'
 import GroupFiles from '../../components/group-page/GroupFiles'
-import { LiaEdit } from 'react-icons/lia'
-import { SlCalender } from 'react-icons/sl'
-import { IoStatsChartOutline } from 'react-icons/io5'
-import { CiCalendar, CiFolderOn } from 'react-icons/ci'
+import { CiEdit } from 'react-icons/ci'
 import AddGroupEventModal from '../../components/Modals/AddGroupEventModal'
 import CreatePollModal from '../../components/Modals/CreatePollModal'
 import MakePostModal from '../../components/Modals/MakePostModal'
 import AddGroupDocumentModal from '../../components/Modals/AddGroupDocumentModal'
-import EditGroup from '../../components/Modals/EditGroup'
-import EditGroupPhoto from '../../components/Modals/EditGroupPhoto'
-import { CiEdit } from 'react-icons/ci'
 import UpdateGroupPhotoModal from '../../components/Modals/UpdateGroupPhotoModal'
 
 const SingleGroup = () => {
@@ -30,81 +22,33 @@ const SingleGroup = () => {
   const { id } = useParams()
 
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
-  const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false)
-  const [isEditPhotoModalOpen, setIsEditPhotoModalOpen] = useState(false)
+  const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false)
+  const [isCreatePollModalOpen, setIsCreatePollModalOpen] = useState(false)
+  const [isMakePostModalOpen, setIsMakePostModalOpen] = useState(false)
+  const [isAddGroupDocumentModalOpen, setIsAddGroupDocumentModalOpen] =
+    useState(false)
+  const [showFullDescription, setShowFullDescription] = useState(false)
 
-  const openIsEditPhotoModal = () => {
-    setIsEditPhotoModalOpen(true)
-  }
-
-  const closeIsEditPhotoModal = () => {
-    setIsEditPhotoModalOpen(false)
-  }
-
-  const openEditGroupModal = () => {
-    setIsEditGroupModalOpen(true)
-  }
-  const closeEditGroupModal = () => {
-    setIsEditGroupModalOpen(false)
-  }
-  // Access the item object from the location state
   const item = location.state?.item
   const groupId = item?._id
 
-  console.log(item)
+  const MAX_LENGTH = 100 // Set a limit for the description
 
-  const openAddEventModal = () => {
-    setIsAddEventModalOpen(true)
+  const openAddEventModal = () => setIsAddEventModalOpen(true)
+  const openAddPhotoModal = () => setIsAddPhotoModalOpen(true)
+  const openCreatePollModal = () => setIsCreatePollModalOpen(true)
+  const openMakePostModal = () => setIsMakePostModalOpen(true)
+  const openAddGroupDocumentModal = () => setIsAddGroupDocumentModalOpen(true)
+
+  const closeAddEventModal = () => setIsAddEventModalOpen(false)
+  const closeAddPhotoModal = () => setIsAddPhotoModalOpen(false)
+  const closeCreatePollModal = () => setIsCreatePollModalOpen(false)
+  const closeMakePostModal = () => setIsMakePostModalOpen(false)
+  const closeAddGroupDocumentModal = () => setIsAddGroupDocumentModalOpen(false)
+
+  const toggleDescription = () => {
+    setShowFullDescription((prevState) => !prevState)
   }
-  const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false)
-
-  const openAddPhotoModal = () => {
-    setIsAddPhotoModalOpen(true)
-  }
-
-  const closeAddPhotoModal = () => {
-    setIsAddPhotoModalOpen(false)
-  }
-
-  const closeAddEventModal = () => {
-    setIsAddEventModalOpen(false)
-  }
-
-  const [isCreatePollModalOpen, setIsCreatePollModalOpen] = useState(false)
-
-  const openCreatePollModal = () => {
-    setIsCreatePollModalOpen(true)
-  }
-
-  const closeCreatePollModal = () => {
-    setIsCreatePollModalOpen(false)
-  }
-
-  const [isMakePostModalOpen, setIsMakePostModalOpen] = useState(false)
-
-  const openMakePostModal = () => {
-    setIsMakePostModalOpen(true)
-  }
-
-  const closeMakePostModal = () => {
-    setIsMakePostModalOpen(false)
-  }
-
-  const [isAddGroupDocumentModalOpen, setIsAddGroupDocumentModalOpen] =
-    useState(false)
-
-  const openAddGroupDocumentModal = () => {
-    setIsAddGroupDocumentModalOpen(true)
-  }
-
-  const closeAddGroupDocumentModal = () => {
-    setIsAddGroupDocumentModalOpen(false)
-  }
-
-  // const getOtherUserProfile = useQuery({
-  //   queryKey: ['get-user-profile'],
-  //   queryFn: () => userServices.getOthersProfile(id),
-  // })
 
   return (
     <Wrapper>
@@ -126,9 +70,6 @@ const SingleGroup = () => {
           id={groupId}
         />
       )}
-      {/* {isEditPhotoModalOpen && (
-        <EditGroupPhoto onClose={closeIsEditPhotoModal} id={groupId} />
-      )} */}
 
       <article>
         <div className='bg-img-container'>
@@ -149,15 +90,11 @@ const SingleGroup = () => {
             <h3 className='profile-name'>{item?.name}</h3>
             <p>
               {item?.privacy === 'public' ? (
-                <p>
-                  <span> All Members</span> | <span> {} Online</span>
-                </p>
+                <span> All Members</span>
               ) : (
-                <p>
-                  <span>{item?.members?.length} Members</span> |{' '}
-                  <span> {} Online</span>
-                </p>
+                <span>{item?.members?.length} Members</span>
               )}
+              <span> | {} Online</span>
             </p>
           </div>
         </section>
@@ -185,11 +122,9 @@ const SingleGroup = () => {
               onClick={() => setActiveTab('members')}
               className={`tab-btn ${activeTab === 'members' ? 'active' : ''}`}
             >
-              {item?.privacy === 'public' ? (
-                ''
-              ) : (
+              {item?.privacy !== 'public' && (
                 <p>
-                  Members {''}{' '}
+                  Members{' '}
                   <span className='member-no'>{item?.members?.length}</span>
                 </p>
               )}
@@ -201,18 +136,10 @@ const SingleGroup = () => {
       <article className='tab-container'>
         <section>
           <div className='modals-btn'>
-            <button onClick={openMakePostModal}>
-              <LiaEdit /> Make a post
-            </button>
-            <button onClick={openAddEventModal}>
-              <CiCalendar /> Create an Event
-            </button>
-            <button onClick={openCreatePollModal}>
-              <IoStatsChartOutline /> Create a Poll
-            </button>
-            <button onClick={openAddGroupDocumentModal}>
-              <CiFolderOn /> Upload a File
-            </button>
+            <button onClick={openMakePostModal}>Make a post</button>
+            <button onClick={openAddEventModal}>Create an Event</button>
+            <button onClick={openCreatePollModal}>Create a Poll</button>
+            <button onClick={openAddGroupDocumentModal}>Upload a File</button>
           </div>
           {activeTab === 'feeds' && <GroupFeeds id={groupId} />}
           {activeTab === 'events' && <GroupEvents id={groupId} />}
@@ -224,7 +151,23 @@ const SingleGroup = () => {
         <section className='aside'>
           <div className='description'>
             <h4>DESCRIPTION</h4>
-            <p>{item?.description} </p>
+            <p>
+              {showFullDescription
+                ? item?.description
+                : `${item?.description?.slice(0, MAX_LENGTH)}...`}
+              {item?.description?.length > MAX_LENGTH && (
+                <p
+                  style={{
+                    cursor: 'pointer',
+                    color: '#2a4d93',
+                    fontWeight: '500',
+                  }}
+                  onClick={toggleDescription}
+                >
+                  {showFullDescription ? 'Show Less' : 'See More'}
+                </p>
+              )}
+            </p>
           </div>
           <div className='description events'>
             <h4>UPCOMING EVENTS</h4>

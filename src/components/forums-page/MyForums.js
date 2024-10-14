@@ -7,6 +7,33 @@ import SkeletonArticle from '../skeletons/SkeletonArticle'
 import { Link, useNavigate } from 'react-router-dom'
 import EditForumPhoto from '../Modals/EditForumPhoto'
 import EditForumModal from '../Modals/EditForumModal'
+
+// Function to detect and format only links (URLs)
+const formatDescription = (description) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+
+  return description.split('\n').map((line, index) =>
+    line.split(urlRegex).map((part, i) =>
+      urlRegex.test(part) ? (
+        <React.Fragment key={i}>
+          <br />
+          <a
+            href={part}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ color: '#2a4d93' }}
+          >
+            {part}
+          </a>
+          <br />
+        </React.Fragment>
+      ) : (
+        part
+      )
+    )
+  )
+}
+
 const MyForums = () => {
   const navigate = useNavigate()
   const [visibleForums, setVisibleForums] = useState(4) // Number of initially visible forums
@@ -15,7 +42,8 @@ const MyForums = () => {
   const [editForumData, setEditForumData] = useState({ id: null, item: null })
   const [editForumPhoto, setEditForumPhoto] = useState(null)
 
-  // New state to store edit forum data
+  // New state to track description expansion
+  const [expandedForum, setExpandedForum] = useState(null)
 
   const openIsEditPhotoModal = (id) => {
     setEditForumPhoto(id)
@@ -44,6 +72,12 @@ const MyForums = () => {
     queryFn: userService.getForums,
   })
 
+  const toggleDescription = (index) => {
+    setExpandedForum((prev) => (prev === index ? null : index)) // Toggle between expanded and collapsed state
+  }
+
+  const descriptionThreshold = 100
+
   return (
     <article className='forums'>
       {forums.isPending ? (
@@ -57,10 +91,10 @@ const MyForums = () => {
                 index // Only map through visible forums
               ) => (
                 <div className='content forum' key={index}>
-                  <div style={{width:"250px"}} className='img'>
+                  <div style={{ width: '250px' }} className='img'>
                     <img src={item.photo} alt={`group-img-${index}`} />
                   </div>
-                  <div style={{width:"70%"}}>
+                  <div style={{ width: '70%' }}>
                     <h5
                       style={{ cursor: 'pointer' }}
                       onClick={() =>
@@ -69,7 +103,26 @@ const MyForums = () => {
                     >
                       {item.name}
                     </h5>
-                    <p style={{textAlign:"justify"}}>{item.description}</p>
+                    <p style={{ textAlign: 'justify' }}>
+                      {expandedForum === index ||
+                      item.description.length <= descriptionThreshold
+                        ? formatDescription(item.description)
+                        : formatDescription(
+                            `${item.description.slice(
+                              0,
+                              descriptionThreshold
+                            )}...`
+                          )}
+                    </p>
+                    {item.description.length > descriptionThreshold && (
+                      <p
+                        style={{ color: '#2a4d93', cursor: 'pointer' }}
+                        className='see-more-btn'
+                        onClick={() => toggleDescription(index)}
+                      >
+                        {expandedForum === index ? 'See Less' : 'See More'}
+                      </p>
+                    )}
                     <div className='edit-btns'>
                       <button
                         className='member'
